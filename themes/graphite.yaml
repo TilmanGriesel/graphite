@@ -1,0 +1,81 @@
+graphite:
+  modes: { dark: { .: . } }
+  # Variables
+  active-item: rgb(255, 203, 112)
+  icon-primary-color: rgb(247, 247, 255)
+  icon-secondary-color: rgba(247, 247, 255, 0.7)
+  # Header:
+  app-header-background-color: var(--primary-background-color)
+  app-header-text-color: var(--icon-secondary-color)
+  # Main Interface Colors
+  primary-color: var(--active-item)
+  light-primary-color: var(--primary-color)
+  primary-background-color: rgb(21, 23, 26)
+  secondary-background-color: var(--primary-background-color)
+  divider-color: var(--primary-background-color)
+  accent-color: rgb(255, 145, 0)
+  # Text
+  primary-text-color: rgb(247, 247, 255)
+  secondary-text-color: rgba(247, 247, 255, 0.7)
+  text-primary-color: var(--primary-text-color)
+  disabled-text-color: gba(247, 247, 255, 0.5)
+  # Sidebar Menu
+  sidebar-icon-color: var(--icon-secondary-color)
+  sidebar-text-color: rgba(247, 247, 255, 0.7)
+  sidebar-background-color: var(--primary-background-color)
+  sidebar-selected-background-color: var(--card-background-color)
+  sidebar-selected-icon-color: var(--icon-primary-color)
+  sidebar-selected-text-color: var(--primary-text-color)
+  # Buttons
+  paper-item-icon-color: var(--icon-secondary-color)
+  paper-item-icon-active-color: var(--active-item)
+  # States and Badges
+  state-icon-color: var(--icon-secondary-color)
+  state-icon-active-color: var(--active-item)
+  state-icon-unavailable-color: var(--disabled-text-color)
+  # Sliders
+  paper-slider-knob-color: rgb(56, 182, 230)
+  paper-slider-knob-start-color: var(--paper-slider-knob-color)
+  paper-slider-pin-color: var(--paper-slider-knob-color)
+  paper-slider-active-color: var(--paper-slider-knob-color)
+  paper-slider-secondary-color: var(--light-primary-color)
+  # Labels
+  label-badge-background-color: rgb(32, 33, 36)
+  label-badge-text-color: rgb(198, 203, 210)
+  label-badge-red: rgb(208, 101, 104)
+  label-badge-green: rgb(128, 200, 132)
+  label-badge-blue: rgb(138, 180, 248)
+  label-badge-yellow: rgb(223, 194, 113)
+  label-badge-gray: rgb(95, 98, 103)
+  # Cards
+  card-background-color: rgb(30, 33, 37)
+  ha-card-border-radius: "18px"
+  ha-card-box-shadow: none
+  ha-card-border-style: none
+  ha-card-border: none
+  ha-card-border-color: "rgba(0,0,0,0)"
+  ha-card-border-width: "0"
+  paper-dialog-background-color: var(--card-background-color)
+  paper-listbox-background-color: var(--card-background-color)
+  paper-card-background-color: var(--card-background-color)
+  # Switches
+  switch-checked-button-color: var(--active-item)
+  switch-checked-track-color: var(--switch-checked-button-color)
+  switch-unchecked-button-color: rgba(255, 255, 255, 0.7)
+  switch-unchecked-track-color: rgba(125, 128, 132, 0.4)
+  # Toggles
+  paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+  paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+  paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+  paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+  # Table
+  table-row-background-color: var(--primary-background-color)
+  table-row-alternative-background-color: var(--secondary-background-color)
+  data-table-background-color: var(--primary-background-color)
+  mdc-checkbox-unchecked-color: rgb(169, 177, 188)
+  # Dropdowns
+  material-background-color: var(--secondary-background-color)
+  material-secondary-background-color: var(--primary-background-color)
+  mdc-theme-surface: var(--primary-background-color)
+  # Pre/Code
+  markdown-code-background-color: rgb(23, 23, 23)
