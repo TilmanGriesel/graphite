@@ -1,6 +1,6 @@
 ## graphite Home Assistant Theme
 
-Minimalist and calm dark theme for [Home Assistant](https://www.home-assistant.io)
+Minimalist and clean dark theme for [Home Assistant](https://www.home-assistant.io)
 
 ![ISSUES](https://img.shields.io/github/issues-raw/TilmanGriesel/graphite?style=flat-square)
 
