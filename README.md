@@ -25,21 +25,5 @@ frontend:
 3. Restart Home Assistant
 4. Select the `graphite` theme in your profile
 
-#### Additional fonts
-
-To use the `Work Sans` font, you have to add the google CDN css to you lovelace resources.
-
-- [Open your lovelace resources](https://my.home-assistant.io/redirect/lovelace_resources/)
-- Add resource
-- URL: `https://fonts.googleapis.com/css2?family=Work+Sans`
-- Resource type: `Stylesheet`
-
-or via your `ui-lovelace.yaml`:
-
-```yaml
-- url: 'https://fonts.googleapis.com/css2?family=Work+Sans'
-  type: css
-```
-
 ## Credits
 Inspired by the awesome [noctis theme](https://github.com/aFFekopp/noctis)
