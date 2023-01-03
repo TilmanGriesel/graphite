@@ -1,24 +1,64 @@
 graphite:
-  modes: { dark: { .: . } }
-  # Variables
+  # Fonts
+  primary-font-family: "Work Sans, Roboto, sans-serif"
+  paper-font-common-base_-_font-family: "var(--primary-font-family)"
+  paper-font-common-code_-_font-family: "var(--primary-font-family)"
+  paper-font-body1_-_font-family: "var(--primary-font-family)"
+  paper-font-subhead_-_font-family: "var(--primary-font-family)"
+  paper-font-headline_-_font-family: "var(--primary-font-family)"
+  paper-font-caption_-_font-family: "var(--primary-font-family)"
+  paper-font-title_-_font-family: "var(--primary-font-family)"
+  ha-card-header-font-family: "var(--primary-font-family)"
+
+  # Header
+  app-header-background-color: var(--primary-background-color)
+  app-header-text-color: var(--icon-secondary-color)
+
+  # Main Interface Colors
   active-item: rgb(255, 203, 112)
   icon-primary-color: rgb(247, 247, 255)
   icon-secondary-color: rgba(247, 247, 255, 0.7)
-  # Header:
-  app-header-background-color: var(--primary-background-color)
-  app-header-text-color: var(--icon-secondary-color)
-  # Main Interface Colors
-  primary-color: var(--active-item)
-  light-primary-color: var(--primary-color)
-  primary-background-color: rgb(21, 23, 26)
-  secondary-background-color: var(--primary-background-color)
-  divider-color: var(--primary-background-color)
+  background-color: "rgb(17, 17, 20)"
   accent-color: rgb(255, 145, 0)
+  background-color-2: var(--background-color)
+  primary-color: var(--active-item)
+  primary-background-color: "var(--background-color)"
+  secondary-background-color: "none"
+  divider-color: var(--primary-background-color)
+  markdown-code-background-color: "var(--background-color)"
+
   # Text
-  primary-text-color: rgb(247, 247, 255)
+  text-color: rgb(247, 247, 255)
+  primary-text-color: "var(--text-color)"
+  text-primary-color: "var(--text-color)"
   secondary-text-color: rgba(247, 247, 255, 0.7)
-  text-primary-color: var(--primary-text-color)
-  disabled-text-color: gba(247, 247, 255, 0.5)
+  text-medium-light-color: "#A0A2A8"
+  text-medium-color: "#80828A"
+  disabled-text-color: rgba(247, 247, 255, 0.5)
+
+  # Text Fields an Dropdown
+  input-background-color: "rgb(40, 40, 43)"
+  input-background-color-disabled: "rgba(37, 37, 40, .5)"
+  material-background-color: var(--secondary-background-color)
+  material-secondary-background-color: var(--primary-background-color)
+  mdc-theme-surface: var(--primary-background-color)
+  mdc-text-field-fill-color: "var(--input-background-color)"
+  mdc-text-field-ink-color: "var(--text-color)"
+  mdc-select-fill-color: "var(--input-background-color)"
+  mdc-text-field-label-ink-color: "var(--secondary-text-color)"
+  input-fill-color: "var(--input-background-color)"
+  input-ink-color: "var(--text-color)"
+  input-label-ink-color: "var(--text-color)"
+  input-disabled-fill-color: "var(--input-background-color-disabled)"
+  input-disabled-ink-color: "var(--disabled-text-color)"
+  input-disabled-label-ink-color: "var(--disabled-text-color)"
+  input-idle-line-color: "var(--background-color)"
+  input-dropdown-icon-color: "var(--secondary-text-color)"
+  input-hover-line-color: "var(--primary-color)"
+  code-editor-background-color: "var(--ha-card-background)"
+  codemirror-property: "var(--accent-color)"
+  mdc-select__icon: var(--icon-secondary-color)
+
   # Sidebar Menu
   sidebar-icon-color: var(--icon-secondary-color)
   sidebar-text-color: rgba(247, 247, 255, 0.7)
@@ -26,19 +66,24 @@ graphite:
   sidebar-selected-background-color: var(--card-background-color)
   sidebar-selected-icon-color: var(--icon-primary-color)
   sidebar-selected-text-color: var(--primary-text-color)
+  light-primary-color: var(--primary-color)
+
   # Buttons
   paper-item-icon-color: var(--icon-secondary-color)
   paper-item-icon-active-color: var(--active-item)
+
   # States and Badges
   state-icon-color: var(--icon-secondary-color)
   state-icon-active-color: var(--active-item)
   state-icon-unavailable-color: var(--disabled-text-color)
+
   # Sliders
   paper-slider-knob-color: rgb(56, 182, 230)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
+
   # Labels
   label-badge-background-color: rgb(32, 33, 36)
   label-badge-text-color: rgb(198, 203, 210)
@@ -47,35 +92,46 @@ graphite:
   label-badge-blue: rgb(138, 180, 248)
   label-badge-yellow: rgb(223, 194, 113)
   label-badge-gray: rgb(95, 98, 103)
-  # Cards
-  card-background-color: rgb(30, 33, 37)
+
+  # Card
+  ha-card-background: "rgb(29, 29, 31)"
   ha-card-border-radius: "18px"
-  ha-card-box-shadow: none
+  border-radius: var(--ha-card-border-radius)
   ha-card-border-style: none
   ha-card-border: none
-  ha-card-border-color: "rgba(0,0,0,0)"
-  ha-card-border-width: "0"
   paper-dialog-background-color: var(--card-background-color)
   paper-listbox-background-color: var(--card-background-color)
   paper-card-background-color: var(--card-background-color)
+  card-background-color: "var(--ha-card-background)"
+  ha-card-box-shadow: none
+  ha-card-border-color: "rgba(0,0,0,0)"
+  ha-card-border-width: "0"
+
+  # Dialog
+  mdc-dialog-scrim-color: rgba(0, 0, 3, 0.9)
+
   # Switches
   switch-checked-button-color: var(--active-item)
   switch-checked-track-color: var(--switch-checked-button-color)
   switch-unchecked-button-color: rgba(255, 255, 255, 0.7)
   switch-unchecked-track-color: rgba(125, 128, 132, 0.4)
+
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
   paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+
+  # List items
+  mdc-ripple-hover-opacity: 0.14
+
   # Table
-  table-row-background-color: var(--primary-background-color)
-  table-row-alternative-background-color: var(--secondary-background-color)
-  data-table-background-color: var(--primary-background-color)
-  mdc-checkbox-unchecked-color: rgb(169, 177, 188)
-  # Dropdowns
-  material-background-color: var(--secondary-background-color)
-  material-secondary-background-color: var(--primary-background-color)
-  mdc-theme-surface: var(--primary-background-color)
-  # Pre/Code
-  markdown-code-background-color: rgb(23, 23, 23)
+  table-row-background-color: "var(--background-color)"
+  table-row-alternative-background-color: "var(--ha-card-background)"
+
+  # Mini Mediaplayer
+  mini-media-player-base-color: "var(--text-color)"
+  mini-media-player-accent-color: "var(--accent-color)"
+
+  # Alarm
+  alarm-color-armed: "rgba(247,53,67,1)"
