@@ -1,9 +1,12 @@
-## graphite
-Calm and clean dark theme for [Home Assistant](https://www.home-assistant.io)
+<h3 align="center" style="margin-bottom: 32px">
+	Graphite Theme for <a href="https://www.home-assistant.io/">Home Assistant</a>
+</h3>
 
-[![hacs](https://img.shields.io/badge/HACS-Default-blue.svg?style=flat-square)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme) ![STARS](https://img.shields.io/github/stars/TilmanGriesel/graphite?color=green&style=flat-square) ![ISSUES](https://img.shields.io/github/issues-raw/TilmanGriesel/graphite?style=flat-square) ![LASTCOMMIT](https://img.shields.io/github/last-commit/TilmanGriesel/graphite?style=flat-square)
-
-![](https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/screenshots/tablet.png)
+<p align="center">
+  	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
+	<a href="https://github.com/tilmangriesel/graphite/stargazers"><img src="https://img.shields.io/github/stars/tilmangriesel/graphite?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
+	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
+</p>
 
 ## Installation
 
