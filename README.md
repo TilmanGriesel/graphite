@@ -1,5 +1,6 @@
 <h3 align="center" style="margin-bottom: 32px">
-	Graphite Theme for <a href="https://www.home-assistant.io/">Home Assistant</a>
+	<img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/logo_s.svg" width="270" height="220" alt="Logo Graphite Theme"/><br/>
+	Graphite Theme for Home Assistant
 </h3>
 
 <p align="center">
