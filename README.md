@@ -1,24 +1,38 @@
 <p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/logo_s.svg" width="240" alt="Logo Graphite Theme"/></p>
 <h3 align="center">Graphite Theme for Home Assistant</h3>
 <p align="center">
-  	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
+	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
 	<a href="https://github.com/tilmangriesel/graphite/stargazers"><img src="https://img.shields.io/github/stars/tilmangriesel/graphite?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-<p align="center">
-	<img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/screenshots/main.png"/><br/>
-</p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/screenshots/main.png"/><br/></p>
+
+**Graphite** is a contemporary theme featuring a calming dark color scheme, native device fonts, and a cohesive design language. Designed to be visually appealing and easy on the eyes, it provides a consistent user experience across the entire home assistant interface, including the administration interface and code editors. With regular updates and maintenance, Graphite remains reliable and cohesive.
 
 ## Installation
 
-#### Via HACS (Home Assistant Community Store)
-1. Go to the Community Store.
-2. Search for `graphite`.
-3. Navigate to `graphite`.
-4. Press Install.
+### [Home Assistant Community Store](https://hacs.xyz/)
+The Home Assistant Community Store, or HACS, is the most convenient and efficient way to install the Graphite theme. HACS acts as a one-stop shop for community-developed extensions for Home Assistant, similar to the Apple App Store or Google Play Store. With just a few clicks, you can easily find and install the Graphite theme within HACS.
 
-#### Manual
+### HACS Guide
+
+1. Ensure you have [HACS installed](https://hacs.xyz/docs/setup/download).
+1. Open the Home Assistant Community Store (HACS) by clicking on the `HACS` tab in the side menu.
+1. In the HACS store, click on the `Frontend` tab.
+1. On the bottom right, click on `Explore & Download Repositories` and use the search bar to search for `Graphite`.
+1. Click on the `Graphite` theme in the search results to open the theme's page.
+1. On the theme's page, click on the `Download` button.
+1. Wait for the installation to complete. This may take a few seconds.
+1. Once the installation is complete, open your profile and select `Graphite` in your `Theme` dropdown menu.
+
+That's it! The Graphite theme has been successfully installed and applied to your Home Assistant instance. You will receive notifications in the Home Assistant Community Store (HACS) whenever an update is available for the theme, so you can keep it up to date with the latest improvements and tweaks.
+
+<details>
+<summary>Manual Guide</summary>
+	
+## Manual Guide
+	
 1. Copy the `themes` folder into your home-assistant config folder
 1. Set the theme folder in you `configuration.yaml`
 
@@ -28,7 +42,16 @@ frontend:
 ```
 
 3. Restart Home Assistant
-4. Select the `graphite` theme in your profile
+4. Select the `Graphite` theme in your profile
+</details>
 
-## Credits
-Inspired by the awesome [noctis theme](https://github.com/aFFekopp/noctis)
+#### Personal note
+> Hi, my name is Tilman, nice to meet you! I'm living in a old house from the 16th centure and I try hard to make it smart(er). I am a product designer and software engineer by trade.
+> 
+> I created this theme to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
+
+---
+
+<p align="center">
+Inspired by many of the awesome home assistant community themes and contributors.<br>Thank you for your creativity, dedication and inspiration!
+</p>
