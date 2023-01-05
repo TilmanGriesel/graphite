@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/logo_s.svg" width="240" alt="Logo Graphite Theme"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/logo_s.svg" width="240" alt="Logo Graphite Theme"/></p>
 <h3 align="center">Graphite Theme for Home Assistant</h3>
 <p align="center">
 	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
@@ -6,7 +6,7 @@
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=16181d&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/2.0-rework/docs/screenshots/main.png"/><br/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/screenshots/main.png"/><br/></p>
 
 **Graphite** is a contemporary theme featuring a calming dark color scheme, native device fonts, and a cohesive design language. Designed to be visually appealing and easy on the eyes, it provides a consistent user experience across the entire home assistant interface, including the administration interface and code editors. With regular updates and maintenance, Graphite remains reliable and cohesive.
 
