@@ -8,7 +8,7 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/screenshots/main.png"/><br/></p>
 
-**Graphite** is a contemporary theme featuring a calming dark color scheme, native device fonts, and a cohesive design language. Designed to be visually appealing and easy on the eyes, it provides a consistent user experience across the entire home assistant interface, including the administration interface and code editors. With regular updates and maintenance, Graphite remains reliable and cohesive.
+**Graphite** is a contemporary theme featuring a calming dark color scheme, native device fonts, and a cohesive design language. Designed to be visually appealing and easy on the eyes, it provides a consistent user experience across the entire home assistant interface, including the administration interface and code editors.
 
 ## Installation
 
