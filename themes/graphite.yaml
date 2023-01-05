@@ -1,4 +1,13 @@
-graphite:
+Graphite:
+  # Graphite is a contemporary theme featuring a calming dark color scheme,
+  # native device fonts, and a cohesive design language.
+  # Designed to be visually appealing and easy on the eyes, it provides a
+  # consistent user experience across the entire home assistant interface,
+  # including the administration interface and code editors.
+  
+  ##############################################################################
+  # Tokens
+  
   # Color tokens
   token-rgb-primary: 229, 145, 9
   token-color-primary: rgb(var(--token-rgb-primary))
@@ -55,7 +64,8 @@ graphite:
   token-weight-font-title: 600
 
   ##############################################################################
-
+  # Definitions
+  
   # Shapes
   mdc-shape-small: var(--token-size-radius-small)
   mdc-shape-medium: var(--token-size-radius-medium)
@@ -224,16 +234,16 @@ graphite:
   rgb-state-inactive-color: 123, 126, 139
 
   ##############################################################################
-  # Extention theming
+  # Extentions
 
   # HACS
   hacs-new-color: rgb(27 153 123)
   hacs-error-color: rgb(182 46 95)
 
-  # mini graph card
+  # Mini graph card
   mcg-title-font-weight: 400
 
-  # mushroom
+  # Mushroom
   mush-title-font-weight: var(--title-font-weight)
   mush-title-font-size: var(--title-font-size)
   mush-rgb-white: var(--rgb-white-color)
