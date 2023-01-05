@@ -12,10 +12,13 @@
 
 ## Installation
 
-### [Home Assistant Community Store](https://hacs.xyz/)
-The Home Assistant Community Store, or HACS, is the most convenient and efficient way to install the Graphite theme. HACS acts as a one-stop shop for community-developed extensions for Home Assistant, similar to the Apple App Store or Google Play Store. With just a few clicks, you can easily find and install the Graphite theme within HACS.
+<details>
+<summary>Home Assistant Community Store Guide</summary>
+	
+### Installation
+The [Home Assistant Community Store](https://hacs.xyz), or HACS, is the most convenient and efficient way to install the Graphite theme. HACS acts as a one-stop shop for community-developed extensions for Home Assistant, similar to the Apple App Store or Google Play Store. With just a few clicks, you can easily find and install the Graphite theme within HACS.
 
-### HACS Guide
+### Guideline
 
 1. Ensure you have [HACS installed](https://hacs.xyz/docs/setup/download).
 1. Open the Home Assistant Community Store (HACS) by clicking on the `HACS` tab in the side menu.
@@ -27,11 +30,12 @@ The Home Assistant Community Store, or HACS, is the most convenient and efficien
 1. Once the installation is complete, open your profile and select `Graphite` in your `Theme` dropdown menu.
 
 That's it! The Graphite theme has been successfully installed and applied to your Home Assistant instance. You will receive notifications in the Home Assistant Community Store (HACS) whenever an update is available for the theme, so you can keep it up to date with the latest improvements and tweaks.
-
+</details>
+	
 <details>
 <summary>Manual Guide</summary>
 	
-## Manual Guide
+### Manual Guide
 	
 1. Copy the `themes` folder into your home-assistant config folder
 1. Set the theme folder in you `configuration.yaml`
@@ -45,10 +49,10 @@ frontend:
 4. Select the `Graphite` theme in your profile
 </details>
 
-#### Personal note
-> Hi, my name is Tilman, nice to meet you! I'm living in a old house from the 16th centure and I try hard to make it smart(er). I am a product designer and software engineer by trade.
-> 
-> I created this theme to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
+## Personal note
+Hi, my name is Tilman, nice to meet you! I am a product designer and software engineer by trade and I live in an old 16th century house that I'm trying hard to make smart. 
+ 
+I created this theme to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
 
 ---
 
