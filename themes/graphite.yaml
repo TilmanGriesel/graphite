@@ -13,7 +13,7 @@ Graphite:
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-accent: var(--token-color-primary)
   token-color-feedback-info: rgb(138, 208, 248)
-  token-color-feedback-warning: rgb(214, 221, 128)
+  token-color-feedback-warning: rgb(244,180,0)
   token-color-feedback-error: rgb(229, 97, 128)
   token-color-feedback-success: rgb(93, 193, 145)
   token-color-icon-primary: rgba(228, 228, 231, 1)
@@ -37,7 +37,7 @@ Graphite:
   token-color-background-divider: var(--token-color-background-sidebar)
   token-color-background-scrollbar-thumb: rgba(46, 48, 56, 1)
   token-color-background-label-badge-red: var(--token-color-feedback-error)
-  token-color-background-label-badge-green: var(--token-color-feedback-success)
+  token-color-background-label-badge-green: rgba(78, 183, 128, 1)
   token-color-background-label-badge-blue: var(--token-color-feedback-info)
   token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
   token-color-background-label-badge-grey: rgba(83, 90, 103, 1)
@@ -88,8 +88,8 @@ Graphite:
   mdc-typography-font-family: var(--token-font-family-primary)
   mdc-typography-button-font-family: var(--token-font-family-primary)
   mdc-typography-body1-font-family: var(--token-font-family-primary)
-
   mdc-typography-button-font-weight: var(--token-weight-font-title)
+  
   title-font-weight: var(--token-weight-font-title)
   title-font-size: var(--token-size-font-title)
 
@@ -109,11 +109,11 @@ Graphite:
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
 
   # Feedback colors
-  error-color: rgb(241, 86, 113)
-  warning-color: rgba(255, 241, 116, 1)
-  success-color: rgb(124, 219, 117)
-  info-color: rgba(39, 209, 246, 1)
-
+  error-color: rgb(234 114 135)
+  warning-color: rgb(255 219 117)
+  success-color: rgb(118 214 152)
+  info-color: rgb(39, 209, 246)
+    
   # Background
   lovelace-background: var(--token-color-background-base)
   background-color: var(--token-color-background-base)
@@ -156,6 +156,9 @@ Graphite:
   label-badge-yellow: var(--token-color-background-label-badge-yellow)
   label-badge-grey: var(--token-color-background-label-badge-grey)
 
+  # Chip
+  ha-chip-text-color: rgb(255 255 255)
+  
   # Dialog
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
 
