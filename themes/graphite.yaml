@@ -149,6 +149,7 @@ Graphite:
   state-off-color: var(--token-color-feedback-error)
 
   # Label-badge
+  label-badge-text-color: var(--token-color-text-primary)
   label-badge-red: var(--token-color-background-label-badge-red)
   label-badge-blue: var(--token-color-background-label-badge-blue)
   label-badge-green: var(--token-color-background-label-badge-green)
