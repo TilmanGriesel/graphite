@@ -4,7 +4,7 @@ Graphite:
   # Designed to be visually appealing and easy on the eyes, it provides a
   # consistent user experience across the entire home assistant interface,
   # including the administration interface and code editors.
-  
+
   ##############################################################################
   # Tokens
   
@@ -13,15 +13,15 @@ Graphite:
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-accent: var(--token-color-primary)
   token-color-feedback-info: rgb(138, 208, 248)
-  token-color-feedback-warning: rgb(244,180,0)
+  token-color-feedback-warning: rgb(244, 180, 0)
   token-color-feedback-error: rgb(229, 97, 128)
   token-color-feedback-success: rgb(93, 193, 145)
   token-color-icon-primary: rgba(228, 228, 231, 1)
-  token-color-icon-secondary: rgb(138 140 153)
+  token-color-icon-secondary: rgb(138, 140, 153)
   token-color-icon-sidebar: rgba(147, 149, 159, 1)
   token-color-icon-sidebar-selected: rgba(174, 176, 183, 1)
   token-color-text-primary: rgba(228, 228, 231, 1)
-  token-color-text-secondary: rgb(138 140 153)
+  token-color-text-secondary: rgb(138, 140, 153)
   token-color-text-disabled: rgba(255, 255, 255, 0.5)
   token-color-text-sidebar-selected: rgba(214, 215, 219, 1)
   token-color-text-sidebar: var(--token-color-text-secondary)
@@ -43,13 +43,13 @@ Graphite:
   token-color-background-label-badge-grey: rgba(83, 90, 103, 1)
   token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
   token-color-border-card: rgba(0, 0, 0, 0)
-
-  # Opaciy tokens
+  
+  # Opacity tokens
   token-opacity-ripple-hover: 0.14
-
+  
   # Font tokens
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-
+  
   # Size tokens
   token-size-radius-small: 9px
   token-size-radius-medium: 16px
@@ -59,10 +59,10 @@ Graphite:
   token-size-height-slider: 4px
   token-size-height-navbar: 56px
   token-size-font-title: 28px
-
+  
   # Weight tokens
   token-weight-font-title: 600
-
+  
   ##############################################################################
   # Definitions
   
@@ -70,11 +70,11 @@ Graphite:
   mdc-shape-small: var(--token-size-radius-small)
   mdc-shape-medium: var(--token-size-radius-medium)
   mdc-shape-large: var(--token-size-radius-large)
-
+  
   # Sizes
   header-height: var(--token-size-height-navbar)
   paper-slider-height: var(--token-size-height-slider)
-
+  
   # Typography
   primary-font-family: var(--token-font-family-primary)
   paper-font-common-base_-_font-family: var(--token-font-family-primary)
@@ -92,14 +92,14 @@ Graphite:
   
   title-font-weight: var(--token-weight-font-title)
   title-font-size: var(--token-size-font-title)
-
+  
   # Text
   primary-text-color: var(--token-color-text-primary)
   secondary-text-color: var(--token-color-text-secondary)
   text-primary-color: var(--token-color-text-primary)
   text-light-primary-color: var(--token-color-text-primary)
   disabled-text-color: var(--token-color-text-disabled)
-
+  
   # Main interface colors
   primary-color: var(--token-color-primary)
   dark-primary-color: var(--primary-color)
@@ -107,31 +107,31 @@ Graphite:
   accent-color: var(--token-color-accent)
   divider-color: var(--token-color-background-divider)
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
-
+  
   # Feedback colors
-  error-color: rgb(234 114 135)
-  warning-color: rgb(255 219 117)
-  success-color: rgb(118 214 152)
+  error-color: rgb(234, 114, 135)
+  warning-color: rgb(255, 219, 117)
+  success-color: rgb(118, 214, 152)
   info-color: rgb(39, 209, 246)
-    
+  
   # Background
   lovelace-background: var(--token-color-background-base)
   background-color: var(--token-color-background-base)
   primary-background-color: var(--token-color-background-base)
   secondary-background-color: var(--token-color-background-secondary)
-
+  
   # Navbar
   app-header-background-color: var(--primary-background-color)
   app-header-text-color: var(--token-color-icon-primary)
   app-header-edit-background-color: var(--token-color-background-card)
-
+  
   # Sidebar
   sidebar-icon-color: var(--token-color-icon-sidebar)
   sidebar-text-color: var(--sidebar-icon-color)
   sidebar-background-color: var(--token-color-background-sidebar)
   sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
   sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
-
+  
   # Cards
   border-radius: var(--token-size-radius-card)
   card-background-color: var(--token-color-background-card)
@@ -142,12 +142,12 @@ Graphite:
   ha-card-border-style: none
   ha-card-border: none
   ha-card-box-shadow: none
-
+  
   # States
   state-icon-color: var(--token-color-icon-primary)
   state-on-color: var(--token-color-feedback-success)
   state-off-color: var(--token-color-feedback-error)
-
+  
   # Label-badge
   label-badge-text-color: var(--token-color-text-primary)
   label-badge-red: var(--token-color-background-label-badge-red)
@@ -155,26 +155,26 @@ Graphite:
   label-badge-green: var(--token-color-background-label-badge-green)
   label-badge-yellow: var(--token-color-background-label-badge-yellow)
   label-badge-grey: var(--token-color-background-label-badge-grey)
-
+  
   # Chip
-  ha-chip-text-color: rgb(255 255 255)
+  ha-chip-text-color: rgb(255, 255, 255)
   
   # Dialog
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
-
+  
   # Slider
   paper-slider-knob-color: var(--token-color-primary)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
-
+  
   # Switch
   switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: var(--switch-checked-button-color)
   switch-unchecked-button-color: rgba(255, 255, 255, 0.7)
   switch-unchecked-track-color: rgba(125, 128, 132, 0.4)
-
+  
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
@@ -182,10 +182,10 @@ Graphite:
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
   mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
   mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
-
+  
   # List items
   mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
-
+  
   # Text Fields an Dropdown
   input-background-color: var(--token-color-background-input-base)
   input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
@@ -200,16 +200,16 @@ Graphite:
   input-hover-line-color: var(--primary-color)
   mdc-select-idle-line-color: var(--color-background-base)
   mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
-
+  
   # Editor
   code-editor-background-color: var(--token-color-background-base)
   codemirror-meta: var(--token-color-text-primary)
   codemirror-property: var(--accent-color)
   codemirror-atom: var(--codemirror-property)
-  codemirror-string: rgb(119 196 229)
-  codemirror-keyword: rgb(140 169 255)
-  codemirror-number: rgb(255 91 29)
-
+  codemirror-string: rgb(119, 196, 229)
+  codemirror-keyword: rgb(140, 169, 255)
+  codemirror-number: rgb(255, 91, 29)
+  
   # RGB colors
   rgb-primary-color: var(--token-rgb-primary)
   rgb-accent-color: var(--token-rgb-primary)
@@ -236,17 +236,17 @@ Graphite:
   rgb-black-color: 0, 0, 0
   rgb-disabled-color: 61, 65, 85
   rgb-state-inactive-color: 123, 126, 139
-
+  
   ##############################################################################
   # Extentions
-
+  
   # HACS
-  hacs-new-color: rgb(27 153 123)
-  hacs-error-color: rgb(182 46 95)
-
+  hacs-new-color: rgb(27, 153, 123)
+  hacs-error-color: rgb(182, 46, 95)
+  
   # Mini graph card
   mcg-title-font-weight: 400
-
+  
   # Mushroom
   mush-title-font-weight: var(--title-font-weight)
   mush-title-font-size: var(--title-font-size)
