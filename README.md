@@ -48,6 +48,9 @@ frontend:
 4. Select the `Graphite` theme in your profile
 </details>
 
+## Examples
+If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
+
 ## Personal note
 Hi, my name is Tilman, nice to meet you! I am a product designer and software engineer by trade and I live in an old 16th century house that I'm trying hard to make smart. 
  
