@@ -1,14 +1,14 @@
 Graphite:
-  # Graphite is a contemporary theme that offers both a soothing dark color scheme and a clean light theme,
-  # featuring native device fonts and a cohesive design language. 
-  # Carefully crafted to be visually appealing and easy on the eyes, Graphite ensures a consistent user experience 
-  # throughout the entire Home Assistant interface, including the administration panel and code editors.
+  # Graphite is a contemporary theme featuring a calming dark color scheme,
+  # native device fonts, and a cohesive design language.
+  # Designed to be visually appealing and easy on the eyes, it provides a
+  # consistent user experience across the entire home assistant interface,
+  # including the administration interface and code editors.
 
+  ##############################################################################
+  # Tokens
   modes:
     dark:
-      ##############################################################################
-      # Tokens
-      
       # Color tokens
       token-rgb-primary: 229, 145, 9
       token-color-primary: rgb(var(--token-rgb-primary))
@@ -274,11 +274,8 @@ Graphite:
       mush-rgb-black: var(--rgb-black-color)
       mush-rgb-disabled: var(--rgb-disabled-color)
     light:
-      ##############################################################################
-      # Tokens
-  
       # Color tokens
-      token-rgb-primary: 255, 188, 80
+      token-rgb-primary: 255, 158, 0
       token-color-primary: rgb(var(--token-rgb-primary))
       token-color-accent: var(--token-color-primary)
       token-color-feedback-info: rgb(29, 130, 193)
@@ -295,9 +292,9 @@ Graphite:
       token-color-text-sidebar-selected: rgba(19, 21, 54, 0.87)
       token-color-text-sidebar: var(--token-color-text-secondary)
       token-color-text-label-badge: rgba(19, 21, 54, 0.7)
-      token-color-background-base: rgb(235 235 235)
+      token-color-background-base: rgb(225, 226, 229)
       token-color-background-secondary: rgba(245, 245, 245, 1)
-      token-color-background-sidebar: rgba(240, 240, 240, 1)
+      token-color-background-sidebar: var(--token-color-background-base)
       token-color-background-input-base: rgba(255, 255, 255, 1)
       token-color-background-input-disabled: rgba(245, 245, 245, 1)
       token-color-background-label-badge: rgba(230, 230, 230, 1)
