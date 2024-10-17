@@ -120,6 +120,7 @@ Graphite Light:
   background-color: var(--token-color-background-base)
   primary-background-color: var(--token-color-background-base)
   secondary-background-color: var(--token-color-background-secondary)
+  clear-background-color: var(--token-color-background-input-base)
 
   # Navbar
   app-header-background-color: var(--primary-background-color)
