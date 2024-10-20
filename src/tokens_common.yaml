@@ -1,0 +1,23 @@
+# Opacity tokens
+token-opacity-ripple-hover: 0.14
+
+# Font tokens
+token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+
+# Size tokens
+token-size-radius-small: 9px
+token-size-radius-medium: 16px
+token-size-radius-large: 18px
+token-size-radius-card: var(--token-size-radius-large)
+token-size-width-border-card: 0
+token-size-height-slider: 4px
+token-size-height-navbar: 56px
+token-size-font-title: 28px
+
+# Weight tokens
+token-weight-font-title: 600
+
+# Color tokens
+token-color-transparent: rgba(0, 0, 0, 0)
+token-color-black: rgb(0, 0, 0)
+token-color-white: rgb(255, 255, 255)
