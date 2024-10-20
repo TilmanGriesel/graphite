@@ -1,31 +1,61 @@
 Graphite Light:
+
   # Graphite is a contemporary theme that offers both a calm dark color scheme and a clean light theme,
-  # featuring native device fonts and a cohesive design language. 
-  # Carefully crafted to be visually appealing and easy on the eyes, Graphite ensures a consistent user experience 
+  # featuring native device fonts and a cohesive design language.
+  # Carefully crafted to be visually appealing and easy on the eyes, Graphite ensures a consistent user experience
   # throughout the entire Home Assistant interface, including the administration panel and code editors.
   # https://github.com/TilmanGriesel/graphite
 
-  ##############################################################################
-  # Tokens
+  # This file was generated at 2024-10-20 16:15:25
 
   # Color tokens
   token-rgb-primary: 255, 158, 0
+
+  token-rgb-black: 0, 0, 0
+  token-rgb-white: 240, 243, 255
+  token-rgb-purple: 129, 45, 250
+  token-rgb-pink: 204, 0, 136
+  token-rgb-red: 204, 0, 51
+  token-rgb-deep-purple: 98, 0, 234
+  token-rgb-indigo: 48, 63, 159
+  token-rgb-blue: 33, 150, 243
+  token-rgb-light-blue: 3, 169, 244
+  token-rgb-cyan: 0, 188, 212
+  token-rgb-teal: 0, 150, 136
+  token-rgb-green: 56, 142, 60
+  token-rgb-light-green: 139, 195, 74
+  token-rgb-lime: 205, 220, 57
+  token-rgb-yellow: 255, 235, 59
+  token-rgb-amber: 255, 193, 7
+  token-rgb-orange: var(--token-rgb-primary)
+  token-rgb-deep-orange: 255, 87, 34
+  token-rgb-brown: 121, 85, 72
+  token-rgb-grey: 158, 158, 158
+  token-rgb-blue-grey: 96, 125, 139
+  token-rgb-disabled: 189, 189, 189
+  token-rgb-state-inactive: 176, 190, 197
+
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-accent: var(--token-color-primary)
-  token-color-feedback-info: rgb(29, 130, 193)
-  token-color-feedback-warning: rgb(204, 144, 0)
-  token-color-feedback-error: rgb(179, 57, 96)
-  token-color-feedback-success: rgb(29, 143, 95)
+
+  token-color-feedback-info: rgb(39, 209, 246)
+  token-color-feedback-warning: rgb(255, 219, 117)
+  token-color-feedback-error: rgb(234, 114, 135)
+  token-color-feedback-success: rgb(118, 214, 152)
+
   token-color-icon-primary: rgba(19, 21, 54, 0.87)
   token-color-icon-secondary: rgba(19, 21, 54, 0.8)
   token-color-icon-sidebar: rgba(19, 21, 54, 0.7)
   token-color-icon-sidebar-selected: var(--token-color-icon-primary)
+
   token-color-text-primary: rgba(19, 21, 54, 0.95)
   token-color-text-secondary: rgba(19, 21, 54, 0.8)
   token-color-text-disabled: rgba(19, 21, 54, 0.38)
   token-color-text-sidebar-selected: var(--token-color-text-primary)
   token-color-text-sidebar: var(--token-color-text-secondary)
   token-color-text-label-badge: rgba(19, 21, 54, 0.7)
+  token-color-text-chip: var(--token-color-black)
+
   token-color-background-base: rgb(225, 226, 229)
   token-color-background-secondary: rgba(245, 245, 245, 1)
   token-color-background-sidebar: var(--token-color-background-base)
@@ -42,7 +72,15 @@ Graphite Light:
   token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
   token-color-background-label-badge-grey: rgba(83, 90, 103, 1)
   token-color-background-popup-scrim: rgba(0, 0, 0, 0.5)
+
   token-color-border-card: rgba(224, 224, 224, 1)
+
+  token-color-switch-button-unchecked: rgba(0, 0, 0, 0.5)
+  token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
+
+  token-color-codemirror-string: rgb(0, 77, 153)
+  token-color-codemirror-keyword: rgb(70, 112, 216)
+  token-color-codemirror-number: rgb(204, 85, 0)
 
   # Opacity tokens
   token-opacity-ripple-hover: 0.14
@@ -62,6 +100,11 @@ Graphite Light:
 
   # Weight tokens
   token-weight-font-title: 600
+
+  # Color tokens
+  token-color-transparent: rgba(0, 0, 0, 0)
+  token-color-black: rgb(0, 0, 0)
+  token-color-white: rgb(255, 255, 255)
 
   ##############################################################################
   # Definitions
@@ -110,10 +153,10 @@ Graphite Light:
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
 
   # Feedback colors
-  error-color: rgb(234, 114, 135)
-  warning-color: rgb(255, 219, 117)
-  success-color: rgb(118, 214, 152)
-  info-color: rgb(39, 209, 246)
+  info-color: var(--token-color-feedback-info)
+  success-color: var(--token-color-feedback-success)
+  warning-color: var(--token-color-feedback-warning)
+  error-color: var(--token-color-feedback-error)
 
   # Background
   lovelace-background: var(--token-color-background-base)
@@ -159,7 +202,7 @@ Graphite Light:
   label-badge-grey: var(--token-color-background-label-badge-grey)
 
   # Chip
-  ha-chip-text-color: rgb(0, 0, 0)
+  ha-chip-text-color: var(--token-color-text-chip)
 
   # Dialog
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
@@ -174,8 +217,8 @@ Graphite Light:
   # Switch
   switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: var(--switch-checked-button-color)
-  switch-unchecked-button-color: rgba(0, 0, 0, 0.5)
-  switch-unchecked-track-color: rgba(0, 0, 0, 0.25)
+  switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
+  switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
 
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
@@ -208,36 +251,36 @@ Graphite Light:
   codemirror-meta: var(--token-color-text-primary)
   codemirror-property: var(--accent-color)
   codemirror-atom: var(--codemirror-property)
-  codemirror-string: rgb(0, 77, 153)
-  codemirror-keyword: rgb(70, 112, 216)
-  codemirror-number: rgb(204, 85, 0)
+  codemirror-string: var(--token-color-codemirror-string)
+  codemirror-keyword: var(--token-color-codemirror-keyword)
+  codemirror-number: var(--token-color-codemirror-number)
 
   # RGB colors
   rgb-primary-color: var(--token-rgb-primary)
   rgb-accent-color: var(--token-rgb-primary)
-  rgb-white-color: 255, 255, 255
-  rgb-purple-color: 129, 45, 250
-  rgb-pink-color: 204, 0, 136
-  rgb-red-color: 204, 0, 51
-  rgb-deep-purple-color: 98, 0, 234
-  rgb-indigo-color: 48, 63, 159
-  rgb-blue-color: 33, 150, 243
-  rgb-light-blue-color: 3, 169, 244
-  rgb-cyan-color: 0, 188, 212
-  rgb-teal-color: 0, 150, 136
-  rgb-green-color: 56, 142, 60
-  rgb-light-green-color: 139, 195, 74
-  rgb-lime-color: 205, 220, 57
-  rgb-yellow-color: 255, 235, 59
-  rgb-amber-color: 255, 193, 7
-  rgb-orange-color: var(--rgb-primary-color)
-  rgb-deep-orange-color: 255, 87, 34
-  rgb-brown-color: 121, 85, 72
-  rgb-grey-color: 158, 158, 158
-  rgb-blue-grey-color: 96, 125, 139
-  rgb-black-color: 0, 0, 0
-  rgb-disabled-color: 189, 189, 189
-  rgb-state-inactive-color: 176, 190, 197
+  rgb-white-color: var(--token-rgb-white)
+  rgb-purple-color: var(--token-rgb-purple)
+  rgb-pink-color: var(--token-rgb-pink)
+  rgb-red-color: var(--token-rgb-red)
+  rgb-deep-purple-color: var(--token-rgb-deep-purple)
+  rgb-indigo-color: var(--token-rgb-indigo)
+  rgb-blue-color: var(--token-rgb-blue)
+  rgb-light-blue-color: var(--token-rgb-light-blue)
+  rgb-cyan-color: var(--token-rgb-cyan)
+  rgb-teal-color: var(--token-rgb-teal)
+  rgb-green-color: var(--token-rgb-green)
+  rgb-light-green-color: var(--token-rgb-light-green)
+  rgb-lime-color: var(--token-rgb-lime)
+  rgb-yellow-color: var(--token-rgb-yellow)
+  rgb-amber-color: var(--token-rgb-amber)
+  rgb-orange-color: var(--token-rgb-orange)
+  rgb-deep-orange-color: var(--token-rgb-deep-orange)
+  rgb-brown-color: var(--token-rgb-brown)
+  rgb-grey-color: var(--token-rgb-grey)
+  rgb-blue-grey-color: var(--token-rgb-blue-grey)
+  rgb-black-color: var(--token-rgb-black)
+  rgb-disabled-color: var(--token-rgb-disabled)
+  rgb-state-inactive-color: var(--token-rgb-state-inactive)
 
   ##############################################################################
   # Extentions

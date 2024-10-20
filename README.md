@@ -52,13 +52,15 @@ frontend:
 ## Examples
 If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
 
+## Updating the theme
+I've developed a small token abstraction and a script to maintain Graphite's integrity across theme variants and streamline updates. The source components are located in the `src` folder. After making modifications, run the `theme_assembler` Python 3 script found in the `tools` directory to update theme files. Please do not modify the artifacts in the `themes` directory manually. Feel free to use this as a foundation for crafting your own themes in minutes.
+
 ## Personal note
-Hi, my name is Tilman, nice to meet you! I am a product designer and software engineer by trade and I live in an old 16th century house that I'm trying hard to make smart. 
+Hi, my name is Tilman, nice to meet you! I am a product designer and software engineer by trade and I live in an old 16th century house that I'm trying hard to make smart.
  
-I created this theme to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
+I have started this theme in 2022 to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
 
 ---
-
 <p align="center">
 Inspired by many of the awesome home assistant community themes and contributors.<br>Thank you for your creativity, dedication and inspiration!
 </p>

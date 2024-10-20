@@ -1,0 +1,211 @@
+##############################################################################
+# Definitions
+
+# Shapes
+mdc-shape-small: var(--token-size-radius-small)
+mdc-shape-medium: var(--token-size-radius-medium)
+mdc-shape-large: var(--token-size-radius-large)
+
+# Sizes
+header-height: var(--token-size-height-navbar)
+paper-slider-height: var(--token-size-height-slider)
+
+# Typography
+primary-font-family: var(--token-font-family-primary)
+paper-font-common-base_-_font-family: var(--token-font-family-primary)
+paper-font-common-code_-_font-family: var(--token-font-family-primary)
+paper-font-body1_-_font-family: var(--token-font-family-primary)
+paper-font-subhead_-_font-family: var(--token-font-family-primary)
+paper-font-headline_-_font-family: var(--token-font-family-primary)
+paper-font-caption_-_font-family: var(--token-font-family-primary)
+paper-font-title_-_font-family: var(--token-font-family-primary)
+ha-card-header-font-family: var(--token-font-family-primary)
+mdc-typography-font-family: var(--token-font-family-primary)
+mdc-typography-button-font-family: var(--token-font-family-primary)
+mdc-typography-body1-font-family: var(--token-font-family-primary)
+mdc-typography-button-font-weight: var(--token-weight-font-title)
+
+title-font-weight: var(--token-weight-font-title)
+title-font-size: var(--token-size-font-title)
+
+# Text
+primary-text-color: var(--token-color-text-primary)
+secondary-text-color: var(--token-color-text-secondary)
+text-primary-color: var(--token-color-text-primary)
+text-light-primary-color: var(--token-color-text-primary)
+disabled-text-color: var(--token-color-text-disabled)
+app-header-edit-text-color: var(--token-color-text-primary)
+
+# Main interface colors
+primary-color: var(--token-color-primary)
+dark-primary-color: var(--primary-color)
+light-primary-color: var(--primary-color)
+accent-color: var(--token-color-accent)
+divider-color: var(--token-color-background-divider)
+scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
+
+# Feedback colors
+info-color: var(--token-color-feedback-info)
+success-color: var(--token-color-feedback-success)
+warning-color: var(--token-color-feedback-warning)
+error-color: var(--token-color-feedback-error)
+
+# Background
+lovelace-background: var(--token-color-background-base)
+background-color: var(--token-color-background-base)
+primary-background-color: var(--token-color-background-base)
+secondary-background-color: var(--token-color-background-secondary)
+clear-background-color: var(--token-color-background-input-base)
+
+# Navbar
+app-header-background-color: var(--primary-background-color)
+app-header-text-color: var(--token-color-icon-primary)
+app-header-edit-background-color: var(--token-color-background-card)
+
+# Sidebar
+sidebar-icon-color: var(--token-color-icon-sidebar)
+sidebar-text-color: var(--sidebar-icon-color)
+sidebar-background-color: var(--token-color-background-sidebar)
+sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
+sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+
+# Cards
+border-radius: var(--token-size-radius-card)
+card-background-color: var(--token-color-background-card)
+ha-card-background: var(--token-color-background-card)
+ha-card-border-radius: var(--token-size-radius-card)
+ha-card-border-color: var(--token-color-border-card)
+ha-card-border-width: var(--token-size-width-border-card)
+ha-card-border-style: none
+ha-card-border: none
+ha-card-box-shadow: none
+
+# States
+state-icon-color: var(--token-color-icon-primary)
+state-on-color: var(--token-color-feedback-success)
+state-off-color: var(--token-color-feedback-error)
+
+# Label-badge
+label-badge-text-color: var(--token-color-text-primary)
+label-badge-red: var(--token-color-background-label-badge-red)
+label-badge-blue: var(--token-color-background-label-badge-blue)
+label-badge-green: var(--token-color-background-label-badge-green)
+label-badge-yellow: var(--token-color-background-label-badge-yellow)
+label-badge-grey: var(--token-color-background-label-badge-grey)
+
+# Chip
+ha-chip-text-color: var(--token-color-text-chip)
+
+# Dialog
+mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
+
+# Slider
+paper-slider-knob-color: var(--token-color-primary)
+paper-slider-knob-start-color: var(--paper-slider-knob-color)
+paper-slider-pin-color: var(--paper-slider-knob-color)
+paper-slider-active-color: var(--paper-slider-knob-color)
+paper-slider-secondary-color: var(--light-primary-color)
+
+# Switch
+switch-checked-button-color: var(--primary-color)
+switch-checked-track-color: var(--switch-checked-button-color)
+switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
+switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
+
+# Toggles
+paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
+mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
+
+# List items
+mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
+
+# Text Fields an Dropdown
+input-background-color: var(--token-color-background-input-base)
+input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
+input-fill-color: var(--input-background-color)
+input-ink-color: var(--token-color-text-primary)
+input-label-ink-color: var(--token-color-text-primary)
+input-disabled-fill-color: var(--input-background-token-color-disabled)
+input-disabled-ink-color: var(--disabled-text-color)
+input-disabled-label-ink-color: var(--disabled-text-color)
+input-idle-line-color: var(--background-color)
+input-dropdown-icon-color: var(--secondary-text-color)
+input-hover-line-color: var(--primary-color)
+mdc-select-idle-line-color: var(--color-background-base)
+mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+
+# Editor
+code-editor-background-color: var(--token-color-background-base)
+codemirror-meta: var(--token-color-text-primary)
+codemirror-property: var(--accent-color)
+codemirror-atom: var(--codemirror-property)
+codemirror-string: var(--token-color-codemirror-string)
+codemirror-keyword: var(--token-color-codemirror-keyword)
+codemirror-number: var(--token-color-codemirror-number)
+
+# RGB colors
+rgb-primary-color: var(--token-rgb-primary)
+rgb-accent-color: var(--token-rgb-primary)
+rgb-white-color: var(--token-rgb-white)
+rgb-purple-color: var(--token-rgb-purple)
+rgb-pink-color: var(--token-rgb-pink)
+rgb-red-color: var(--token-rgb-red)
+rgb-deep-purple-color: var(--token-rgb-deep-purple)
+rgb-indigo-color: var(--token-rgb-indigo)
+rgb-blue-color: var(--token-rgb-blue)
+rgb-light-blue-color: var(--token-rgb-light-blue)
+rgb-cyan-color: var(--token-rgb-cyan)
+rgb-teal-color: var(--token-rgb-teal)
+rgb-green-color: var(--token-rgb-green)
+rgb-light-green-color: var(--token-rgb-light-green)
+rgb-lime-color: var(--token-rgb-lime)
+rgb-yellow-color: var(--token-rgb-yellow)
+rgb-amber-color: var(--token-rgb-amber)
+rgb-orange-color: var(--token-rgb-orange)
+rgb-deep-orange-color: var(--token-rgb-deep-orange)
+rgb-brown-color: var(--token-rgb-brown)
+rgb-grey-color: var(--token-rgb-grey)
+rgb-blue-grey-color: var(--token-rgb-blue-grey)
+rgb-black-color: var(--token-rgb-black)
+rgb-disabled-color: var(--token-rgb-disabled)
+rgb-state-inactive-color: var(--token-rgb-state-inactive)
+
+##############################################################################
+# Extentions
+
+# HACS
+hacs-new-color: rgb(27, 153, 123)
+hacs-error-color: rgb(182, 46, 95)
+
+# Mini graph card
+mcg-title-font-weight: 400
+
+# Mushroom
+mush-title-font-weight: var(--title-font-weight)
+mush-title-font-size: var(--title-font-size)
+mush-rgb-white: var(--rgb-white-color)
+mush-rgb-purple: var(--rgb-purple-color)
+mush-rgb-pink: var(--rgb-pink-color)
+mush-rgb-red: var(--rgb-red-color)
+mush-rgb-deep-purple: var(--rgb-deep-purple-color)
+mush-rgb-indigo: var(--rgb-indigo-color)
+mush-rgb-blue: var(--rgb-blue-color)
+mush-rgb-light-blue: var(--rgb-light-blue-color)
+mush-rgb-cyan: var(--rgb-cyan-color)
+mush-rgb-teal: var(--rgb-teal-color)
+mush-rgb-green: var(--rgb-green-color)
+mush-rgb-light-green: var(--rgb-light-green-color)
+mush-rgb-lime: var(--rgb-lime-color)
+mush-rgb-yellow: var(--rgb-yellow-color)
+mush-rgb-amber: var(--rgb-amber-color)
+mush-rgb-orange: var(--rgb-orange-color)
+mush-rgb-deep-orange: var(--rgb-deep-orange-color)
+mush-rgb-brown: var(--rgb-brown-color)
+mush-rgb-grey: var(--rgb-grey-color)
+mush-rgb-blue-grey: var(--rgb-blue-grey-color)
+mush-rgb-black: var(--rgb-black-color)
+mush-rgb-disabled: var(--rgb-disabled-color)
