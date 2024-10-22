@@ -60,6 +60,8 @@ Hi, my name is Tilman, nice to meet you! I am a product designer and software en
  
 I have started this theme in 2022 to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
 
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/griesel)
+
 ---
 <p align="center">
 Inspired by many of the awesome home assistant community themes and contributors.<br>Thank you for your creativity, dedication and inspiration!
