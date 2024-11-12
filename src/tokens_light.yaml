@@ -27,6 +27,8 @@ token-rgb-state-inactive: 176, 190, 197
 
 token-color-primary: rgb(var(--token-rgb-primary))
 token-color-accent: var(--token-color-primary)
+token-color-disabled: rgb(173 176 184)
+token-light-primary-color: rgb(167 182 199)
 
 token-color-feedback-info: rgb(39, 209, 246)
 token-color-feedback-warning: rgb(255, 219, 117)
