@@ -6,7 +6,7 @@ Graphite Light:
   # throughout the entire Home Assistant interface, including the administration panel and code editors.
   # https://github.com/TilmanGriesel/graphite
 
-  # This file was generated at 2024-10-20 16:15:25
+  # This file was generated at 2024-11-12 20:57:05
 
   # Color tokens
   token-rgb-primary: 255, 158, 0
@@ -37,6 +37,8 @@ Graphite Light:
 
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-accent: var(--token-color-primary)
+  token-color-disabled: rgb(173 176 184)
+  token-light-primary-color: rgb(167 182 199)
 
   token-color-feedback-info: rgb(39, 209, 246)
   token-color-feedback-warning: rgb(255, 219, 117)
@@ -147,10 +149,11 @@ Graphite Light:
   # Main interface colors
   primary-color: var(--token-color-primary)
   dark-primary-color: var(--primary-color)
-  light-primary-color: var(--primary-color)
+  light-primary-color: var(--token-light-primary-color)
   accent-color: var(--token-color-accent)
   divider-color: var(--token-color-background-divider)
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
+  disabled-color: var(--token-color-disabled)
 
   # Feedback colors
   info-color: var(--token-color-feedback-info)
