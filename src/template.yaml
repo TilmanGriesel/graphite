@@ -39,7 +39,7 @@ app-header-edit-text-color: var(--token-color-text-primary)
 # Main interface colors
 primary-color: var(--token-color-primary)
 dark-primary-color: var(--primary-color)
-light-primary-color: var(--token-light-primary-color)
+light-primary-color: var(--token-color-primary-light)
 accent-color: var(--token-color-accent)
 divider-color: var(--token-color-background-divider)
 scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
@@ -79,7 +79,10 @@ ha-card-border-color: var(--token-color-border-card)
 ha-card-border-width: var(--token-size-width-border-card)
 ha-card-border-style: none
 ha-card-border: none
-ha-card-box-shadow: none
+ha-card-box-shadow: var(--token-shadow-card-medium)
+
+# Sections
+ha-view-sections-column-gap: var(--token-spacing-medium)
 
 # States
 state-icon-color: var(--token-color-icon-primary)

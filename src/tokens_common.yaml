@@ -14,6 +14,9 @@ token-size-height-slider: 4px
 token-size-height-navbar: 56px
 token-size-font-title: 28px
 
+# Spacing tokens
+token-spacing-medium: 16px
+
 # Weight tokens
 token-weight-font-title: 600
 
