@@ -26,9 +26,9 @@ token-rgb-disabled: 189, 189, 189
 token-rgb-state-inactive: 176, 190, 197
 
 token-color-primary: rgb(var(--token-rgb-primary))
+token-color-primary-light: rgb(167 182 199)
 token-color-accent: var(--token-color-primary)
 token-color-disabled: rgb(173 176 184)
-token-light-primary-color: rgb(167 182 199)
 
 token-color-feedback-info: rgb(39, 209, 246)
 token-color-feedback-warning: rgb(255, 219, 117)
@@ -73,3 +73,5 @@ token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
 token-color-codemirror-string: rgb(0, 77, 153)
 token-color-codemirror-keyword: rgb(70, 112, 216)
 token-color-codemirror-number: rgb(204, 85, 0)
+
+token-shadow-card-medium: 0 2px 4px 0px rgba(0, 0, 0, 0.06)

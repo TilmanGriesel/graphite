@@ -6,7 +6,7 @@ Graphite:
   # throughout the entire Home Assistant interface, including the administration panel and code editors.
   # https://github.com/TilmanGriesel/graphite
 
-  # This file was generated at 2024-11-12 20:57:05
+  # This file was generated at 2024-11-15 20:55:02
 
   # Color tokens
   token-rgb-primary: 229, 145, 9
@@ -36,9 +36,9 @@ Graphite:
   token-rgb-state-inactive: 123, 126, 139
 
   token-color-primary: rgb(var(--token-rgb-primary))
+  token-color-primary-light: rgb(105 124 144)
   token-color-accent: var(--token-color-primary)
   token-color-disabled: rgba(255, 255, 255, 0.2)
-  token-light-primary-color: rgb(105 124 144)
 
   token-color-feedback-info: rgb(39, 209, 246)
   token-color-feedback-warning: rgb(255, 219, 117)
@@ -84,6 +84,8 @@ Graphite:
   token-color-codemirror-keyword: rgb(140, 169, 255)
   token-color-codemirror-number: rgb(255, 91, 29)
 
+  token-shadow-card-medium: 0 3px 13px 0 rgba(0, 0, 0, 0.07)
+
   # Opacity tokens
   token-opacity-ripple-hover: 0.14
 
@@ -99,6 +101,9 @@ Graphite:
   token-size-height-slider: 4px
   token-size-height-navbar: 56px
   token-size-font-title: 28px
+
+  # Spacing tokens
+  token-spacing-medium: 16px
 
   # Weight tokens
   token-weight-font-title: 600
@@ -149,7 +154,7 @@ Graphite:
   # Main interface colors
   primary-color: var(--token-color-primary)
   dark-primary-color: var(--primary-color)
-  light-primary-color: var(--token-light-primary-color)
+  light-primary-color: var(--token-color-primary-light)
   accent-color: var(--token-color-accent)
   divider-color: var(--token-color-background-divider)
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
@@ -189,7 +194,10 @@ Graphite:
   ha-card-border-width: var(--token-size-width-border-card)
   ha-card-border-style: none
   ha-card-border: none
-  ha-card-box-shadow: none
+  ha-card-box-shadow: var(--token-shadow-card-medium)
+
+  # Sections
+  ha-view-sections-column-gap: var(--token-spacing-medium)
 
   # States
   state-icon-color: var(--token-color-icon-primary)
