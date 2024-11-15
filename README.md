@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/logo_s.svg" width="240" alt="Logo Graphite Theme"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/logo.png" width="240" alt="Logo Graphite Theme"/></p>
 <h3 align="center">Graphite Theme for Home Assistant</h3>
 <p align="center">
 	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
@@ -6,9 +6,11 @@
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/main/docs/screenshots/main.png"/><br/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/dark.png"/><br/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/light.png"/><br/></p>
 
-**Graphite** is a contemporary theme that features both a calming dark color scheme and a bright, clean light theme. It features native device fonts and a cohesive design language across all Home Assistant interfaces, including the administration interface and code editors.
+**Graphite** is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors.
+
 ## Installation
 
 <details>
@@ -53,12 +55,17 @@ frontend:
 If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
 
 ## Updating the theme
-I've developed a small token abstraction and a script to maintain Graphite's integrity across theme variants and streamline updates. The source components are located in the `src` folder. After making modifications, run the `theme_assembler` Python 3 script found in the `tools` directory to update theme files. Please do not modify the artifacts in the `themes` directory manually. Feel free to use this as a foundation for crafting your own themes in minutes.
+I've created a small token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. You'll find the source components in the src folder. After making any changes, use the theme_assembler Python 3 script in the tools directory to regenerate the theme files. Avoid directly modifying the files in the themes directory. This setup can also serve as a great starting point for building your own themes in no time.
 
 ## Personal note
-Hi, my name is Tilman, nice to meet you! I am a product designer and software engineer by trade and I live in an old 16th century house that I'm trying hard to make smart.
- 
-I have started this theme in 2022 to improve my own, and my better halfs quality of life. Currently, it is not possible to customize every aspect of home assistant using a simple theme file. However, my goal is to provide an uncomplicated and convenient way for new or unexperienced users avoiding more advanced and in-depth styling methods.
+Hi there, I'm Tilman, nice to meet you! I'm a product designer and software engineer with a love for blending technology, art, design, and open-source projects. I live in a cozy 16th-century home that I'm gradually turning into a smarter, more connected space.
+
+
+I started designing this theme in 2022 to make our smart home more intuitive and visually harmonious for my partner Sophia and me. The goal was to create an experience that's both user-friendly and aesthetically pleasing, without needing extra complexity or plugins.
+
+
+I hope this theme makes your Home Assistant experience even better! If you love it, leaving a star would mean a lot and help others find it too.
+
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/griesel)
 
