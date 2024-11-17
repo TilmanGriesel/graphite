@@ -19,7 +19,6 @@
 ### Installation
 The [Home Assistant Community Store](https://hacs.xyz), or HACS, is the most convenient and efficient way to install the Graphite theme. HACS acts as a one-stop shop for community-developed extensions for Home Assistant, similar to the Apple App Store or Google Play Store. With just a few clicks, you can easily find and install the Graphite theme within HACS.
 
-
 ### Guideline
 
 1. Ensure you have [HACS installed](https://hacs.xyz/docs/setup/download).
@@ -32,6 +31,7 @@ The [Home Assistant Community Store](https://hacs.xyz), or HACS, is the most con
 1. Once the installation is complete, open your profile and select `Graphite` in your `Theme` dropdown menu.
 
 That's it! The Graphite theme has been successfully installed and applied to your Home Assistant instance. You will receive notifications in the Home Assistant Community Store (HACS) whenever an update is available for the theme, so you can keep it up to date with the latest improvements and tweaks.
+
 </details>
 	
 <details>
@@ -52,24 +52,29 @@ frontend:
 </details>
 
 ## Examples
+
 If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
 
-## Updating the theme
+## Custom primary color
+
+Customize the Graphite theme's primary color without needing to fork the project by using the [Graphite Theme Patcher](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's README.
+
+## Modifying the theme
+
 I've created a small token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. You'll find the source components in the src folder. After making any changes, use the theme_assembler Python 3 script in the tools directory to regenerate the theme files. Avoid directly modifying the files in the themes directory. This setup can also serve as a great starting point for building your own themes in no time.
 
 ## Personal note
-Hi there, I'm Tilman, nice to meet you! I'm a product designer and software engineer with a love for blending technology, art, design, and open-source projects. I live in a cozy 16th-century home that I'm gradually turning into a smarter, more connected space.
 
+Hi there, I'm Tilman, nice to meet you! I'm a product designer and software engineer with a love for blending technology, art, design, and open-source projects. I live in a cozy 16th-century home that I'm gradually turning into a smarter, more connected space.
 
 I started designing this theme in 2022 to make our smart home more intuitive and visually harmonious for my partner Sophia and me. The goal was to create an experience that's both user-friendly and aesthetically pleasing, without needing extra complexity or plugins.
 
-
 I hope this theme makes your Home Assistant experience even better! If you love it, leaving a star would mean a lot and help others find it too.
-
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/griesel)
 
 ---
+
 <p align="center">
 Inspired by many of the awesome home assistant community themes and contributors.<br>Thank you for your creativity, dedication and inspiration!
 </p>
