@@ -24,9 +24,10 @@ mdc-typography-font-family: var(--token-font-family-primary)
 mdc-typography-button-font-family: var(--token-font-family-primary)
 mdc-typography-body1-font-family: var(--token-font-family-primary)
 mdc-typography-button-font-weight: var(--token-weight-font-title)
-
 title-font-weight: var(--token-weight-font-title)
 title-font-size: var(--token-size-font-title)
+ha-heading-card-title-font-size: var(--token-size-font-title-card)
+ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
 
 # Text
 primary-text-color: var(--token-color-text-primary)
@@ -82,7 +83,7 @@ ha-card-border: none
 ha-card-box-shadow: var(--token-shadow-card-medium)
 
 # Sections
-ha-view-sections-column-gap: var(--token-spacing-medium)
+ha-view-sections-column-gap: var(--token-size-spacing-medium)
 
 # States
 state-icon-color: var(--token-color-icon-primary)
