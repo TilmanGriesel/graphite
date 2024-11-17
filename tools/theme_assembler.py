@@ -3,6 +3,7 @@
 import sys
 import logging
 import argparse
+import shutil
 from datetime import datetime
 from pathlib import Path
 from typing import List, Generator
@@ -64,6 +65,7 @@ def generate_auto_theme(
     light_theme_path: Path,
     dark_theme_path: Path,
     output_path: Path,
+    theme_name: str,
     about_lines: List[str],
     timestamp: str,
 ) -> None:
@@ -72,8 +74,7 @@ def generate_auto_theme(
             lines = f.readlines()[1:]  # Skip the first line (theme name)
             return "".join(f"{indent_level}{line}" for line in lines)
 
-    auto_theme_name = "Graphite Auto"
-    content = [f"{auto_theme_name}:\n"]
+    content = [f"{theme_name}:\n"]
     content.append("  modes:\n")
     content.append("    light:")
     content.append(read_theme_content(light_theme_path, "      "))
@@ -83,6 +84,34 @@ def generate_auto_theme(
     with output_path.open("w") as f:
         f.writelines(content)
     logging.info(f"Generated auto theme file: {output_path}")
+
+
+def get_theme_name(base_name: str, variant: str = "", dev_mode: bool = False) -> str:
+    parts = [base_name]
+    if variant:
+        parts.append(variant)
+    if dev_mode:
+        parts.append("[DEV]")
+    return " ".join(parts)
+
+
+def get_filename(base_name: str, variant: str = "") -> str:
+    name_parts = [base_name.lower()]
+    if variant:
+        name_parts.append(variant.lower())
+    return "-".join(name_parts) + ".yaml"
+
+
+def copy_to_final_destination(source_dir: Path, final_dir: Path) -> None:
+    """Copy generated themes to the final destination directory."""
+    try:
+        if final_dir.exists():
+            shutil.rmtree(final_dir)
+        shutil.copytree(source_dir, final_dir)
+        logging.info(f"Copied themes to final destination: {final_dir}")
+    except Exception as e:
+        logging.error(f"Error copying to final destination: {e}")
+        sys.exit(1)
 
 
 def main():
@@ -97,10 +126,26 @@ def main():
         default="themes",
         help="Output directory for assembled theme files.",
     )
+    parser.add_argument(
+        "--name",
+        default="Graphite",
+        help="Base name for the theme (default: Graphite)",
+    )
+    parser.add_argument(
+        "--dev",
+        action="store_true",
+        help="Enable dev mode (adds DEV suffix to theme names)",
+    )
+    parser.add_argument(
+        "--final-dir",
+        help="Final destination directory for the themes (e.g., ../../themes/graphite-dev)",
+    )
     args = parser.parse_args()
 
     src_dir = Path(args.src_dir)
     themes_dir = Path(args.themes_dir)
+    base_name = args.name
+    dev_mode = args.dev
 
     tokens_common_file = src_dir / "tokens_common.yaml"
     tokens_dark_file = src_dir / "tokens_dark.yaml"
@@ -114,20 +159,24 @@ def main():
     template_lines = read_file(template_file)
     about_lines = read_file(about_file)
 
+    # Ensure themes directory exists and is empty
+    if themes_dir.exists():
+        shutil.rmtree(themes_dir)
     themes_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    # Define theme variants
     themes = [
         {
-            "theme_name": "Graphite",
+            "theme_name": get_theme_name(base_name, dev_mode=dev_mode),
             "tokens_theme_lines": tokens_dark_lines,
-            "output_filename": "graphite.yaml",
+            "output_filename": get_filename(base_name),
         },
         {
-            "theme_name": "Graphite Light",
+            "theme_name": get_theme_name(base_name, "Light", dev_mode=dev_mode),
             "tokens_theme_lines": tokens_light_lines,
-            "output_filename": "graphite-light.yaml",
+            "output_filename": get_filename(base_name, "light"),
         },
     ]
 
@@ -145,18 +194,26 @@ def main():
         generate_theme_file(output_path=output_path, theme_data=theme_data)
 
     # Generate auto theme
-    light_theme_path = themes_dir / "graphite-light.yaml"
-    dark_theme_path = themes_dir / "graphite.yaml"
-    auto_theme_path = themes_dir / "graphite-auto.yaml"
+    light_theme_path = themes_dir / get_filename(base_name, "light")
+    dark_theme_path = themes_dir / get_filename(base_name)
+    auto_theme_path = themes_dir / get_filename(base_name, "auto")
+
+    auto_theme_name = get_theme_name(base_name, "Auto", dev_mode=dev_mode)
     generate_auto_theme(
         light_theme_path=light_theme_path,
         dark_theme_path=dark_theme_path,
         output_path=auto_theme_path,
+        theme_name=auto_theme_name,
         about_lines=about_lines,
         timestamp=timestamp,
     )
 
     logging.info(f"Theme files have been assembled in '{themes_dir}'.")
+
+    # Copy to final destination if specified
+    if args.final_dir:
+        final_dir = Path(args.final_dir)
+        copy_to_final_destination(themes_dir, final_dir)
 
 
 if __name__ == "__main__":
