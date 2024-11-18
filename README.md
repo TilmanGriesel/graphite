@@ -13,29 +13,14 @@
 
 ## Installation
 
+[![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
+
+Graphite is available in [HACS](https://hacs.xyz) (Home Assistant Community Store).
+
+_or_
+
 <details>
-<summary>Home Assistant Community Store Guide</summary>
-	
-### Installation
-The [Home Assistant Community Store](https://hacs.xyz), or HACS, is the most convenient and efficient way to install the Graphite theme. HACS acts as a one-stop shop for community-developed extensions for Home Assistant, similar to the Apple App Store or Google Play Store. With just a few clicks, you can easily find and install the Graphite theme within HACS.
-
-### Guideline
-
-1. Ensure you have [HACS installed](https://hacs.xyz/docs/setup/download).
-1. Open the Home Assistant Community Store (HACS) by clicking on the `HACS` tab in the side menu.
-1. In the HACS store, click on the `Frontend` tab.
-1. On the bottom right, click on `Explore & Download Repositories` and use the search bar to search for `Graphite`.
-1. Click on the `Graphite` theme in the search results to open the theme's page.
-1. On the theme's page, click on the `Download` button.
-1. Wait for the installation to complete. This may take a few seconds.
-1. Once the installation is complete, open your profile and select `Graphite` in your `Theme` dropdown menu.
-
-That's it! The Graphite theme has been successfully installed and applied to your Home Assistant instance. You will receive notifications in the Home Assistant Community Store (HACS) whenever an update is available for the theme, so you can keep it up to date with the latest improvements and tweaks.
-
-</details>
-	
-<details>
-<summary>Manual Guide</summary>
+<summary>Install Graphite Manually</summary>
 	
 ### Manual Guide
 	
