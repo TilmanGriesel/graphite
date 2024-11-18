@@ -42,7 +42,7 @@ If you're curious about the cards from my screenshot, you can [check out my exam
 
 ## Custom primary color
 
-Customize the Graphite theme's primary color without needing to fork the project by using the [Graphite Theme Patcher](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's README.
+Customize the Graphite theme's primary color without needing to fork the project by using the [Graphite Theme Patcher](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher/README.md). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's README.
 
 ## Modifying the theme
 
