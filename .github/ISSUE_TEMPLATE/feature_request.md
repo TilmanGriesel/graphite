@@ -1,4 +1,11 @@
 ---
+name: Feature request
+about: Suggest an idea for this project
+title: ''
+labels: ''
+assignees: ''
+
+---
 
 **Feature Request**  
 *Share your idea to make this theme better!*  
