@@ -226,7 +226,7 @@ class ThemePatcher:
 
             # Prepare update
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            new_value = f"{self.token}: {value}  # Modified via Graphite Theme patcher v{__version__} - {timestamp}"
+            new_value = f"{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
             pattern = f"{self.token}:.*(?:\r\n|\r|\n|$)"
             updated_content = re.sub(pattern, new_value + "\n", content)
 
