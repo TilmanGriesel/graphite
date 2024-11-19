@@ -91,11 +91,11 @@ sequence:
 
 ## **Expert usage**
 
-This is merely your launchpad, showing you the inner workings of the demo gif. Dive in, study the RGB and size tokens, and tweak them to your heart's content. From here on out, though, it's uncharted territory.
+You will probably be fine with the basic installation mentioned earlier and don't need to read any further. However, what follows is just a starting point for exploration, see it as your launchpad into the inner workings of the patcher and its possibilities. The documentation is not complete, but it gives you the tools to dive in, study the RGB and size tokens, and tweak them to your heart's content. From here on out, it's uncharted territory.
 
 <p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/graphite_theme_patcher_demo_advanced.gif"/></p>
 
-### **Expert 1: Add am custom advanced shell command**
+### **Expert 1: Add custom advanced shell command**
 
 1. Open your Home Assistant `configuration.yaml` file.
 1. Add the following `shell_command` entry:
