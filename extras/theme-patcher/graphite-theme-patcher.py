@@ -178,11 +178,15 @@ class ThemePatcher:
             raise ValidationError("Invalid size format. Must be a positive integer")
 
     def _validate_opacity_value(self, value: str) -> str:
-        """Validate opacity value format (0-1)."""
+        """Validate opacity value format (0-1 or percentage)."""
         try:
-            num_value = float(value)
+            if value.endswith("%"):
+                num_value = float(value.rstrip("%")) / 100
+            else:
+                num_value = float(value)
+
             if not 0 <= num_value <= 1:
-                raise ValidationError("Opacity must be between 0 and 1")
+                raise ValidationError("Opacity must be between 0 and 1 (or 0-100%)")
             return str(num_value)
         except ValueError as e:
             raise ValidationError(f"Invalid opacity format: {str(e)}")
@@ -215,14 +219,14 @@ class ThemePatcher:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            # Verify required token
+            # Verify required token exists
             if f"{self.token}:" not in content:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
             # Prepare update
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            new_value = f"{self.token}: {rgb_value}  # Modified via Graphite theme patcher - {timestamp}"
+            new_value = f"{self.token}: {value}  # Modified via Graphite Theme patcher v{__version__} - {timestamp}"
             pattern = f"{self.token}:.*(?:\r\n|\r|\n|$)"
             updated_content = re.sub(pattern, new_value + "\n", content)
 
