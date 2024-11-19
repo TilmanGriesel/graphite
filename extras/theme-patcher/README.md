@@ -1,39 +1,47 @@
-## Graphite Theme Patcher (GTP)
+## Graphite Theme Patcher
 
-This guide helps you easily customize the primary color in the Graphite theme using a simple patching script. The script modifies the `token-rgb-primary` value in YAML theme files based on your chosen RGB color.
-
-**Note:** This patch is for temporary customization. Any updates to the theme will overwrite your changes unless automated.
-
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/graphite_theme_patcher_demo.gif"/><br/></p>
+Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher/README.md). This tool is designed for advanced users with technical expertise and experience in script and config modification.
 
 ---
 
+This tool simplifies customizing the Graphite theme with a straightforward patch script. The basic version of the script adjusts the accent or primary color of Graphite to match your taste.
+
+You can customize further by replacing specific tokens to suit your preferences. While this approach isn’t recommended for beginners, tinkerers are very welcome to explore all the possibilities.
+
+**Important:** This patch provides temporary customization. Theme updates will overwrite your changes unless you implement automation.
+
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/graphite_theme_patcher_demo_accent.gif"/></p>
+
+## Installation
+
 ### **Step 1: Get the patcher**
 
-1. Save the script file `theme-primary-color-patcher.py` in your `/config/scripts` folder.
+Download the `graphite-theme-patcher.py` script to your `/config/scripts` folder.
 
-   - **No folder?** Create one manually first.
-   - Prefer another location? Don't forget to update references in the following steps.
+- **No folder?** Create one manually first.
+- Prefer another location? Don't forget to update references in the following steps.
 
-   **Quick Copy-Paste Command (Terminal):**
+**Quick Copy-Paste Command (Terminal):**
 
-   ```bash
-   wget -P /config/scripts https://raw.githubusercontent.com/TilmanGriesel/graphite/refs/heads/main/extras/theme-patcher/graphite-theme-patcher.py
-   ```
+```bash
+wget -P /config/scripts https://raw.githubusercontent.com/TilmanGriesel/graphite/refs/heads/main/extras/theme-patcher/graphite-theme-patcher.py
+```
 
 ---
 
 ### **Step 2: Add a custom shell command**
 
-**Important:** Only use this patcher if you understand the script's functionality. It includes safeguards to prevent unintended file changes, but reviewing open-source scripts is always wise.
-
 1. Open your Home Assistant `configuration.yaml` file.
 1. Add the following `shell_command` entry:
+
    ```yaml
    shell_command:
      patch_graphite_theme_primary_color: "python3 /config/scripts/graphite-theme-patcher.py {{ rgb_value }}"
    ```
-1. Save and restart Home Assistant.
+
+1. **Save and restart** Home Assistant.
+
+**Important:** Only use this patcher if you understand the script's functionality. It includes safeguards to prevent unintended file changes, but reviewing open-source scripts is always wise.
 
 Need help with shell commands? Check the [official docs](https://www.home-assistant.io/integrations/shell_command/).
 
@@ -70,9 +78,7 @@ sequence:
     data: {}
 ```
 
----
-
-### **How to use it**
+## **How to use it**
 
 1. Open the new script.
 1. Select your desired color using the color picker or input RGB values directly.
@@ -83,14 +89,90 @@ sequence:
 
 ---
 
-### **Advanced usage**
+## **Expert usage**
 
-For developers or advanced users:
+This is merely your launchpad, showing you the inner workings of the demo gif. Dive in, study the RGB and size tokens, and tweak them to your heart's content. From here on out, though, it's uncharted territory.
 
-**Command line execution:**
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/graphite_theme_patcher_demo_advanced.gif"/></p>
+
+### **Expert 1: Add am custom advanced shell command**
+
+1. Open your Home Assistant `configuration.yaml` file.
+1. Add the following `shell_command` entry:
+
+   ```yaml
+   shell_command:
+     patch_theme: "python3 /config/dev/graphite/extras/theme-patcher/graphite-theme-patcher.py --theme {{ theme }} --token {{ token }} --type {{ type }} {{ token_value }}"
+   ```
+
+1. **Save and restart** Home Assistant.
+
+### **Expert 2: Create a script**
+
+```yaml
+alias: Update & Patch Graphite Theme (Advanced)
+icon: mdi:dev-to
+description: Advanced Graphite theme customization. Read more: https://github.com/TilmanGriesel/graphite/tree/main/extras/theme-patcher
+fields:
+  user_primary_color:
+    selector:
+      color_rgb: {}
+    default:
+      - 229
+      - 145
+      - 9
+    name: Primary Color
+    required: true
+    description: Choose your custom primary color (RGB format).
+  user_radius_large:
+    selector:
+      number:
+        min: 0
+        max: 100
+        step: 4
+    name: "Large Radius "
+    description: Choose your custom large radius.
+    default: 18
+    required: true
+sequence:
+  - action: update.install
+    target:
+      device_id: 510699c015423c5fe6211eccfc3fe364
+    data: {}
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-primary
+      type: rgb
+      token_value: "{{ user_primary_color | join(',') }}"
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-size-radius-large
+      type: radius
+      token_value: "{{ user_radius_large }}"
+  - action: frontend.reload_themes
+    data: {}
+```
+
+### Command line execution
 
 ```bash
-python3 graphite-theme-patcher.py <RGB_VALUE> [--token TOKEN_NAME]
+usage: graphite-theme-patcher.py [-h] [--version] [--token TOKEN] [--type {rgb,size,opacity,radius,generic}] [--theme THEME]
+                                 [--path PATH]
+                                 [value]
+
+positional arguments:
+  value                 Value to set or 'None' to skip
+
+options:
+  -h, --help            show this help message and exit
+  --version             Show version information and exit
+  --token TOKEN         Token to update (default: token-rgb-primary)
+  --type {rgb,size,opacity,radius,generic}
+                        Type of token (default: rgb)
+  --theme THEME         Theme name (default: graphite)
+  --path PATH           Base path for themes directory (default: /config/themes)
 ```
 
 **Basic example:**
@@ -116,11 +198,6 @@ python3 graphite-theme-patcher.py "0,230,226"
 - Valid RGB values (three integers between 0–255)
 - Valid token names (letters, numbers, and hyphens only)
 
-**Arguments:**
-
-- `RGB_VALUE`: Required. Comma-separated RGB values or 'None' to skip modification
-- `--token`: Optional. Token name to update (default: "token-rgb-primary")
-
 **Results:** Your modified YAML might look like this:
 
 ```yaml
@@ -129,7 +206,7 @@ token-rgb-primary: 0,230,226 # Modified via Graphite theme patcher - 2024-11-17 
 
 **Error handling:**
 
-- Invalid RGB values will raise a validation error
+- Invalid values will raise a validation error
 - Invalid token names will raise a validation error
 - Missing tokens in YAML files will be logged as errors
 - Failed updates are logged to `logs/graphite_theme_patcher.log`
