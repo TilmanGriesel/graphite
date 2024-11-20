@@ -6,21 +6,18 @@
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/dark.png"/><br/></p>
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/light.png"/><br/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/dark.png"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/light.png"/></p>
 
 **Graphite** is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors.
 
 ## Installation
+Easily install Graphite via [HACS](https://hacs.xyz), the Home Assistant Community Store.
 
 [![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
-Graphite is available in [HACS](https://hacs.xyz) (Home Assistant Community Store).
-
-_or_
-
 <details>
-<summary>Install Graphite Manually</summary>
+<summary>Prefer manual installation? Read manual installation instructions</summary>
 	
 ### Manual Guide
 	
