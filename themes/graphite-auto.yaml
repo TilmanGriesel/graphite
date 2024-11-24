@@ -220,6 +220,7 @@ Graphite Auto:
       
         # Sections
         ha-view-sections-column-gap: var(--token-size-spacing-medium)
+        ha-view-sections-column-min-width: var(--token-size-section-min-width)
       
         # States
         state-icon-color: var(--token-color-icon-primary)
