@@ -22,6 +22,7 @@ token-size-font-title-card: var(--token-size-font-medium)
 
 ## Spacing
 token-size-spacing-medium: 16px
+token-size-section-min-width: 320px
 
 ################################################################################
 # Color tokens
