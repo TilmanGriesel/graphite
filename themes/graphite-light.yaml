@@ -6,7 +6,7 @@ Graphite Light:
   # throughout the entire Home Assistant interface, including the administration panel and code editors.
   # https://github.com/TilmanGriesel/graphite
 
-  # This file was generated at 2024-11-17 15:16:14
+  # This file was generated at 2024-11-28 07:12:30
 
   # Color tokens
   token-rgb-primary: 255, 158, 0
@@ -110,6 +110,7 @@ Graphite Light:
 
   ## Spacing
   token-size-spacing-medium: 16px
+  token-size-section-min-width: 320px
 
   ################################################################################
   # Color tokens
