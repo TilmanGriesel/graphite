@@ -1,4 +1,5 @@
 Graphite Light:
+
   # Graphite is a contemporary theme that offers both a calm dark color scheme and a
   # clean light theme, featuring native device fonts and a cohesive design
   # language. Carefully crafted to be visually appealing and easy on the eyes,
@@ -7,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2024-11-30 15:21:08
+  # This file was generated at 2024-11-30 15:40:06
   #------------------------------------------------------
 
   # Color tokens
@@ -77,6 +78,7 @@ Graphite Light:
   token-color-codemirror-keyword: rgb(70, 112, 216)
   token-color-codemirror-number: rgb(204, 85, 0)
   token-shadow-card-medium: 0 2px 4px 0px rgba(0, 0, 0, 0.06)
+
   ################################################################################
   # Size tokens
 
@@ -116,6 +118,7 @@ Graphite Light:
   token-weight-font-title-card: 600
   # Font family tokens
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+
   ##############################################################################
   # Definitions
 
