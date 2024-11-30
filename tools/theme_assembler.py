@@ -15,14 +15,12 @@ class ThemeData:
     def __init__(
         self,
         theme_name: str,
-        about_lines: List[str],
         tokens_common_lines: List[str],
         tokens_theme_lines: List[str],
         template_lines: List[str],
         timestamp: str,
     ):
         self.theme_name = theme_name
-        self.about_lines = about_lines
         self.tokens_common_lines = tokens_common_lines
         self.tokens_theme_lines = tokens_theme_lines
         self.template_lines = template_lines
@@ -49,9 +47,18 @@ def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     with output_path.open("w") as f:
         f.write(f"{theme_data.theme_name}:\n")
         f.write("\n")
-        f.writelines(indent_lines(theme_data.about_lines))
+        f.write(
+            "# Graphite is a contemporary theme that offers both a calm dark color scheme and a\n"
+            "# clean light theme, featuring native device fonts and a cohesive design\n"
+            "# language. Carefully crafted to be visually appealing and easy on the eyes,\n"
+            "# Graphite ensures a consistent user experience throughout the entire Home\n"
+            "# Assistant interface, including the administration panel and code editors.\n"
+            "# https://github.com/TilmanGriesel/graphite\n"
+        )
         f.write("\n")
-        f.write(f"  # This file was generated at {theme_data.timestamp}\n")
+        f.write(f"#------------------------------------------------------\n")
+        f.write(f"# This file was generated at {theme_data.timestamp}\n")
+        f.write(f"#------------------------------------------------------\n")
         f.write("\n")
         f.writelines(indent_lines(theme_data.tokens_theme_lines))
         f.write("\n")
@@ -66,7 +73,6 @@ def generate_auto_theme(
     dark_theme_path: Path,
     output_path: Path,
     theme_name: str,
-    about_lines: List[str],
     timestamp: str,
 ) -> None:
     def read_theme_content(theme_path: Path, indent_level: str) -> str:
@@ -151,13 +157,11 @@ def main():
     tokens_dark_file = src_dir / "tokens_dark.yaml"
     tokens_light_file = src_dir / "tokens_light.yaml"
     template_file = src_dir / "template.yaml"
-    about_file = src_dir / "about.yaml"
 
     tokens_common_lines = read_file(tokens_common_file)
     tokens_dark_lines = read_file(tokens_dark_file)
     tokens_light_lines = read_file(tokens_light_file)
     template_lines = read_file(template_file)
-    about_lines = read_file(about_file)
 
     # Ensure themes directory exists and is empty
     if themes_dir.exists():
@@ -184,7 +188,6 @@ def main():
     for theme in themes:
         theme_data = ThemeData(
             theme_name=theme["theme_name"],
-            about_lines=about_lines,
             tokens_common_lines=tokens_common_lines,
             tokens_theme_lines=theme["tokens_theme_lines"],
             template_lines=template_lines,
@@ -204,7 +207,6 @@ def main():
         dark_theme_path=dark_theme_path,
         output_path=auto_theme_path,
         theme_name=auto_theme_name,
-        about_lines=about_lines,
         timestamp=timestamp,
     )
 
