@@ -1,9 +1,9 @@
-# Pre-commit configuration for YAML linting and formatting
 repos:
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.35.1
     hooks:
       - id: yamllint
+        files: ^(src|.github)/.*\.ya?ml$
         args:
           - -d
           - relaxed
@@ -11,3 +11,4 @@ repos:
     rev: v0.14.0
     hooks:
       - id: yamlfmt
+        files: ^(src|.github)/.*\.ya?ml$

@@ -1,6 +1,6 @@
 .PHONY: all rebuild theme clean format
 
-all: theme
+all: format theme
 
 theme: clean
 	python3 tools/theme_assembler.py
