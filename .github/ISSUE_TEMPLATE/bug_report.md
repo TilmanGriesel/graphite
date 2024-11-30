@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: bug
 assignees: ''
 
 ---
@@ -15,7 +15,7 @@ assignees: ''
 ### **Quick Checklist**  
 - [ ] I am using the latest version of Home Assistant.  
 - [ ] I cleared my browser cache.  
-- [ ] I checked the [documentation](https://www.home-assistant.io/help/reporting_issues/) and existing issues.  
+- [ ] I checked the [documentation](https://www.home-assistant.io/integrations/frontend/) and existing issues.  
 
 ---
 
