@@ -7,7 +7,7 @@ Graphite Auto:
         # throughout the entire Home Assistant interface, including the administration panel and code editors.
         # https://github.com/TilmanGriesel/graphite
       
-        # This file was generated at 2024-11-28 07:12:30
+        # This file was generated at 2024-11-30 14:05:44
       
         # Color tokens
         token-rgb-primary: 255, 158, 0
@@ -191,7 +191,6 @@ Graphite Auto:
       
         # Background
         lovelace-background: var(--token-color-background-base)
-        background-color: var(--token-color-background-base)
         primary-background-color: var(--token-color-background-base)
         secondary-background-color: var(--token-color-background-secondary)
         clear-background-color: var(--token-color-background-input-base)
@@ -359,7 +358,7 @@ Graphite Auto:
         # throughout the entire Home Assistant interface, including the administration panel and code editors.
         # https://github.com/TilmanGriesel/graphite
       
-        # This file was generated at 2024-11-28 07:12:30
+        # This file was generated at 2024-11-30 14:05:44
       
         # Color tokens
         token-rgb-primary: 229, 145, 9
@@ -543,7 +542,6 @@ Graphite Auto:
       
         # Background
         lovelace-background: var(--token-color-background-base)
-        background-color: var(--token-color-background-base)
         primary-background-color: var(--token-color-background-base)
         secondary-background-color: var(--token-color-background-secondary)
         clear-background-color: var(--token-color-background-input-base)

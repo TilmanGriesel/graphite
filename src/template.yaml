@@ -54,7 +54,6 @@ error-color: var(--token-color-feedback-error)
 
 # Background
 lovelace-background: var(--token-color-background-base)
-background-color: var(--token-color-background-base)
 primary-background-color: var(--token-color-background-base)
 secondary-background-color: var(--token-color-background-secondary)
 clear-background-color: var(--token-color-background-input-base)
