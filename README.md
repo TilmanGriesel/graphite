@@ -12,13 +12,10 @@
 **Graphite** is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors.
 
 ## Installation
-Easily install Graphite via [HACS](https://hacs.xyz), the Home Assistant Community Store.
+Easily install Graphite via [HACS](https://hacs.xyz/docs/use/), the Home Assistant Community Store.
 
 [![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
-<details>
-<summary>Prefer manual installation? Read manual installation instructions</summary>
-	
 ### Manual Guide
 	
 1. Copy the `themes` folder into your home-assistant config folder
@@ -31,7 +28,6 @@ frontend:
 
 3. Restart Home Assistant
 4. Select the `Graphite` theme in your profile
-</details>
 
 ## Examples
 
