@@ -1,0 +1,56 @@
+name: Theme Verification
+on:
+  pull_request:
+  push:
+jobs:
+  verify-theme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyYAML
+      - name: Create temporary directory for generated theme
+        run: mkdir -p temp_themes
+      - name: Backup existing themes
+        run: |
+          if [ -d "themes" ]; then
+            cp -r themes themes_original
+          fi
+      - name: Clean and generate new themes
+        run: |
+          make clean
+          make theme
+      - name: Compare themes
+        run: |
+          if [ ! -d "themes_original" ]; then
+            echo "Error: No original themes directory found to compare against"
+            exit 1
+          fi
+
+          # Create temporary copies without generator timestamps
+          rm -rf temp_clean_original temp_clean_generated
+          mkdir -p temp_clean_original temp_clean_generated
+          cp -r themes_original/* temp_clean_original/
+          cp -r themes/* temp_clean_generated/
+
+          # Remove generator timestamps from all files
+          find temp_clean_original temp_clean_generated -type f -exec sed -i '/This file was generated at/d' {} +
+
+          # Using diff to compare directories
+          if diff -r temp_clean_original temp_clean_generated; then
+            echo "✅ Generated themes match the committed version (ignoring timestamps)"
+          else
+            echo "❌ Generated themes differ from the committed version"
+            echo "Please run 'make theme' locally and commit the changes"
+            exit 1
+          fi
+      - name: Cleanup temporary directories
+        if: always()
+        run: |-
+          rm -rf temp_clean_original temp_clean_generated temp_themes themes_original

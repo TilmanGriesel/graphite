@@ -1,6 +1,5 @@
 # Color tokens
 token-rgb-primary: 229, 145, 9
-
 token-rgb-black: 0, 0, 0
 token-rgb-white: 240, 243, 255
 token-rgb-purple: 189, 157, 255
@@ -24,22 +23,18 @@ token-rgb-grey: 158, 158, 158
 token-rgb-blue-grey: 96, 125, 139
 token-rgb-disabled: 61, 65, 85
 token-rgb-state-inactive: 123, 126, 139
-
 token-color-primary: rgb(var(--token-rgb-primary))
 token-color-primary-light: rgb(105 124 144)
 token-color-accent: var(--token-color-primary)
 token-color-disabled: rgba(255, 255, 255, 0.2)
-
 token-color-feedback-info: rgb(39, 209, 246)
 token-color-feedback-warning: rgb(255, 219, 117)
 token-color-feedback-error: rgb(234, 114, 135)
 token-color-feedback-success: rgb(118, 214, 152)
-
 token-color-icon-primary: rgba(228, 228, 231, 1)
 token-color-icon-secondary: rgb(138, 140, 153)
 token-color-icon-sidebar: rgba(147, 149, 159, 1)
 token-color-icon-sidebar-selected: rgba(174, 176, 183, 1)
-
 token-color-text-primary: rgba(228, 228, 231, 1)
 token-color-text-secondary: rgb(138, 140, 153)
 token-color-text-disabled: rgba(255, 255, 255, 0.5)
@@ -47,7 +42,6 @@ token-color-text-sidebar-selected: rgba(214, 215, 219, 1)
 token-color-text-sidebar: var(--token-color-text-secondary)
 token-color-text-label-badge: rgb(198, 203, 210)
 token-color-text-chip: var(--token-color-white)
-
 token-color-background-base: rgba(22, 24, 29, 1)
 token-color-background-secondary: rgba(28, 29, 33, 1)
 token-color-background-sidebar: var(--token-color-background-base)
@@ -64,14 +58,10 @@ token-color-background-label-badge-blue: var(--token-color-feedback-info)
 token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
 token-color-background-label-badge-grey: rgba(83, 90, 103, 1)
 token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
-
 token-color-border-card: rgba(0, 0, 0, 0)
-
 token-color-switch-button-unchecked: rgba(255, 255, 255, 0.7)
 token-color-switch-track-unchecked: rgba(125, 128, 132, 0.4)
-
 token-color-codemirror-string: rgb(119, 196, 229)
 token-color-codemirror-keyword: rgb(140, 169, 255)
 token-color-codemirror-number: rgb(255, 91, 29)
-
 token-shadow-card-medium: 0 3px 13px 0 rgba(0, 0, 0, 0.07)
