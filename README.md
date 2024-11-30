@@ -58,5 +58,10 @@ I hope this theme makes your Home Assistant experience even better! If you love 
 ---
 
 <p align="center">
+	<a href="https://github.com/TilmanGriesel/graphite/actions/workflows/theme-verification.yaml"><img src="https://img.shields.io/github/actions/workflow/status/tilmangriesel/graphite/theme-verification.yaml?style=for-the-badge&label=Verification"></a>
+	<a href="https://github.com/TilmanGriesel/graphite/actions/workflows/HACS_Action.yml"><img src="https://img.shields.io/github/actions/workflow/status/tilmangriesel/graphite/HACS_Action.yml?style=for-the-badge&label=HACS"></a>
+</p>
+
+<p align="center">
 Inspired by many of the awesome home assistant community themes and contributors.<br>Thank you for your creativity, dedication and inspiration!
 </p>
