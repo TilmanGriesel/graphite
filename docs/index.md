@@ -24,20 +24,17 @@ hero:
 
 features:
   - title: Simple Installation
-    icon: 🚀
     details: Get started effortlessly - no technical expertise needed! Perfect for users of all skill levels.
     link: /guides/getting-started
-    linkText: Learn more
+    linkText: Lets start
 
-  - title: Personalize Graphite
-    icon: 🎨
-    details: Adjust the primary color and other theme elements using the Graphite Theme Patcher - no forking required.
+  - title: Customizable
+    details: Easily tweak primary colors and other theme settings with the Graphite Theme Patcher - no need to fork!
     link: /features/graphite-theme-patcher
     linkText: Learn more
 
-  - title: Advanced Developer Tools
-    icon: 🛠️
-    details: Streamline theme creation with a powerful token abstraction and tools designed to keep variants consistent and updates simple.
+  - title: Development Kit 
+    details: Create and manage themes with token abstraction and tools for seamless updates and consistency.
     link: /features/graphite-theme-development-kit
     linkText: Learn more
 
