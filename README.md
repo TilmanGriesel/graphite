@@ -6,43 +6,65 @@
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/dark.png"/></p>
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/screenshots/light.png"/></p>
-
 **Graphite** is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors.
 
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/dark.png"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/light.png"/></p>
+
 ## Installation
-Easily install Graphite via [HACS](https://hacs.xyz/docs/use/), the Home Assistant Community Store.
+
+### Step 1: Install HACS
+If you haven't already, [install HACS](https://hacs.xyz/docs/use/) by following the official guide.
+
+### Step 2: Add the Graphite Theme Repository
 
 [![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
-### Manual Guide
-	
-1. Copy the `themes` folder into your home-assistant config folder
-1. Set the theme folder in you `configuration.yaml`
+#### Alternatively
+1. Open the HACS interface in Home Assistant.
+2. Search for **Graphite Theme** or use the direct link below:
+3. Click **Install** to add the theme to your setup.
+
+### Step 3: Configure your theme directory
+
+Ensure your `configuration.yaml` is set up to include custom themes:
 
 ```yaml
 frontend:
   themes: !include_dir_merge_named themes
 ```
 
-3. Restart Home Assistant
-4. Select the `Graphite` theme in your profile
+### Step 4: Restart Home Assistant
+Restart your Home Assistant instance to apply changes.
 
-## Examples
+### Step 5: Select the Graphite Theme
 
-If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
+1. Go to your **User Profile** in Home Assistant.
+2. Under **Themes**, select `Graphite` (Light or Dark) from the dropdown menu.
 
-## Custom primary color & more
 
+## Manual Installation
+For manual installation, you can follow these steps:
+
+1. Download and copy the `themes` folder into your Home Assistant configuration directory.
+2. Add the following to your `configuration.yaml`:
+   ```yaml
+   frontend:
+     themes: !include_dir_merge_named themes
+   ```
+3. Restart Home Assistant.
+4. Choose the `Graphite` theme from your profile.
+
+## Personalize Graphite
 Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher/README.md). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's README.
 
-## Modifying the theme
+## Theme Development Kit
+I've created token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://github.com/TilmanGriesel/graphite/blob/main/extras/theme-patcher/README.md)
 
-I've created a small token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. You'll find the source components in the src folder. After making any changes, use the theme_assembler Python 3 script in the tools directory to regenerate the theme files. Avoid directly modifying the files in the themes directory. This setup can also serve as a great starting point for building your own themes in no time.
+## Examples
+If you're curious about the cards from my screenshot, you can [check out my examples](https://github.com/TilmanGriesel/graphite/blob/main/examples/README.md).
 
 ## Personal note
-
 Hi there, I'm Tilman, nice to meet you! I'm a product designer and software engineer with a love for blending technology, art, design, and open-source projects. I live in a cozy 16th-century home that I'm gradually turning into a smarter, more connected space.
 
 I started designing this theme in 2022 to make our smart home more intuitive and visually harmonious for my partner Sophia and me. The goal was to create an experience that's both user-friendly and aesthetically pleasing, without needing extra complexity or plugins.
