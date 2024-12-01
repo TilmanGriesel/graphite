@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/logo.png" width="240" alt="Logo Graphite Theme"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/brand/logo.png" width="240" alt="Logo Graphite Theme"/></p>
 <h3 align="center">Graphite Theme for Home Assistant</h3>
 <p align="center">
 	<a href="https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme"><img src="https://img.shields.io/badge/hacs-default-blue?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
