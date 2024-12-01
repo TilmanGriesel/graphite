@@ -1,4 +1,4 @@
-# Graphite Theme Development Kit
+# Theme Development Kit
 
 This guide provides an overview of the tools and processes designed to help you create and maintain consistent theme variants with ease.
 
@@ -46,7 +46,7 @@ The included `Makefile` simplifies common tasks:
 | `theme`    | Run the theme assembler script.                   |
 | `clean`    | Remove all generated files in the `themes/` folder. |
 | `dev`      | Execute the `rebuild_dev.sh` script.              |
-| `docs-dev` | Launch a local Vitepress server.                  |
+| `docs-dev` | Launch a local VitePress server.                  |
 | `format`   | Format all YAML files in `src/` and `themes/`.    |
 | `help`     | Display available Makefile targets.               |
 

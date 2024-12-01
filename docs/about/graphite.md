@@ -28,7 +28,6 @@ Graphite was born out of a personal need to improve the way we interact with our
 
 If this theme improves your Home Assistant experience, [leaving a star](https://github.com/TilmanGriesel/graphite) on GitHub would mean a lot and help others discover it too!
 
-
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=TilmanGriesel/graphite&type=Date)](https://star-history.com/#TilmanGriesel/graphite&Date)
@@ -38,3 +37,14 @@ If this theme improves your Home Assistant experience, [leaving a star](https://
 If you appreciate my work on Graphite or other projects, consider supporting me! Your sponsorship helps keep these projects alive and growing.
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/griesel)
+
+---
+
+| Badge                              | Description                                    | Link                                                                                  |
+|------------------------------------|------------------------------------------------|---------------------------------------------------------------------------------------|
+| ![HACS Default](https://img.shields.io/badge/hacs-default-blue?colorA=1F2229&colorB=5c5e70&style=for-the-badge) | HACS Default Theme                            | [Visit Repository](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite&category=theme) |
+| ![GitHub Stars](https://img.shields.io/github/stars/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge) | GitHub Stars for the Project                  | [View Stars](https://github.com/tilmangriesel/graphite/stargazers)                    |
+| ![GitHub Issues](https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge) | Open Issues on GitHub                         | [View Issues](https://github.com/tilmangriesel/graphite/issues)                      |
+| ![Theme Verification](https://img.shields.io/github/actions/workflow/status/tilmangriesel/graphite/theme-verification.yaml?style=for-the-badge&label=Verification) | Theme Verification Status                     | [Verification Workflow](https://github.com/TilmanGriesel/graphite/actions/workflows/theme-verification.yaml) |
+| ![HACS Action](https://img.shields.io/github/actions/workflow/status/tilmangriesel/graphite/HACS_Action.yml?style=for-the-badge&label=HACS) | HACS Workflow Action Status                  | [HACS Workflow](https://github.com/TilmanGriesel/graphite/actions/workflows/HACS_Action.yml) |
+| ![Deploy docs site to Pages](https://img.shields.io/github/actions/workflow/status/tilmangriesel/graphite/docs-deploy.yml?style=for-the-badge&label=Docs) | Pages Deploy Workflow Action Status                  | [Docs Deploy Workflow](https://github.com/TilmanGriesel/graphite/actions/workflows/docs-deploy.yml) |

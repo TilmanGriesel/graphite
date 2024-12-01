@@ -31,6 +31,6 @@ help:
 	@echo "  theme    - Run the theme assembler"
 	@echo "  clean    - Remove generated files"
 	@echo "  dev      - Run rebuild dev script"
-	@echo "  docs-dev - Run local vitepress"
+	@echo "  docs-dev - Run local VitePress"
 	@echo "  format   - Format YAML files in src and theme directories"
 	@echo "  help     - Show this help message"

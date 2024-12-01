@@ -56,4 +56,4 @@ For manual installation, you can follow these steps:
 
 ---
 
-Enjoy the Graphite theme? 🌟 Consider [leaving a star](https://github.com/TilmanGriesel/graphite) on GitHub to support its development! 
+If this theme improves your Home Assistant experience, [leaving a star](https://github.com/TilmanGriesel/graphite) on GitHub would mean a lot and help others discover it too!
