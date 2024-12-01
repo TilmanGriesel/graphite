@@ -13,8 +13,4 @@ export default {
   enhanceApp({ app, router, siteData }) {
     // ...
   },
-  appearance: {
-    initialValue: 'auto'
-  },
-  aside: false,
 } satisfies Theme;

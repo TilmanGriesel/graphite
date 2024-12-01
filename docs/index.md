@@ -29,9 +29,9 @@ features:
     link: /guides/getting-started
     linkText: Learn more
 
-  - title: Customize Your Style
+  - title: Personalize Graphite
     icon: 🎨
-    details: Personalize Graphite. Adjust the primary color and other theme elements using the Graphite Theme Patcher - no forking required.
+    details: Adjust the primary color and other theme elements using the Graphite Theme Patcher - no forking required.
     link: /features/graphite-theme-patcher
     linkText: Learn more
 
