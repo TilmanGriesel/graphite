@@ -1,2 +1,12 @@
 .DS_Store
-/.vscode
+.vscode
+cache
+*.log
+*.tgz
+.DS_Store
+.idea
+.temp
+.vite_opt_cache
+.vscode
+node_modules
+TODOs.md

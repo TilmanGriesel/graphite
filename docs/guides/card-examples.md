@@ -1,9 +1,11 @@
-## Home Dashboard Card Examples
-I've been getting a lot of questions about my configurations and card style, so I thought I'd share them here. If you have any questions, don't hesitate to open an issue. Just a heads-up: you might need to tweak the configurations a bit to fit your setup.
+# Home Dashboard Card Examples
+I've been getting questions about my configurations and card style, so I thought I'd share them here. If you have any questions, don't hesitate to open an issue. Just a heads-up: you might need to tweak the configurations a bit to fit your setup.
 
----
+:::info
+This article is somewhat outdated, as it references an earlier version of Graphite and a previous set of dashboard cards.
+:::
 
-### Clock Card
+## Clock Card
 It’s a digital-clock and card-mod (you can get both in the HACS) with the following configuration.
 
 Custom Cards:
@@ -37,9 +39,7 @@ card_mod:
     }
 ```
 
----
-
-### Temperature Card
+## Temperature Card
 
 It’s a mini-graph-card and card-mod (you can get both in the HACS) with the following configuration. You also need a binary night sensor which is a time of day or TOD sensor.
 
@@ -87,9 +87,7 @@ card_mod:
     }
 ```
 
----
-
-### Pollenflug Germany (ePIN)
+## Pollenflug Germany (ePIN)
 This card utilizes data from the Elektronisches Polleninformationsnetzwerk (ePIN) REST API: https://epin.lgl.bayern.de/pollenflug-aktuell.
 
 To retrieve data from ePIN, you first need to set up a REST sensor in your `/homeassistant/configuration.yaml` file. Adjust the configuration as needed:
