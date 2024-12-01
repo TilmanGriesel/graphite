@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Graphite Theme",
+  title: "Graphite Home Assistant Theme",
   titleTemplate: ":title",
   description: "Calm and clean theme for Home Assistant.",
   head: [
