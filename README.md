@@ -13,12 +13,19 @@
 
 ## Installation
 
+Start quickly by following the quickstart guide at https://graphite.tilmangriesel.com
+
+[![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
+
+
+<details><summary>Or read the setup instructions here</summary>
+
 #### Step 1: Install HACS
 If you haven't already, [install HACS](https://hacs.xyz/docs/use/) by following the official guide.
 
 #### Step 2: Add the Graphite Theme Repository
 
-[![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
+[Open Graphite in your Home Assistant HACS instance](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
 ##### Alternatively
 1. Open the HACS interface in Home Assistant.
@@ -54,6 +61,8 @@ For manual installation, you can follow these steps:
    ```
 3. Restart Home Assistant.
 4. Choose the `Graphite` theme from your profile.
+
+</details>
 
 ---
 

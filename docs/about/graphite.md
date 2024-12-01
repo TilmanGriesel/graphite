@@ -26,5 +26,15 @@ Graphite isn't about flashy features or quantity; it's about quality. It's a the
 
 Graphite was born out of a personal need to improve the way we interact with our smart home. I wanted something intuitive, visually appealing, and built to last. It's been a labor of love, evolving through feedback and constant iteration.
 
-If this theme improves your Home Assistant experience, leaving a ⭐️ on GitHub would mean a lot and help others discover it too!
+If this theme improves your Home Assistant experience, [leaving a star](https://github.com/TilmanGriesel/graphite) on GitHub would mean a lot and help others discover it too!
 
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=TilmanGriesel/graphite&type=Date)](https://star-history.com/#TilmanGriesel/graphite&Date)
+
+---
+
+If you appreciate my work on Graphite or other projects, consider supporting me! Your sponsorship helps keep these projects alive and growing.
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/griesel)
