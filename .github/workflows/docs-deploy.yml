@@ -1,8 +1,7 @@
 name: Deploy docs site to Pages
 on:
+  pull_request:
   push:
-    branches: [main]
-  workflow_dispatch:
 permissions:
   contents: read
   pages: write
