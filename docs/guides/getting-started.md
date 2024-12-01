@@ -56,4 +56,4 @@ For manual installation, you can follow these steps:
 
 ---
 
-Enjoy the Graphite theme? 🌟 Consider [leaving a star](https://github.com/TilmanGriesel/graphite/stargazers) on GitHub to support its development! 
+Enjoy the Graphite theme? 🌟 Consider [leaving a star](https://github.com/TilmanGriesel/graphite) on GitHub to support its development! 
