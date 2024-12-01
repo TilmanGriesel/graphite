@@ -14,6 +14,7 @@ export default defineConfig({
     ['link', { rel: "icon", type: "image/png", sizes: "512x512", href: "/assets/favicons/favicon-512x512.png"}],
     ['link', { rel: "manifest", href: "/assets/favicons/site.webmanifest"}],
     ['meta', { name: "google-site-verification", content: "xGadaEB3oxAJxExOWGecimtRzY1i11cdAP4m8ulj-io"}],
+    ['meta', { property: "og:image", content: "/assets/brand/social.png"}],
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
