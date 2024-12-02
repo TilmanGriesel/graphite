@@ -88,6 +88,8 @@ sequence:
 
 The basic installation outlined earlier will likely meet your needs, so you can stop here if you're satisfied. However, if you're ready to explore the patcher's true potential, consider this your gateway to experimentation and powerful customization. The documentation isn't exhaustive, but it equips you with enough knowledge to dive deep, experimenting with RGB and size tokens to unleash their full power. From here on, you're stepping into experimental, uncharted territory.
 
+![graphite_theme_patcher_demo_advanced](/assets/gif/graphite_theme_patcher_demo_advanced.gif)
+
 ### Advanced Shell Command Example
 
 Add a new shell command to your `configuration.yaml`:
