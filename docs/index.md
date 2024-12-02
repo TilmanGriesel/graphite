@@ -26,7 +26,7 @@ features:
   - title: Simple Installation
     details: Get started effortlessly - no technical expertise needed! Perfect for users of all skill levels.
     link: /guides/getting-started
-    linkText: Lets start
+    linkText: Let's start
 
   - title: Customizable
     details: Easily tweak primary colors and other theme settings with the Graphite Theme Patcher - no need to fork!

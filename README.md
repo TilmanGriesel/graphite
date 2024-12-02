@@ -72,7 +72,7 @@ Customize the Graphite theme's primary color and more without needing to fork th
 ---
 
 ### Theme Development Kit
-I've created token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://graphite.tilmangriesel.com/features/graphite-theme-development-kit.html)
+I've created a token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://graphite.tilmangriesel.com/features/graphite-theme-development-kit.html)
 
 ---
 
