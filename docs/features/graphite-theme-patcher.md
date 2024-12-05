@@ -59,17 +59,23 @@ fields:
     selector:
       color_rgb: {}
     default:
-      - 229
-      - 145
-      - 9
+      - 250
+      - 154
+      - 0
     name: Primary Color
     required: true
+    description: Choose your custom primary color (RGB format).
 sequence:
+  - action: update.install
+    target:
+      device_id: 510699c015423c5fe6211eccfc3fe364
+    data: {}
   - action: shell_command.patch_graphite_theme_primary_color
     data:
       rgb_value: "{{ user_primary_color | join(',') }}"
   - action: frontend.reload_themes
     data: {}
+
 ```
 
 ## Usage
@@ -96,7 +102,8 @@ Add a new shell command to your `configuration.yaml`:
 
 ```yaml
 shell_command:
-  patch_theme: "python3 /config/scripts/graphite-theme-patcher.py --theme {{ theme }} --token {{ token }} --type {{ type }} {{ token_value }}"
+  patch_theme: "python3 /config/dev/graphite/extras/theme-patcher/graphite-theme-patcher.py --theme {{ theme }} --token {{ token }} --type {{ type }} {{ value }}"
+
 ```
 
 Save and restart Home Assistant.
@@ -107,35 +114,47 @@ Save and restart Home Assistant.
 
 ```yaml
 alias: Update & Patch Graphite Theme (Advanced)
+description: Advanced customization of the Graphite theme.
 icon: mdi:dev-to
-description: Advanced customization of Graphite theme tokens.
 fields:
   user_primary_color:
     selector:
       color_rgb: {}
+    default:
+      - 250
+      - 154
+      - 0
     name: Primary Color
     required: true
+    description: Choose your custom primary color (RGB format).
   user_radius_large:
     selector:
       number:
         min: 0
-        max: 99
-        step: 3
-    name: "Large Radius"
+        max: 100
+        step: 4
+    name: Large Radius
+    description: Choose your custom radius.
+    default: 18
     required: true
+
 sequence:
+  - action: update.install
+    target:
+      device_id: 510699c015423c5fe6211eccfc3fe364
+    data: {}
   - action: shell_command.patch_theme
     data:
       theme: graphite
       token: token-rgb-primary
       type: rgb
-      token_value: "{{ user_primary_color | join(',') }}"
+      value: "{{ user_primary_color | join(',') }}"
   - action: shell_command.patch_theme
     data:
       theme: graphite
       token: token-size-radius-large
       type: radius
-      token_value: "{{ user_radius_large }}"
+      value: "{{ user_radius_large }}"
   - action: frontend.reload_themes
     data: {}
 ```

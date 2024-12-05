@@ -55,7 +55,7 @@ The included `Makefile` simplifies common tasks:
 - **`src/`**: Source components for your themes.
 - **`tools/`**: Scripts, including `theme_assembler.py`, to automate tasks.
 - **`themes/`**: Generated theme files (do not edit directly).
-- **`docs/`**: Vitepress documentation and statics assets.
+- **`docs/`**: Vitepress documentation and static assets.
 - **`.github/`**: GitHub workflows and more.
 
 ## Getting Started
