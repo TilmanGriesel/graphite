@@ -9,7 +9,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2024-12-05 18:22:32
+        # This file was generated at 2024-12-05 18:26:37
         #------------------------------------------------------
       
         # Color tokens
@@ -321,11 +321,11 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2024-12-05 18:22:32
+        # This file was generated at 2024-12-05 18:26:37
         #------------------------------------------------------
       
         # Color tokens
-        token-rgb-primary: 255, 157, 0
+        token-rgb-primary: 250, 154, 0
         token-rgb-black: 0, 0, 0
         token-rgb-white: 240, 243, 255
         token-rgb-purple: 189, 157, 255
