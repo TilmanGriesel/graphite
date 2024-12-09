@@ -59,8 +59,8 @@ fields:
     selector:
       color_rgb: {}
     default:
-      - 250
-      - 154
+      - 224
+      - 138
       - 0
     name: Primary Color
     required: true
@@ -120,8 +120,8 @@ fields:
     selector:
       color_rgb: {}
     default:
-      - 250
-      - 154
+      - 224
+      - 138
       - 0
     name: Primary Color
     required: true
