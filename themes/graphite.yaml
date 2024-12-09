@@ -8,11 +8,11 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2024-12-05 18:26:37
+  # This file was generated at 2024-12-09 21:16:52
   #------------------------------------------------------
 
   # Color tokens
-  token-rgb-primary: 250, 154, 0
+  token-rgb-primary: 224, 138, 0
   token-rgb-black: 0, 0, 0
   token-rgb-white: 240, 243, 255
   token-rgb-purple: 189, 157, 255
