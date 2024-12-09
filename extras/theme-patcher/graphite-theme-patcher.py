@@ -6,21 +6,6 @@ Graphite Theme Patcher
 
 Updates token values in theme files. Created for the Home Assistant Graphite theme.
 
-Version: 1.1.0
-
-Usage:
-    python3 theme-patcher.py <VALUE> --token <TOKEN_NAME> [--type <TOKEN_TYPE>] [--theme <THEME_NAME>] [--path <BASE_PATH>] [--version]
-    
-Examples:
-    python3 theme-patcher.py "255, 158, 0" --token "token-rgb-primary" --theme "graphite"
-    python3 theme-patcher.py "18px" --token "token-size-radius-large" --type "size" --theme "my_custom_theme"
-    python3 theme-patcher.py "0.14" --token "token-opacity-ripple-hover" --type "opacity" --path "/custom/themes"
-    python3 theme-patcher.py --version
-    
-    Pass 'None' for VALUE to skip modification.
-    The --token argument is optional and defaults to "token-rgb-primary".
-    Default theme is "graphite".
-    Default path is "/config/themes".
 """
 
 import sys
@@ -36,9 +21,10 @@ import fcntl
 from typing import Optional, List, Union, Dict
 from enum import Enum, auto
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.2.0": "Added support for custom token creation",
     "1.1.0": "Added support for size, opacity, and radius token and multiple themes and configurable paths",
     "1.0.0": "Initial release with RGG token support",
 }
@@ -150,10 +136,6 @@ class ThemePatcher:
         """Validate token format."""
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
-        if not re.match(r"^[a-zA-Z0-9-]+$", self.token):
-            raise ValidationError(
-                "Token must contain only letters, numbers, and hyphens"
-            )
 
     def _validate_rgb_value(self, value: str) -> str:
         """Validate RGB color value format."""
@@ -210,7 +192,9 @@ class ThemePatcher:
         except ValidationError as e:
             raise ValidationError(f"Invalid value for {self.token_type.name}: {str(e)}")
 
-    def _process_yaml_file(self, file_path: Path, value: Optional[str]) -> bool:
+    def _process_yaml_file(
+        self, file_path: Path, value: Optional[str], create_token: bool = False
+    ) -> bool:
         """Process and update a YAML file."""
         if value is None:
             return True
@@ -219,16 +203,30 @@ class ThemePatcher:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            # Verify required token exists
-            if f"{self.token}:" not in content:
+            # Check if token exists
+            token_exists = f"{self.token}:" in content
+
+            if not token_exists and not create_token:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
-            # Prepare update
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             new_value = f"{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
-            pattern = f"{self.token}:.*(?:\r\n|\r|\n|$)"
-            updated_content = re.sub(pattern, new_value + "\n", content)
+
+            if token_exists:
+                # Update existing token
+                pattern = f"{self.token}:.*(?:\r\n|\r|\n|$)"
+                updated_content = re.sub(pattern, new_value + "\n", content)
+            else:
+                # Append new token at the end of the file
+                custom_token_comment = (
+                    "\n# Custom tokens added via Graphite Theme Patcher\n"
+                    if not content.find("# Custom tokens") >= 0
+                    else "\n"
+                )
+                updated_content = (
+                    content.rstrip() + custom_token_comment + new_value + "\n"
+                )
 
             # Atomic write
             with tempfile.NamedTemporaryFile(
@@ -239,7 +237,8 @@ class ThemePatcher:
                 os.fsync(tmp.fileno())
 
             os.replace(tmp.name, file_path)
-            logger.info(f"Updated {file_path}")
+            action = "Created" if not token_exists else "Updated"
+            logger.info(f"{action} token in {file_path}")
             return True
 
         except Exception as e:
@@ -251,7 +250,7 @@ class ThemePatcher:
                     pass
             return False
 
-    def set_token_value(self, value: Optional[str]) -> bool:
+    def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
         """Update token value across theme files."""
         if value is None:
             return True
@@ -277,7 +276,9 @@ class ThemePatcher:
             for yaml_file in yaml_files:
                 logger.info(f"Processing: {yaml_file}")
                 with file_lock(yaml_file):
-                    if not self._process_yaml_file(yaml_file, validated_value):
+                    if not self._process_yaml_file(
+                        yaml_file, validated_value, create_token
+                    ):
                         success = False
 
             return success
@@ -327,6 +328,11 @@ def main():
             default="/config/themes",
             help="Base path for themes directory (default: /config/themes)",
         )
+        parser.add_argument(
+            "--create",
+            action="store_true",
+            help="Create token if it doesn't exist",
+        )
 
         args = parser.parse_args()
 
@@ -342,8 +348,9 @@ def main():
         if value is None:
             sys.exit(0)
 
+        action = "Creating/Updating" if args.create else "Updating"
         logger.info(
-            f"Theme Patcher v{__version__} - Updating {args.token} ({args.type}) "
+            f"Theme Patcher v{__version__} - {action} {args.token} ({args.type}) "
             f"in theme '{args.theme}' to: {value}"
         )
 
@@ -353,7 +360,7 @@ def main():
             theme=args.theme,
             base_path=args.path,
         )
-        if not patcher.set_token_value(value):
+        if not patcher.set_token_value(value, args.create):
             logger.error("Update failed")
             sys.exit(1)
 

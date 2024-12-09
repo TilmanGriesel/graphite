@@ -26,7 +26,7 @@ Save the `graphite-theme-patcher.py` script to your `/config/scripts` directory.
 **Quick Command:**
 
 ```bash
-wget -O /config/scripts https://raw.githubusercontent.com/TilmanGriesel/graphite/refs/heads/main/extras/theme-patcher/graphite-theme-patcher.py
+wget -O /config/scripts/graphite-theme-patcher.py https://raw.githubusercontent.com/TilmanGriesel/graphite/refs/heads/main/extras/theme-patcher/graphite-theme-patcher.py
 ```
 
 ---
@@ -170,9 +170,9 @@ python3 graphite-theme-patcher.py "255,158,0"
 ### Options
 
 ```bash
-usage: graphite-theme-patcher.py [-h] [--version] [--token TOKEN] [--type {rgb,size,opacity,radius,generic}] [--theme THEME]
-                                 [--path PATH]
-                                 [value]
+usage: graphite-theme-patcher.py [-h] [--version] [--token TOKEN] [--type {rgb,size,opacity,radius,generic}] [--theme THEME] [--path PATH] [--create] [value]
+
+Update token values in theme files. (v1.2.0)
 
 positional arguments:
   value                 Value to set or 'None' to skip
@@ -185,6 +185,7 @@ options:
                         Type of token (default: rgb)
   --theme THEME         Theme name (default: graphite)
   --path PATH           Base path for themes directory (default: /config/themes)
+  --create              Create token if it doesn't exist
 ```
 
 ---
