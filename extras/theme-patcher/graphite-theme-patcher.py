@@ -211,22 +211,30 @@ class ThemePatcher:
                 return False
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            new_value = f"{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
+
+            # Determine the indentation level of the last non-empty line
+            lines = content.rstrip().split('\n')
+            last_non_empty_line = next((line for line in reversed(lines) if line.strip()), '')
+            base_indent = len(last_non_empty_line) - len(last_non_empty_line.lstrip())
+            token_indent = " " * base_indent
+
+            new_value = f"{token_indent}{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
 
             if token_exists:
                 # Update existing token
-                pattern = f"{self.token}:.*(?:\r\n|\r|\n|$)"
-                updated_content = re.sub(pattern, new_value + "\n", content)
+                pattern = f"^[ \t]*{self.token}:.*(?:\r\n|\r|\n|$)"
+                updated_content = re.sub(pattern, new_value + "\n", content, flags=re.MULTILINE)
             else:
-                # Append new token at the end of the file
-                custom_token_comment = (
-                    "\n# Custom tokens added via Graphite Theme Patcher\n"
-                    if not content.find("# Custom tokens") >= 0
-                    else "\n"
-                )
-                updated_content = (
-                    content.rstrip() + custom_token_comment + new_value + "\n"
-                )
+                # Append user defined entries at the end of the file
+                if "# User defined entries" not in content:
+                    custom_section = (
+                        f"\n{token_indent}##############################################################################\n"
+                        f"{token_indent}# User defined entries added via Graphite Theme Patcher\n"
+                    )
+                else:
+                    custom_section = "\n"
+                
+                updated_content = content.rstrip() + custom_section + new_value + "\n"
 
             # Atomic write
             with tempfile.NamedTemporaryFile(
