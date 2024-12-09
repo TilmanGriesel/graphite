@@ -102,8 +102,7 @@ Add a new shell command to your `configuration.yaml`:
 
 ```yaml
 shell_command:
-  patch_theme: "python3 /config/dev/graphite/extras/theme-patcher/graphite-theme-patcher.py --theme {{ theme }} --token {{ token }} --type {{ type }} {{ value }}"
-
+  patch_theme: "python3 /config/scripts/graphite-theme-patcher.py --theme {{ theme }} --token {{ token }} --type {{ type }} {{ value }}"
 ```
 
 Save and restart Home Assistant.
