@@ -8,10 +8,12 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2024-12-09 21:16:52
+  # This file was generated at 2024-12-11 12:16:53
   #------------------------------------------------------
 
-  # Color tokens
+  ##################################################
+  # Dark theme color tokens
+
   token-rgb-primary: 224, 138, 0
   token-rgb-black: 0, 0, 0
   token-rgb-white: 240, 243, 255
@@ -79,7 +81,7 @@ Graphite:
   token-color-codemirror-number: rgb(255, 91, 29)
   token-shadow-card-medium: 0 3px 13px 0 rgba(0, 0, 0, 0.07)
 
-  ################################################################################
+  ##################################################
   # Size tokens
 
   ## Radius
@@ -100,26 +102,22 @@ Graphite:
   ## Spacing
   token-size-spacing-medium: 16px
   token-size-section-min-width: 320px
-  ################################################################################
-  # Color tokens
-
+  ##################################################
   # Color tokens
   token-color-transparent: rgba(0, 0, 0, 0)
   token-color-black: rgb(0, 0, 0)
   token-color-white: rgb(255, 255, 255)
-  ################################################################################
+  ##################################################
   # Other tokens
 
-  # Opacity tokens
+  # Opacity
   token-opacity-ripple-hover: 0.14
-  # Weight tokens
-
   ## Font
   token-weight-font-title-card: 600
-  # Font family tokens
+  # Font family
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
 
-  ##############################################################################
+  ##################################################
   # Definitions
 
   # Shapes
@@ -278,7 +276,7 @@ Graphite:
   rgb-black-color: var(--token-rgb-black)
   rgb-disabled-color: var(--token-rgb-disabled)
   rgb-state-inactive-color: var(--token-rgb-state-inactive)
-  ##############################################################################
+  ##################################################
   # Extentions
 
   # HACS
