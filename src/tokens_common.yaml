@@ -1,4 +1,4 @@
-################################################################################
+##################################################
 # Size tokens
 
 ## Radius
@@ -19,21 +19,17 @@ token-size-font-title-card: var(--token-size-font-medium)
 ## Spacing
 token-size-spacing-medium: 16px
 token-size-section-min-width: 320px
-################################################################################
-# Color tokens
-
+##################################################
 # Color tokens
 token-color-transparent: rgba(0, 0, 0, 0)
 token-color-black: rgb(0, 0, 0)
 token-color-white: rgb(255, 255, 255)
-################################################################################
+##################################################
 # Other tokens
 
-# Opacity tokens
+# Opacity
 token-opacity-ripple-hover: 0.14
-# Weight tokens
-
 ## Font
 token-weight-font-title-card: 600
-# Font family tokens
+# Font family
 token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"

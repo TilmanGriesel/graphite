@@ -1,4 +1,4 @@
-##############################################################################
+##################################################
 # Definitions
 
 # Shapes
@@ -157,7 +157,7 @@ rgb-blue-grey-color: var(--token-rgb-blue-grey)
 rgb-black-color: var(--token-rgb-black)
 rgb-disabled-color: var(--token-rgb-disabled)
 rgb-state-inactive-color: var(--token-rgb-state-inactive)
-##############################################################################
+##################################################
 # Extentions
 
 # HACS
