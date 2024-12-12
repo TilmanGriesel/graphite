@@ -18,15 +18,16 @@ from datetime import datetime
 from pathlib import Path
 from contextlib import contextmanager
 import fcntl
-from typing import Optional, List, Union, Dict
+from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.3.0": "Enhanced color token handling: RGB tokens use comma format, other tokens use rgb()/rgba() format",
     "1.2.0": "Added support for custom token creation",
     "1.1.0": "Added support for size, opacity, and radius token and multiple themes and configurable paths",
-    "1.0.0": "Initial release with RGG token support",
+    "1.0.0": "Initial release with RGB token support",
 }
 
 script_dir = Path(__file__).parent
@@ -56,25 +57,6 @@ class VersionFilter(logging.Filter):
 logger.addFilter(VersionFilter())
 
 
-class TokenType(Enum):
-    RGB = auto()
-    SIZE = auto()
-    OPACITY = auto()
-    RADIUS = auto()
-    GENERIC = auto()
-
-    @classmethod
-    def from_string(cls, value: str) -> "TokenType":
-        mapping = {
-            "rgb": cls.RGB,
-            "size": cls.SIZE,
-            "opacity": cls.OPACITY,
-            "radius": cls.RADIUS,
-            "generic": cls.GENERIC,
-        }
-        return mapping.get(value.lower(), cls.GENERIC)
-
-
 class ValidationError(Exception):
     """Raised for input validation failures."""
 
@@ -96,6 +78,25 @@ def file_lock(lock_file: Path):
             lock_path.unlink()
         except OSError:
             pass
+
+
+class TokenType(Enum):
+    RGB = auto()
+    SIZE = auto()
+    OPACITY = auto()
+    RADIUS = auto()
+    GENERIC = auto()
+
+    @classmethod
+    def from_string(cls, value: str) -> "TokenType":
+        mapping = {
+            "rgb": cls.RGB,
+            "size": cls.SIZE,
+            "opacity": cls.OPACITY,
+            "radius": cls.RADIUS,
+            "generic": cls.GENERIC,
+        }
+        return mapping.get(value.lower(), cls.GENERIC)
 
 
 class ThemePatcher:
@@ -137,60 +138,72 @@ class ThemePatcher:
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
 
-    def _validate_rgb_value(self, value: str) -> str:
-        """Validate RGB color value format."""
+    def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
+        """Parse comma-separated color components."""
         try:
-            values = [int(x.strip()) for x in value.split(",")]
-            if len(values) != 3:
-                raise ValidationError("RGB must have 3 components")
-            if not all(0 <= val <= 255 for val in values):
-                raise ValidationError("RGB values must be 0-255")
-            return ", ".join(str(v) for v in values)
-        except (ValueError, AttributeError) as e:
-            raise ValidationError(f"Invalid RGB format: {str(e)}")
+            components = [x.strip() for x in value.split(",")]
 
-    def _validate_size_value(self, value: str) -> str:
-        """Validate size value format (must be a positive integer)."""
-        try:
-            num_value = int(value)
-            if num_value < 0:
-                raise ValidationError("Size must be a positive integer")
-            return f"{num_value}px"  # Graphite uses the 'px' unit
-        except ValueError as e:
-            raise ValidationError("Invalid size format. Must be a positive integer")
+            if len(components) not in (3, 4):
+                raise ValidationError("Color must have 3 or 4 components (RGB or RGBA)")
 
-    def _validate_opacity_value(self, value: str) -> str:
-        """Validate opacity value format (0-1 or percentage)."""
-        try:
-            if value.endswith("%"):
-                num_value = float(value.rstrip("%")) / 100
-            else:
-                num_value = float(value)
+            rgb = [int(x) for x in components[:3]]
+            alpha = float(components[3]) if len(components) == 4 else None
 
-            if not 0 <= num_value <= 1:
-                raise ValidationError("Opacity must be between 0 and 1 (or 0-100%)")
-            return str(num_value)
-        except ValueError as e:
-            raise ValidationError(f"Invalid opacity format: {str(e)}")
+            if not all(0 <= x <= 255 for x in rgb):
+                raise ValidationError("RGB values must be between 0 and 255")
+            if alpha is not None and not 0 <= alpha <= 1:
+                raise ValidationError("Alpha value must be between 0 and 1")
+
+            return rgb, alpha
+        except ValueError:
+            raise ValidationError("Invalid color component values")
 
     def _validate_value(self, value: Optional[str]) -> Optional[str]:
-        """Validate value based on token type."""
+        """Validate and format value based on token name and type."""
         if value is None:
             return None
 
         value = value.strip().strip("\"'")
 
         try:
-            if self.token_type == TokenType.RGB:
-                return self._validate_rgb_value(value)
-            elif self.token_type in (TokenType.SIZE, TokenType.RADIUS):
-                return self._validate_size_value(value)
+            if self.token_type == TokenType.SIZE:
+                num_value = int(value)
+                if num_value < 0:
+                    raise ValidationError("Size must be a positive integer")
+                return f"{num_value}px"
+
             elif self.token_type == TokenType.OPACITY:
-                return self._validate_opacity_value(value)
+                if value.endswith("%"):
+                    num_value = float(value.rstrip("%")) / 100
+                else:
+                    num_value = float(value)
+                if not 0 <= num_value <= 1:
+                    raise ValidationError("Opacity must be between 0 and 1")
+                return str(num_value)
+
+            elif self.token_type == TokenType.RADIUS:
+                num_value = int(value)
+                if num_value < 0:
+                    raise ValidationError("Radius must be a positive integer")
+                return f"{num_value}px"
+            elif self.token_type == TokenType.RGB:
+                rgb, alpha = self._parse_color_value(value)
+
+                # Use comma format for tokens containing 'rgb'
+                if "rgb" in self.token.lower():
+                    if alpha is not None:
+                        raise ValidationError("RGB tokens cannot include alpha channel")
+                    return f"{rgb[0]}, {rgb[1]}, {rgb[2]}"
+
+                # Use rgb()/rgba() format for other tokens
+                if alpha is not None:
+                    return f"rgba({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
+                return f"rgb({rgb[0]}, {rgb[1]}, {rgb[2]})"
             else:
                 return value  # For generic tokens, accept any non-empty value
+
         except ValidationError as e:
-            raise ValidationError(f"Invalid value for {self.token_type.name}: {str(e)}")
+            raise ValidationError(f"Invalid value for token: {str(e)}")
 
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
@@ -213,8 +226,10 @@ class ThemePatcher:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # Determine the indentation level of the last non-empty line
-            lines = content.rstrip().split('\n')
-            last_non_empty_line = next((line for line in reversed(lines) if line.strip()), '')
+            lines = content.rstrip().split("\n")
+            last_non_empty_line = next(
+                (line for line in reversed(lines) if line.strip()), ""
+            )
             base_indent = len(last_non_empty_line) - len(last_non_empty_line.lstrip())
             token_indent = " " * base_indent
 
@@ -223,7 +238,9 @@ class ThemePatcher:
             if token_exists:
                 # Update existing token
                 pattern = f"^[ \t]*{self.token}:.*(?:\r\n|\r|\n|$)"
-                updated_content = re.sub(pattern, new_value + "\n", content, flags=re.MULTILINE)
+                updated_content = re.sub(
+                    pattern, new_value + "\n", content, flags=re.MULTILINE
+                )
             else:
                 # Append user defined entries at the end of the file
                 if "# User defined entries" not in content:
@@ -233,7 +250,7 @@ class ThemePatcher:
                     )
                 else:
                     custom_section = "\n"
-                
+
                 updated_content = content.rstrip() + custom_section + new_value + "\n"
 
             # Atomic write
@@ -266,9 +283,7 @@ class ThemePatcher:
         try:
             validated_value = self._validate_value(value)
             if validated_value is None:
-                raise ValidationError(
-                    f"Invalid value for {self.token_type.name}: {value}"
-                )
+                raise ValidationError(f"Invalid value: {value}")
 
             yaml_files = [
                 path
@@ -278,7 +293,7 @@ class ThemePatcher:
             ]
 
             if not yaml_files:
-                raise ValidationError(f"No YAML files found in {self.base_path}")
+                raise ValidationError(f"No YAML files found in {self.theme_path}")
 
             success = True
             for yaml_file in yaml_files:
@@ -307,16 +322,83 @@ def print_version():
     print()
 
 
+def validate_args(args: argparse.Namespace) -> bool:
+    """Validate command line arguments and log any errors."""
+    if not hasattr(args, "value") or not hasattr(args, "token"):
+        error_msg = "Missing required arguments: value and token"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    if args.value is None or args.token is None:
+        error_msg = "The following arguments are required: value, --token"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    # Validate token
+    if not isinstance(args.token, str) or not args.token.strip():
+        error_msg = "Token must be a non-empty string"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    # Validate token type
+    valid_types = ["rgb", "size", "opacity", "radius", "generic"]
+    if not hasattr(args, "type") or args.type not in valid_types:
+        error_msg = f"Invalid token type. Must be one of: {', '.join(valid_types)}"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    # Validate theme
+    if (
+        not hasattr(args, "theme")
+        or not isinstance(args.theme, str)
+        or not args.theme.strip()
+    ):
+        error_msg = "Theme must be a non-empty string"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    # Validate path
+    if (
+        not hasattr(args, "path")
+        or not isinstance(args.path, str)
+        or not args.path.strip()
+    ):
+        error_msg = "Path must be a non-empty string"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    # Check if path exists
+    theme_path = Path(args.path)
+    if not theme_path.exists():
+        error_msg = f"Theme path does not exist: {args.path}"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    if not theme_path.is_dir():
+        error_msg = f"Theme path is not a directory: {args.path}"
+        logger.error(f"Argument Error: {error_msg}")
+        return False
+
+    return True
+
+
 def main():
     """Main execution."""
     try:
-        parser = argparse.ArgumentParser(
+
+        class ArgumentParserWithLogging(argparse.ArgumentParser):
+            def error(self, message):
+                """Override error method to log before exiting."""
+                logger.error(f"Argument Error: {message}")
+                super().error(message)
+
+        parser = ArgumentParserWithLogging(
             description=f"Update token values in theme files. (v{__version__})"
         )
         parser.add_argument(
             "--version", action="store_true", help="Show version information and exit"
         )
-        parser.add_argument("value", nargs="?", help="Value to set or 'None' to skip")
+        parser.add_argument("value", nargs="?", help="Token value to set")
         parser.add_argument(
             "--token",
             default="token-rgb-primary",
@@ -348,18 +430,19 @@ def main():
             print_version()
             sys.exit(0)
 
-        if args.value is None or args.token is None:
-            parser.error("the following arguments are required: value, --token")
+        # Validate arguments and log any errors
+        if not validate_args(args):
+            sys.exit(1)
 
         value = None if args.value.lower() == "none" else args.value
 
         if value is None:
+            logger.info("No value provided (None specified). Exiting.")
             sys.exit(0)
 
-        action = "Creating/Updating" if args.create else "Updating"
         logger.info(
-            f"Theme Patcher v{__version__} - {action} {args.token} ({args.type}) "
-            f"in theme '{args.theme}' to: {value}"
+            f"Theme Patcher v{__version__} - Updating {args.token} "
+            f"(type: {args.type}) in theme '{args.theme}' to: {value}"
         )
 
         patcher = ThemePatcher(
