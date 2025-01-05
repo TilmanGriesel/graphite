@@ -13,8 +13,6 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 
 class YAMLValidationError(Exception):
-    """Custom exception for YAML validation errors."""
-
     pass
 
 
@@ -32,19 +30,21 @@ class ThemeData:
         self.tokens_theme_lines = tokens_theme_lines
         self.template_lines = template_lines
         self.timestamp = timestamp
+        self.card_mod_theme = self._get_card_mod_theme_name(theme_name)
 
     @staticmethod
     def _sanitize_theme_name(name: str) -> str:
-        """Sanitize theme name to ensure it's YAML-safe."""
-        # If name contains special characters, wrap it in quotes
         special_chars = ":,[]{}#&*!|>'\"%@`"
         if any(c in name for c in special_chars):
             return f'"{name}"'
         return name
 
+    @staticmethod
+    def _get_card_mod_theme_name(name: str) -> str:
+        return name.strip()
+
 
 def validate_yaml_content(content: str, filepath: Path) -> None:
-    """Validate that content is proper YAML."""
     try:
         yaml.safe_load(content)
     except yaml.YAMLError as e:
@@ -52,7 +52,6 @@ def validate_yaml_content(content: str, filepath: Path) -> None:
 
 
 def read_file(filepath: Path, validate: bool = True) -> List[str]:
-    """Read file contents and optionally validate as YAML."""
     try:
         with filepath.open("r") as f:
             lines = f.readlines()
@@ -71,16 +70,13 @@ def read_file(filepath: Path, validate: bool = True) -> List[str]:
 
 
 def indent_lines(lines: List[str], indent: str = "  ") -> Generator[str, None, None]:
-    """Indent lines while preserving empty lines and existing indentation."""
     return (indent + line if line.strip() else line for line in lines)
 
 
 def validate_final_yaml(content: str, filepath: Path) -> None:
-    """Validate the final generated YAML content."""
     try:
         validate_yaml_content(content, filepath)
     except YAMLValidationError as e:
-        # If validation fails, save the problematic content for debugging
         debug_path = filepath.with_suffix(".debug.yaml")
         with debug_path.open("w") as f:
             f.write(content)
@@ -89,7 +85,6 @@ def validate_final_yaml(content: str, filepath: Path) -> None:
 
 
 def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
-    """Generate a theme file with YAML validation."""
     content = []
     content.append(f"{theme_data.theme_name}:\n")
     content.append("\n")
@@ -120,8 +115,9 @@ def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     content.extend(indent_lines(theme_data.tokens_common_lines))
     content.append("\n")
     content.extend(indent_lines(theme_data.template_lines))
+    content.append("\n")
+    content.append(f"  card-mod-theme: {theme_data.card_mod_theme}\n")
 
-    # Join all content and validate
     final_content = "".join(content)
     validate_final_yaml(final_content, output_path)
 
@@ -138,33 +134,38 @@ def generate_auto_theme(
     theme_name: str,
     timestamp: str,
 ) -> None:
-    """Generate auto theme with YAML validation."""
-
     def read_theme_content(theme_path: Path, indent_level: str) -> str:
         with theme_path.open("r") as f:
-            lines = f.readlines()[1:]  # Skip the first line (theme name)
-            return "".join(f"{indent_level}{line}" for line in lines)
+            lines = f.readlines()[1:]  # Skip the theme name line
+            content = []
+            for line in lines:
+                # Skip the card-mod-theme line if it exists
+                if not line.strip().startswith('card-mod-theme:'):
+                    content.append(f"{indent_level}{line}")
+            return "".join(content)
 
     content = []
-    content.append(f"{ThemeData._sanitize_theme_name(theme_name)}:\n")
+    sanitized_name = ThemeData._sanitize_theme_name(theme_name)
+    card_mod_theme = ThemeData._get_card_mod_theme_name(theme_name)
+    
+    content.append(f"{sanitized_name}:\n")
     content.append("  modes:\n")
     content.append("    light:")
     content.append(read_theme_content(light_theme_path, "      "))
     content.append("    dark:")
     content.append(read_theme_content(dark_theme_path, "      "))
+    content.append("\n")
+    content.append(f"  card-mod-theme: {card_mod_theme}\n")
 
-    # Join all content and validate
     final_content = "".join(content)
     validate_final_yaml(final_content, output_path)
 
-    # Write to file
     with output_path.open("w") as f:
         f.write(final_content)
     logging.info(f"Generated auto theme file: {output_path}")
 
 
 def get_theme_name(base_name: str, variant: str = "", dev_mode: bool = False) -> str:
-    """Generate theme name with proper YAML escaping."""
     parts = [base_name]
     if variant:
         parts.append(variant)
@@ -174,7 +175,6 @@ def get_theme_name(base_name: str, variant: str = "", dev_mode: bool = False) ->
 
 
 def get_filename(base_name: str, variant: str = "") -> str:
-    """Generate safe filename for theme."""
     name_parts = [base_name.lower()]
     if variant:
         name_parts.append(variant.lower())
@@ -182,7 +182,6 @@ def get_filename(base_name: str, variant: str = "") -> str:
 
 
 def copy_to_final_destination(source_dir: Path, final_dir: Path) -> None:
-    """Copy generated themes to the final destination directory."""
     try:
         if final_dir.exists():
             shutil.rmtree(final_dir)
@@ -232,20 +231,17 @@ def main():
         tokens_light_file = src_dir / "tokens_light.yaml"
         template_file = src_dir / "template.yaml"
 
-        # Read and validate all input files
         tokens_common_lines = read_file(tokens_common_file)
         tokens_dark_lines = read_file(tokens_dark_file)
         tokens_light_lines = read_file(tokens_light_file)
         template_lines = read_file(template_file)
 
-        # Ensure themes directory exists and is empty
         if themes_dir.exists():
             shutil.rmtree(themes_dir)
         themes_dir.mkdir(parents=True, exist_ok=True)
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Define theme variants
         themes = [
             {
                 "theme_name": get_theme_name(base_name, dev_mode=dev_mode),
@@ -259,7 +255,6 @@ def main():
             },
         ]
 
-        # Generate individual themes
         for theme in themes:
             theme_data = ThemeData(
                 theme_name=theme["theme_name"],
@@ -271,7 +266,6 @@ def main():
             output_path = themes_dir / theme["output_filename"]
             generate_theme_file(output_path=output_path, theme_data=theme_data)
 
-        # Generate auto theme
         light_theme_path = themes_dir / get_filename(base_name, "light")
         dark_theme_path = themes_dir / get_filename(base_name)
         auto_theme_path = themes_dir / get_filename(base_name, "auto")
@@ -287,7 +281,6 @@ def main():
 
         logging.info(f"Theme files have been assembled in '{themes_dir}'.")
 
-        # Copy to final destination if specified
         if args.final_dir:
             final_dir = Path(args.final_dir)
             copy_to_final_destination(themes_dir, final_dir)
