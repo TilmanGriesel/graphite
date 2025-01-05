@@ -1,6 +1,5 @@
 ##################################################
 # Light theme color tokens
-
 token-rgb-primary: 255, 158, 0
 token-rgb-black: 0, 0, 0
 token-rgb-white: 240, 243, 255
@@ -18,7 +17,7 @@ token-rgb-light-green: 139, 195, 74
 token-rgb-lime: 205, 220, 57
 token-rgb-yellow: 255, 235, 59
 token-rgb-amber: 255, 193, 7
-token-rgb-orange: var(--token-rgb-primary)
+token-rgb-orange: 255, 158, 0
 token-rgb-deep-orange: 255, 87, 34
 token-rgb-brown: 121, 85, 72
 token-rgb-grey: 158, 158, 158
