@@ -21,9 +21,10 @@ import fcntl
 from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.4.0": "Added support for card-mod tokens",
     "1.3.0": "Enhanced color token handling: RGB tokens use comma format, other tokens use rgb()/rgba() format",
     "1.2.0": "Added support for custom token creation",
     "1.1.0": "Added support for size, opacity, and radius token and multiple themes and configurable paths",
@@ -86,6 +87,7 @@ class TokenType(Enum):
     OPACITY = auto()
     RADIUS = auto()
     GENERIC = auto()
+    CARD_MOD = auto()
 
     @classmethod
     def from_string(cls, value: str) -> "TokenType":
@@ -95,6 +97,7 @@ class TokenType(Enum):
             "opacity": cls.OPACITY,
             "radius": cls.RADIUS,
             "generic": cls.GENERIC,
+            "card-mod": cls.CARD_MOD,
         }
         return mapping.get(value.lower(), cls.GENERIC)
 
@@ -166,7 +169,13 @@ class ThemePatcher:
         value = value.strip().strip("\"'")
 
         try:
-            if self.token_type == TokenType.SIZE:
+            if self.token_type == TokenType.CARD_MOD:
+                if not isinstance(value, str):
+                    raise ValidationError("Card-mod value must be a string")
+                # Always double quote the user-supplied value
+                return f'"{value}"'
+
+            elif self.token_type == TokenType.SIZE:
                 num_value = int(value)
                 if num_value < 0:
                     raise ValidationError("Size must be a positive integer")
@@ -186,6 +195,7 @@ class ThemePatcher:
                 if num_value < 0:
                     raise ValidationError("Radius must be a positive integer")
                 return f"{num_value}px"
+
             elif self.token_type == TokenType.RGB:
                 rgb, alpha = self._parse_color_value(value)
 
@@ -199,6 +209,7 @@ class ThemePatcher:
                 if alpha is not None:
                     return f"rgba({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
                 return f"rgb({rgb[0]}, {rgb[1]}, {rgb[2]})"
+
             else:
                 return value  # For generic tokens, accept any non-empty value
 
@@ -225,13 +236,38 @@ class ThemePatcher:
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # Determine the indentation level of the last non-empty line
-            lines = content.rstrip().split("\n")
-            last_non_empty_line = next(
-                (line for line in reversed(lines) if line.strip()), ""
-            )
-            base_indent = len(last_non_empty_line) - len(last_non_empty_line.lstrip())
-            token_indent = " " * base_indent
+            # For card-mod tokens, ensure they are placed after card-mod-theme
+            if self.token_type == TokenType.CARD_MOD:
+                if "card-mod-theme:" not in content:
+                    logger.error("card-mod-theme key not found in file")
+                    return False
+
+                # Find the card-mod-theme section
+                lines = content.split("\n")
+                card_mod_theme_index = next(
+                    (i for i, line in enumerate(lines) if "card-mod-theme:" in line), -1
+                )
+
+                if card_mod_theme_index == -1:
+                    logger.error("Could not locate card-mod-theme section")
+                    return False
+
+                # Determine indentation level (same as card-mod-theme line)
+                theme_line = lines[card_mod_theme_index]
+                base_indent = len(theme_line) - len(theme_line.lstrip())
+                # Match exactly the indentation of the `card-mod-theme:` key
+                token_indent = " " * base_indent
+
+            else:
+                # Determine the indentation level of the last non-empty line
+                lines = content.rstrip().split("\n")
+                last_non_empty_line = next(
+                    (line for line in reversed(lines) if line.strip()), ""
+                )
+                base_indent = len(last_non_empty_line) - len(
+                    last_non_empty_line.lstrip()
+                )
+                token_indent = " " * base_indent
 
             new_value = f"{token_indent}{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
 
@@ -242,16 +278,24 @@ class ThemePatcher:
                     pattern, new_value + "\n", content, flags=re.MULTILINE
                 )
             else:
-                # Append user defined entries at the end of the file
-                if "# User defined entries" not in content:
-                    custom_section = (
-                        f"\n{token_indent}##############################################################################\n"
-                        f"{token_indent}# User defined entries added via Graphite Theme Patcher\n"
-                    )
+                if self.token_type == TokenType.CARD_MOD:
+                    # Insert after card-mod-theme section
+                    lines = content.split("\n")
+                    lines.insert(card_mod_theme_index + 1, new_value)
+                    updated_content = "\n".join(lines)
                 else:
-                    custom_section = "\n"
+                    # Append user-defined entries at the end of the file
+                    if "# User defined entries" not in content:
+                        custom_section = (
+                            f"\n{token_indent}##############################################################################\n"
+                            f"{token_indent}# User defined entries added via Graphite Theme Patcher\n"
+                        )
+                    else:
+                        custom_section = "\n"
 
-                updated_content = content.rstrip() + custom_section + new_value + "\n"
+                    updated_content = (
+                        content.rstrip() + custom_section + new_value + "\n"
+                    )
 
             # Atomic write
             with tempfile.NamedTemporaryFile(
@@ -324,15 +368,24 @@ def print_version():
 
 def validate_args(args: argparse.Namespace) -> bool:
     """Validate command line arguments and log any errors."""
-    if not hasattr(args, "value") or not hasattr(args, "token"):
-        error_msg = "Missing required arguments: value and token"
+    # Determine final "value" from either positional or named argument
+    final_value = None
+    if args.named_value:
+        final_value = args.named_value
+    elif args.positional_value:
+        final_value = args.positional_value
+
+    # If user provided neither, log an error
+    if final_value is None:
+        error_msg = "Missing token value. Provide as positional argument or via --value"
         logger.error(f"Argument Error: {error_msg}")
         return False
 
-    if args.value is None or args.token is None:
-        error_msg = "The following arguments are required: value, --token"
-        logger.error(f"Argument Error: {error_msg}")
-        return False
+    # Convert 'none' string to None
+    if final_value.lower() == "none":
+        args.value = None
+    else:
+        args.value = final_value
 
     # Validate token
     if not isinstance(args.token, str) or not args.token.strip():
@@ -341,7 +394,7 @@ def validate_args(args: argparse.Namespace) -> bool:
         return False
 
     # Validate token type
-    valid_types = ["rgb", "size", "opacity", "radius", "generic"]
+    valid_types = ["rgb", "size", "opacity", "radius", "generic", "card-mod"]
     if not hasattr(args, "type") or args.type not in valid_types:
         error_msg = f"Invalid token type. Must be one of: {', '.join(valid_types)}"
         logger.error(f"Argument Error: {error_msg}")
@@ -398,7 +451,16 @@ def main():
         parser.add_argument(
             "--version", action="store_true", help="Show version information and exit"
         )
-        parser.add_argument("value", nargs="?", help="Token value to set")
+        # Value can be positional...
+        parser.add_argument(
+            "positional_value", nargs="?", help="Token value to set (positional)"
+        )
+        # ...or named
+        parser.add_argument(
+            "--value",
+            dest="named_value",
+            help="Token value to set (named). Takes precedence over the positional value.",
+        )
         parser.add_argument(
             "--token",
             default="token-rgb-primary",
@@ -407,7 +469,14 @@ def main():
         parser.add_argument(
             "--type",
             default="rgb",
-            choices=["rgb", "size", "opacity", "radius", "generic"],
+            choices=[
+                "rgb",
+                "size",
+                "opacity",
+                "radius",
+                "generic",
+                "card-mod",
+            ],
             help="Type of token (default: rgb)",
         )
         parser.add_argument(
@@ -430,19 +499,13 @@ def main():
             print_version()
             sys.exit(0)
 
-        # Validate arguments and log any errors
+        logger.info(f"Arguments received: {args}")
         if not validate_args(args):
             sys.exit(1)
 
-        value = None if args.value.lower() == "none" else args.value
-
-        if value is None:
-            logger.info("No value provided (None specified). Exiting.")
-            sys.exit(0)
-
         logger.info(
             f"Theme Patcher v{__version__} - Updating {args.token} "
-            f"(type: {args.type}) in theme '{args.theme}' to: {value}"
+            f"(type: {args.type}) in theme '{args.theme}' to: {args.value}"
         )
 
         patcher = ThemePatcher(
@@ -451,7 +514,12 @@ def main():
             theme=args.theme,
             base_path=args.path,
         )
-        if not patcher.set_token_value(value, args.create):
+
+        create_token = args.create
+        if patcher.token_type == TokenType.CARD_MOD:
+            create_token = True
+
+        if not patcher.set_token_value(args.value, create_token):
             logger.error("Update failed")
             sys.exit(1)
 

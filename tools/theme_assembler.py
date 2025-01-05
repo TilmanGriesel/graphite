@@ -87,9 +87,6 @@ def validate_final_yaml(content: str, filepath: Path) -> None:
 def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     content = []
     content.append(f"{theme_data.theme_name}:\n")
-    content.append("\n")
-
-    # Add description comments with proper indentation
     description_lines = [
         "# Graphite is a contemporary theme that offers both a calm dark color scheme and a",
         "# clean light theme, featuring native device fonts and a cohesive design",
@@ -101,7 +98,6 @@ def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     content.extend(indent_lines([line + "\n" for line in description_lines]))
     content.append("\n")
 
-    # Add timestamp comments with proper indentation
     timestamp_lines = [
         "#------------------------------------------------------",
         f"# This file was generated at {theme_data.timestamp}",
@@ -110,13 +106,14 @@ def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     content.extend(indent_lines([line + "\n" for line in timestamp_lines]))
     content.append("\n")
 
+    content.append(f"  card-mod-theme: {theme_data.card_mod_theme}\n")
+    content.append("\n")
+
     content.extend(indent_lines(theme_data.tokens_theme_lines))
     content.append("\n")
     content.extend(indent_lines(theme_data.tokens_common_lines))
     content.append("\n")
     content.extend(indent_lines(theme_data.template_lines))
-    content.append("\n")
-    content.append(f"  card-mod-theme: {theme_data.card_mod_theme}\n")
 
     final_content = "".join(content)
     validate_final_yaml(final_content, output_path)
@@ -140,22 +137,22 @@ def generate_auto_theme(
             content = []
             for line in lines:
                 # Skip the card-mod-theme line if it exists
-                if not line.strip().startswith('card-mod-theme:'):
+                if not line.strip().startswith("card-mod-theme:"):
                     content.append(f"{indent_level}{line}")
             return "".join(content)
 
     content = []
     sanitized_name = ThemeData._sanitize_theme_name(theme_name)
     card_mod_theme = ThemeData._get_card_mod_theme_name(theme_name)
-    
+
     content.append(f"{sanitized_name}:\n")
+    content.append(f"  card-mod-theme: {card_mod_theme}\n")
     content.append("  modes:\n")
     content.append("    light:")
     content.append(read_theme_content(light_theme_path, "      "))
     content.append("    dark:")
     content.append(read_theme_content(dark_theme_path, "      "))
     content.append("\n")
-    content.append(f"  card-mod-theme: {card_mod_theme}\n")
 
     final_content = "".join(content)
     validate_final_yaml(final_content, output_path)
