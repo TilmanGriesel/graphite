@@ -16,7 +16,6 @@ dev:
 
 format:
 	@echo "Formatting YAML files..."
-	pre-commit install
 	pre-commit run --all-files
 	@echo "YAML formatting complete."
 
