@@ -35,7 +35,6 @@ script_dir = Path(__file__).parent
 log_dir = script_dir / "logs"
 log_dir.mkdir(exist_ok=True)
 
-# Configure logging with version information
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - [v%(version)s] - %(levelname)s - %(message)s",

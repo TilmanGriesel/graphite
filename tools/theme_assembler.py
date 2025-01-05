@@ -86,7 +86,7 @@ def validate_final_yaml(content: str, filepath: Path) -> None:
 
 def generate_theme_file(output_path: Path, theme_data: ThemeData) -> None:
     content = []
-    content.append(f"{theme_data.theme_name}:\n")
+    content.append(f"{theme_data.theme_name}:\n\n")
     description_lines = [
         "# Graphite is a contemporary theme that offers both a calm dark color scheme and a",
         "# clean light theme, featuring native device fonts and a cohesive design",
