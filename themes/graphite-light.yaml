@@ -8,8 +8,10 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-01-05 13:10:03
+  # This file was generated at 2025-01-05 15:04:55
   #------------------------------------------------------
+
+  card-mod-theme: Graphite Light
 
   ##################################################
   # Light theme color tokens
@@ -336,5 +338,3 @@ Graphite Light:
   mush-rgb-blue-grey: var(--rgb-blue-grey-color)
   mush-rgb-black: var(--rgb-black-color)
   mush-rgb-disabled: var(--rgb-disabled-color)
-
-  card-mod-theme: Graphite Light
