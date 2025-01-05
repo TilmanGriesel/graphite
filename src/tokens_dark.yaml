@@ -1,6 +1,5 @@
 ##################################################
 # Dark theme color tokens
-
 token-rgb-primary: 224, 138, 0
 token-rgb-black: 0, 0, 0
 token-rgb-white: 240, 243, 255
