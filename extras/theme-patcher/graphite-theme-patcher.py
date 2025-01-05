@@ -502,22 +502,33 @@ def main():
         if not validate_args(args):
             sys.exit(1)
 
+        # Override token name for special cases
+        token = args.token
+        if args.type == "card-mod":
+            token = "card-mod-root"
+
+        # Log user info
         logger.info(
-            f"Theme Patcher v{__version__} - Updating {args.token} "
-            f"(type: {args.type}) in theme '{args.theme}' to: {args.value}"
+            f"Theme Patcher v{__version__} - "
+            f"Updating token: '{token}' "
+            f"(type: '{args.type}') in theme: '{args.theme}' "
+            f"to value: '{args.value}'"
         )
 
+        # Instantiate patcher
         patcher = ThemePatcher(
-            token=args.token,
+            token=token,
             token_type=args.type,
             theme=args.theme,
             base_path=args.path,
         )
 
+        # Override token creation for special cases
         create_token = args.create
         if patcher.token_type == TokenType.CARD_MOD:
             create_token = True
 
+        # Execute patcher
         if not patcher.set_token_value(args.value, create_token):
             logger.error("Update failed")
             sys.exit(1)
