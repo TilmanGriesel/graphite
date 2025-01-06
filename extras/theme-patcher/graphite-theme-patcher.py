@@ -21,9 +21,10 @@ import fcntl
 from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.4.0"
+__version__ = "1.4.1"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.4.1": "Preserve quotes for generic tokens",
     "1.4.0": "Added support for card-mod tokens",
     "1.3.0": "Enhanced color token handling: RGB tokens use comma format, other tokens use rgb()/rgba() format",
     "1.2.0": "Added support for custom token creation",
