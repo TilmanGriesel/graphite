@@ -165,13 +165,26 @@ class ThemePatcher:
         if value is None:
             return None
 
+        # Handle raw string prefix
+        if value.startswith('r"') or value.startswith("r'"):
+            value = value[1:]  # Remove 'r' prefix
+            
+        # Preserve quotes for generic tokens
+        if self.token_type == TokenType.GENERIC:
+            stripped_value = value.strip().strip("\"'")
+            if any(char in stripped_value for char in " ()/:"):
+                # Re-quote the value if it contains spaces or special characters
+                return f'"{stripped_value}"'
+            return stripped_value
+            
+        # Strip quotes for "strong typed" tokens
         value = value.strip().strip("\"'")
 
         try:
             if self.token_type == TokenType.CARD_MOD:
                 if not isinstance(value, str):
                     raise ValidationError("Card-mod value must be a string")
-                # Always double quote the user-supplied value
+                # Always double quote the user value
                 return f'"{value}"'
 
             elif self.token_type == TokenType.SIZE:
@@ -321,6 +334,7 @@ class ThemePatcher:
     def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
         """Update token value across theme files."""
         if value is None:
+            logger.info("Skipping update: value is None")
             return True
 
         try:
