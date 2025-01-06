@@ -13,6 +13,8 @@ The Graphite Theme Patcher allows you to:
 
 This tool is ideal for tinkerers and power users familiar with script and configuration editing.
 
+**🎨 Showcase your Theme Patcher setup** and join the discussion at: https://github.com/TilmanGriesel/graphite/discussions/76
+
 ::: info
 Changes made with this patcher are **temporary**. Updates to the Graphite theme will overwrite customizations unless automated workflows are in place.
 :::
@@ -92,6 +94,8 @@ sequence:
 ## Advanced Customization
 
 If your main goal was just to update the primary color, the earlier steps should do the trick. But if you're curious to see what else the patcher can do, this is your chance to experiment and customize to your heart’s content. The documentation isn't super detailed, but it gives you enough to start playing around with RGB and size tokens to see what's possible. From here, it's all about exploring and having fun in uncharted territory.
+
+**🎨 Showcase your Theme Patcher setup** and join the discussion at: https://github.com/TilmanGriesel/graphite/discussions/76
 
 ![graphite_theme_patcher_demo_advanced](/assets/gif/graphite_theme_patcher_demo_advanced.gif)
 
