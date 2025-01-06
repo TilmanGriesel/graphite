@@ -19,9 +19,10 @@ import fcntl
 from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.4.1"
+__version__ = "1.4.2"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.4.2": "Allow none value",
     "1.4.1": "Improved logging and arguments",
     "1.4.0": "Added support for card-mod tokens",
     "1.3.0": "Enhanced color token handling with rgb()/rgba() formats",
@@ -349,10 +350,7 @@ def validate_args(args: argparse.Namespace) -> bool:
         logger.error("Missing token value. Provide as positional argument or --value.")
         return False
 
-    if final_value.lower() == "none":
-        args.value = None
-    else:
-        args.value = final_value
+    args.value = final_value
 
     if not args.token or not args.token.strip():
         logger.error("Token must be a non-empty string.")
