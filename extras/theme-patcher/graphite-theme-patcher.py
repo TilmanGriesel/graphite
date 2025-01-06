@@ -2,10 +2,8 @@
 
 """
 Graphite Theme Patcher
------------------
 
-Updates token values in theme files. Created for the Home Assistant Graphite theme.
-
+Updates token values in theme files for the Home Assistant Graphite theme.
 """
 
 import sys
@@ -24,11 +22,11 @@ from enum import Enum, auto
 __version__ = "1.4.1"
 __author__ = "Tilman Griesel"
 __changelog__ = {
-    "1.4.1": "Preserve quotes for generic tokens",
+    "1.4.1": "Improved logging and arguments",
     "1.4.0": "Added support for card-mod tokens",
-    "1.3.0": "Enhanced color token handling: RGB tokens use comma format, other tokens use rgb()/rgba() format",
+    "1.3.0": "Enhanced color token handling with rgb()/rgba() formats",
     "1.2.0": "Added support for custom token creation",
-    "1.1.0": "Added support for size, opacity, and radius token and multiple themes and configurable paths",
+    "1.1.0": "Added support for multiple themes and configurable paths",
     "1.0.0": "Initial release with RGB token support",
 }
 
@@ -59,14 +57,14 @@ logger.addFilter(VersionFilter())
 
 
 class ValidationError(Exception):
-    """Raised for input validation failures."""
+    """Raised when input is invalid."""
 
     pass
 
 
 @contextmanager
 def file_lock(lock_file: Path):
-    """File access synchronization."""
+    """Provide an exclusive file lock for atomic operations."""
     lock_path = lock_file.with_suffix(".lock")
     try:
         with open(lock_path, "w") as f:
@@ -118,80 +116,62 @@ class ThemePatcher:
         self._validate_token()
 
     def _validate_paths(self) -> None:
-        """Validate directories exist with correct permissions."""
-        # Validate base themes directory
+        """Check directories exist and are writable."""
         base_path = self.theme_path.parent
         if not base_path.exists():
-            raise ValidationError(f"Themes directory not found: {base_path}")
+            raise ValidationError(f"Directory not found: {base_path}")
         if not base_path.is_dir():
             raise ValidationError(f"Not a directory: {base_path}")
 
-        # Validate specific theme directory
         if not self.theme_path.exists():
             raise ValidationError(f"Theme not found: {self.theme_path}")
         if not self.theme_path.is_dir():
-            raise ValidationError(f"Theme path is not a directory: {self.theme_path}")
+            raise ValidationError(f"Not a directory: {self.theme_path}")
         if not os.access(self.theme_path, os.W_OK):
-            raise ValidationError(
-                f"Insufficient permissions for theme: {self.theme_path}"
-            )
+            raise ValidationError(f"Cannot write to theme: {self.theme_path}")
 
     def _validate_token(self) -> None:
-        """Validate token format."""
+        """Ensure token is a non-empty string."""
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
 
     def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
-        """Parse comma-separated color components."""
+        """Parse comma-separated RGB or RGBA values."""
         try:
             components = [x.strip() for x in value.split(",")]
-
             if len(components) not in (3, 4):
-                raise ValidationError("Color must have 3 or 4 components (RGB or RGBA)")
-
+                raise ValidationError("Color must have 3 (RGB) or 4 (RGBA) components")
             rgb = [int(x) for x in components[:3]]
             alpha = float(components[3]) if len(components) == 4 else None
 
             if not all(0 <= x <= 255 for x in rgb):
                 raise ValidationError("RGB values must be between 0 and 255")
             if alpha is not None and not 0 <= alpha <= 1:
-                raise ValidationError("Alpha value must be between 0 and 1")
+                raise ValidationError("Alpha must be between 0 and 1")
 
             return rgb, alpha
         except ValueError:
-            raise ValidationError("Invalid color component values")
+            raise ValidationError("Invalid color values")
 
     def _validate_value(self, value: Optional[str]) -> Optional[str]:
-        """Validate and format value based on token name and type."""
+        """Validate and format the value based on the token type."""
         if value is None:
             return None
 
-        # Handle raw string prefix
-        if value.startswith('r"') or value.startswith("r'"):
-            value = value[1:]  # Remove 'r' prefix
-            
-        # Preserve quotes for generic tokens
         if self.token_type == TokenType.GENERIC:
-            stripped_value = value.strip().strip("\"'")
-            if any(char in stripped_value for char in " ()/:"):
-                # Re-quote the value if it contains spaces or special characters
-                return f'"{stripped_value}"'
-            return stripped_value
-            
-        # Strip quotes for "strong typed" tokens
+            return value
+
+        # Strip quotes for other types
         value = value.strip().strip("\"'")
 
         try:
             if self.token_type == TokenType.CARD_MOD:
-                if not isinstance(value, str):
-                    raise ValidationError("Card-mod value must be a string")
-                # Always double quote the user value
                 return f'"{value}"'
 
             elif self.token_type == TokenType.SIZE:
                 num_value = int(value)
                 if num_value < 0:
-                    raise ValidationError("Size must be a positive integer")
+                    raise ValidationError("Size must be positive")
                 return f"{num_value}px"
 
             elif self.token_type == TokenType.OPACITY:
@@ -206,25 +186,22 @@ class ThemePatcher:
             elif self.token_type == TokenType.RADIUS:
                 num_value = int(value)
                 if num_value < 0:
-                    raise ValidationError("Radius must be a positive integer")
+                    raise ValidationError("Radius must be positive")
                 return f"{num_value}px"
 
             elif self.token_type == TokenType.RGB:
                 rgb, alpha = self._parse_color_value(value)
-
-                # Use comma format for tokens containing 'rgb'
                 if "rgb" in self.token.lower():
+                    # Token name includes 'rgb', so just commas
                     if alpha is not None:
-                        raise ValidationError("RGB tokens cannot include alpha channel")
+                        raise ValidationError("RGB tokens cannot have alpha")
                     return f"{rgb[0]}, {rgb[1]}, {rgb[2]}"
-
-                # Use rgb()/rgba() format for other tokens
                 if alpha is not None:
                     return f"rgba({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
                 return f"rgb({rgb[0]}, {rgb[1]}, {rgb[2]})"
 
             else:
-                return value  # For generic tokens, accept any non-empty value
+                return value
 
         except ValidationError as e:
             raise ValidationError(f"Invalid value for token: {str(e)}")
@@ -232,7 +209,7 @@ class ThemePatcher:
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
     ) -> bool:
-        """Process and update a YAML file."""
+        """Update or create the token in a YAML file."""
         if value is None:
             return True
 
@@ -240,77 +217,65 @@ class ThemePatcher:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            # Check if token exists
             token_exists = f"{self.token}:" in content
-
             if not token_exists and not create_token:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # For card-mod tokens, ensure they are placed after card-mod-theme
+            # Determine indentation
+            lines = content.split("\n")
             if self.token_type == TokenType.CARD_MOD:
                 if "card-mod-theme:" not in content:
-                    logger.error("card-mod-theme key not found in file")
+                    logger.error("No card-mod-theme key found.")
                     return False
-
-                # Find the card-mod-theme section
-                lines = content.split("\n")
                 card_mod_theme_index = next(
                     (i for i, line in enumerate(lines) if "card-mod-theme:" in line), -1
                 )
-
                 if card_mod_theme_index == -1:
-                    logger.error("Could not locate card-mod-theme section")
+                    logger.error("Could not find card-mod-theme section.")
                     return False
-
-                # Determine indentation level (same as card-mod-theme line)
-                theme_line = lines[card_mod_theme_index]
-                base_indent = len(theme_line) - len(theme_line.lstrip())
-                # Match exactly the indentation of the `card-mod-theme:` key
-                token_indent = " " * base_indent
-
+                base_indent = len(lines[card_mod_theme_index]) - len(
+                    lines[card_mod_theme_index].lstrip()
+                )
             else:
-                # Determine the indentation level of the last non-empty line
-                lines = content.rstrip().split("\n")
+                # Use indentation of the last non-empty line
                 last_non_empty_line = next(
                     (line for line in reversed(lines) if line.strip()), ""
                 )
                 base_indent = len(last_non_empty_line) - len(
                     last_non_empty_line.lstrip()
                 )
-                token_indent = " " * base_indent
 
-            new_value = f"{token_indent}{self.token}: {value}  # Modified via Graphite Theme Patcher v{__version__} - {timestamp}"
+            token_indent = " " * base_indent
+            new_value = (
+                f"{token_indent}{self.token}: {value}  "
+                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}"
+            )
 
             if token_exists:
-                # Update existing token
                 pattern = f"^[ \t]*{self.token}:.*(?:\r\n|\r|\n|$)"
                 updated_content = re.sub(
                     pattern, new_value + "\n", content, flags=re.MULTILINE
                 )
             else:
                 if self.token_type == TokenType.CARD_MOD:
-                    # Insert after card-mod-theme section
-                    lines = content.split("\n")
                     lines.insert(card_mod_theme_index + 1, new_value)
                     updated_content = "\n".join(lines)
                 else:
-                    # Append user-defined entries at the end of the file
                     if "# User defined entries" not in content:
                         custom_section = (
                             f"\n{token_indent}##############################################################################\n"
-                            f"{token_indent}# User defined entries added via Graphite Theme Patcher\n"
+                            f"{token_indent}# User defined entries\n"
                         )
                     else:
                         custom_section = "\n"
-
                     updated_content = (
                         content.rstrip() + custom_section + new_value + "\n"
                     )
 
-            # Atomic write
+            # Write changes atomically
             with tempfile.NamedTemporaryFile(
                 mode="w", dir=file_path.parent, delete=False, encoding="utf-8"
             ) as tmp:
@@ -333,7 +298,7 @@ class ThemePatcher:
             return False
 
     def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
-        """Update token value across theme files."""
+        """Set token value across all relevant YAML files."""
         if value is None:
             logger.info("Skipping update: value is None")
             return True
@@ -346,10 +311,8 @@ class ThemePatcher:
             yaml_files = [
                 path
                 for path in self.theme_path.rglob("*")
-                if path.suffix in (".yaml")
-                and self.theme_path in path.resolve().parents
+                if path.suffix == ".yaml" and self.theme_path in path.resolve().parents
             ]
-
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
 
@@ -361,7 +324,6 @@ class ThemePatcher:
                         yaml_file, validated_value, create_token
                     ):
                         success = False
-
             return success
 
         except Exception as e:
@@ -370,7 +332,7 @@ class ThemePatcher:
 
 
 def print_version():
-    """Print version information and changelog."""
+    """Print version info and changelog."""
     print(f"\nGraphite Theme Patcher v{__version__}")
     print(f"Author: {__author__}\n")
     print("Changelog:")
@@ -381,127 +343,93 @@ def print_version():
 
 
 def validate_args(args: argparse.Namespace) -> bool:
-    """Validate command line arguments and log any errors."""
-    # Determine final "value" from either positional or named argument
-    final_value = None
-    if args.named_value:
-        final_value = args.named_value
-    elif args.positional_value:
-        final_value = args.positional_value
-
-    # If user provided neither, log an error
+    """Check command-line arguments for validity."""
+    final_value = args.named_value if args.named_value else args.positional_value
     if final_value is None:
-        error_msg = "Missing token value. Provide as positional argument or via --value"
-        logger.error(f"Argument Error: {error_msg}")
+        logger.error("Missing token value. Provide as positional argument or --value.")
         return False
 
-    # Convert 'none' string to None
     if final_value.lower() == "none":
         args.value = None
     else:
         args.value = final_value
 
-    # Validate token
-    if not isinstance(args.token, str) or not args.token.strip():
-        error_msg = "Token must be a non-empty string"
-        logger.error(f"Argument Error: {error_msg}")
+    if not args.token or not args.token.strip():
+        logger.error("Token must be a non-empty string.")
         return False
 
-    # Validate token type
     valid_types = ["rgb", "size", "opacity", "radius", "generic", "card-mod"]
-    if not hasattr(args, "type") or args.type not in valid_types:
-        error_msg = f"Invalid token type. Must be one of: {', '.join(valid_types)}"
-        logger.error(f"Argument Error: {error_msg}")
+    if args.type not in valid_types:
+        logger.error(f"Invalid token type. Must be one of: {', '.join(valid_types)}")
         return False
 
-    # Validate theme
-    if (
-        not hasattr(args, "theme")
-        or not isinstance(args.theme, str)
-        or not args.theme.strip()
-    ):
-        error_msg = "Theme must be a non-empty string"
-        logger.error(f"Argument Error: {error_msg}")
+    if not args.theme or not args.theme.strip():
+        logger.error("Theme must be a non-empty string.")
         return False
 
-    # Validate path
-    if (
-        not hasattr(args, "path")
-        or not isinstance(args.path, str)
-        or not args.path.strip()
-    ):
-        error_msg = "Path must be a non-empty string"
-        logger.error(f"Argument Error: {error_msg}")
+    if not args.path or not args.path.strip():
+        logger.error("Path must be a non-empty string.")
         return False
 
-    # Check if path exists
     theme_path = Path(args.path)
-    if not theme_path.exists():
-        error_msg = f"Theme path does not exist: {args.path}"
-        logger.error(f"Argument Error: {error_msg}")
-        return False
-
-    if not theme_path.is_dir():
-        error_msg = f"Theme path is not a directory: {args.path}"
-        logger.error(f"Argument Error: {error_msg}")
+    if not theme_path.exists() or not theme_path.is_dir():
+        logger.error(f"Invalid theme path: {args.path}")
         return False
 
     return True
 
 
 def main():
-    """Main execution."""
+    """Main entry point."""
     try:
 
         class ArgumentParserWithLogging(argparse.ArgumentParser):
             def error(self, message):
-                """Override error method to log before exiting."""
                 logger.error(f"Argument Error: {message}")
                 super().error(message)
 
         parser = ArgumentParserWithLogging(
-            description=f"Update token values in theme files. (v{__version__})"
+            description=f"Update token values in theme files (v{__version__})."
+        )
+
+        parser.add_argument(
+            "-v", "--version", action="store_true", help="Show version info and exit"
         )
         parser.add_argument(
-            "--version", action="store_true", help="Show version information and exit"
+            "positional_value", nargs="?", help="Token value (positional)"
         )
-        # Value can be positional...
         parser.add_argument(
-            "positional_value", nargs="?", help="Token value to set (positional)"
-        )
-        # ...or named
-        parser.add_argument(
+            "-V",
             "--value",
             dest="named_value",
-            help="Token value to set (named). Takes precedence over the positional value.",
+            help="Token value (named), takes precedence over positional",
         )
         parser.add_argument(
+            "-t",
+            "-n",
             "--token",
+            "--name",
             default="token-rgb-primary",
             help="Token to update (default: token-rgb-primary)",
         )
         parser.add_argument(
+            "-T",
             "--type",
             default="rgb",
-            choices=[
-                "rgb",
-                "size",
-                "opacity",
-                "radius",
-                "generic",
-                "card-mod",
-            ],
-            help="Type of token (default: rgb)",
+            choices=["rgb", "size", "opacity", "radius", "generic", "card-mod"],
+            help="Token type (default: rgb)",
         )
         parser.add_argument(
-            "--theme", default="graphite", help="Theme name (default: graphite)"
+            "-m", "--theme", default="graphite", help="Theme name (default: graphite)"
         )
         parser.add_argument(
+            "-p",
             "--path",
             default="/config/themes",
-            help="Base path for themes directory (default: /config/themes)",
+            help="Base path for themes (default: /config/themes)",
         )
         parser.add_argument(
+            "-c",
             "--create",
             action="store_true",
             help="Create token if it doesn't exist",
@@ -517,20 +445,14 @@ def main():
         if not validate_args(args):
             sys.exit(1)
 
-        # Override token name for special cases
-        token = args.token
-        if args.type == "card-mod":
-            token = "card-mod-root"
+        # Override token name for card-mod
+        token = args.token if args.type != "card-mod" else "card-mod-root"
 
-        # Log user info
         logger.info(
-            f"Theme Patcher v{__version__} - "
-            f"Updating token: '{token}' "
-            f"(type: '{args.type}') in theme: '{args.theme}' "
-            f"to value: '{args.value}'"
+            f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
+            f"with value: '{args.value}'"
         )
 
-        # Instantiate patcher
         patcher = ThemePatcher(
             token=token,
             token_type=args.type,
@@ -538,17 +460,14 @@ def main():
             base_path=args.path,
         )
 
-        # Override token creation for special cases
-        create_token = args.create
-        if patcher.token_type == TokenType.CARD_MOD:
-            create_token = True
+        # card-mod tokens must be created if missing
+        create_token = args.create or (patcher.token_type == TokenType.CARD_MOD)
 
-        # Execute patcher
         if not patcher.set_token_value(args.value, create_token):
-            logger.error("Update failed")
+            logger.error("Update failed.")
             sys.exit(1)
 
-        logger.info("Update completed")
+        logger.info("Update completed.")
 
     except Exception as e:
         logger.error(f"Error: {str(e)}")
