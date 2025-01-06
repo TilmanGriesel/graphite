@@ -17,10 +17,10 @@ Follow the [Quickstart Guide](https://graphite.tilmangriesel.com/guides/getting-
 
 [![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
-
 <details><summary>Or read the setup instructions here</summary>
 
 #### Step 1: Install HACS
+
 If you haven't already, [install HACS](https://hacs.xyz/docs/use/) by following the official guide.
 
 #### Step 2: Add the Graphite Theme Repository
@@ -28,6 +28,7 @@ If you haven't already, [install HACS](https://hacs.xyz/docs/use/) by following 
 [Open Graphite in your Home Assistant HACS instance](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
 ##### Alternatively
+
 1. Open the HACS interface in Home Assistant.
 2. Search for **Graphite Theme** or use the direct link below:
 3. Click **Install** to add the theme to your setup.
@@ -42,6 +43,7 @@ frontend:
 ```
 
 #### Step 4: Restart Home Assistant
+
 Restart your Home Assistant instance to apply changes.
 
 #### Step 5: Select the Graphite Theme
@@ -49,8 +51,8 @@ Restart your Home Assistant instance to apply changes.
 1. Go to your **User Profile** in Home Assistant.
 2. Under **Themes**, select `Graphite` (Light or Dark) from the dropdown menu.
 
-
 ### Manual Installation
+
 For manual installation, you can follow these steps:
 
 1. Download and copy the `themes` folder into your Home Assistant configuration directory.
@@ -67,21 +69,25 @@ For manual installation, you can follow these steps:
 ---
 
 ### Personalize Graphite
-Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://graphite.tilmangriesel.com/features/graphite-theme-patcher.html). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's README.
+
+Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://graphite.tilmangriesel.com/features/graphite-theme-patcher.html). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's documentation.
 
 ---
 
 ### Theme Development Kit
+
 I've created a token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://graphite.tilmangriesel.com/features/graphite-theme-development-kit.html)
 
 ---
 
 ### Examples
+
 If you're curious about the cards from my screenshot, you can [check out my examples](https://graphite.tilmangriesel.com/guides/card-examples.html).
 
 ---
 
 ### Personal note
+
 Hi there, I'm Tilman, nice to meet you! I'm a product designer and software engineer with a love for blending technology, art, design, and open-source projects. I live in a cozy 16th-century home that I'm gradually turning into a smarter, more connected space.
 
 I started designing this theme in 2022 to make our smart home more intuitive and visually harmonious for my partner Sophia and me. The goal was to create an experience that's both user-friendly and aesthetically pleasing, without needing extra complexity or plugins.
