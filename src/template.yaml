@@ -204,7 +204,6 @@ grey-color: rgb(var(--rgb-grey-color))
 blue-grey-color: rgb(var(--rgb-blue-grey-color))
 black-color: rgb(var(--rgb-black-color))
 white-color: rgb(var(--rgb-white-color))
-
 ##################################################
 # Extentions
 ##################################################
