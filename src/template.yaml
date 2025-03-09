@@ -206,9 +206,8 @@ black-color: rgb(var(--rgb-black-color))
 white-color: rgb(var(--rgb-white-color))
 
 ##################################################
-# HACS
-hacs-new-color: rgb(27, 153, 123)
-hacs-error-color: rgb(182, 46, 95)
+# Extentions
+##################################################
 ##################################################
 # Mini graph card
 mcg-title-font-weight: 400
