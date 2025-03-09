@@ -4,9 +4,9 @@
 
 ##################################################
 ## Radius
-token-size-radius-small: 9px
+token-size-radius-small: 12px
 token-size-radius-medium: 16px
-token-size-radius-large: 18px
+token-size-radius-large: 20px
 token-size-radius-card: var(--token-size-radius-large)
 ##################################################
 ## Border
