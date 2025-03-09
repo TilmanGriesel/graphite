@@ -181,8 +181,29 @@ rgb-black-color: var(--token-rgb-black)
 rgb-disabled-color: var(--token-rgb-disabled)
 rgb-state-inactive-color: var(--token-rgb-state-inactive)
 ##################################################
-# Extentions
-##################################################
+# Indicator colors
+red-color: rgb(var(--rgb-red-color))
+pink-color: rgb(var(--rgb-pink-color))
+purple-color: rgb(var(--rgb-purple-color))
+deep-purple-color: rgb(var(--rgb-deep-purple-color))
+indigo-color: rgb(var(--rgb-indigo-color))
+blue-color: rgb(var(--rgb-blue-color))
+light-blue-color: rgb(var(--rgb-light-blue-color))
+cyan-color: rgb(var(--rgb-cyan-color))
+teal-color: rgb(var(--rgb-teal-color))
+green-color: rgb(var(--rgb-green-color))
+light-green-color: rgb(var(--rgb-light-green-color))
+lime-color: rgb(var(--rgb-lime-color))
+yellow-color: rgb(var(--rgb-yellow-color))
+amber-color: rgb(var(--rgb-amber-color))
+orange-color: rgb(var(--rgb-orange-color))
+deep-orange-color: rgb(var(--rgb-deep-orange-color))
+brown-color: rgb(var(--rgb-brown-color))
+light-grey-color: rgb(var(--rgb-disabled-color))
+grey-color: rgb(var(--rgb-grey-color))
+blue-grey-color: rgb(var(--rgb-blue-grey-color))
+black-color: rgb(var(--rgb-black-color))
+white-color: rgb(var(--rgb-white-color))
 
 ##################################################
 # HACS
