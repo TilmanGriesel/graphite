@@ -10,7 +10,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-03-09 13:11:39
+        # This file was generated at 2025-03-09 13:20:55
         #------------------------------------------------------
       
       
@@ -332,7 +332,7 @@ Graphite Auto:
         orange-color: rgb(var(--rgb-orange-color))
         deep-orange-color: rgb(var(--rgb-deep-orange-color))
         brown-color: rgb(var(--rgb-brown-color))
-        light-grey-color: rgb(var(--rgb-disabled-color))
+        light-grey-color: rgb(var(--rgb-grey-color))
         grey-color: rgb(var(--rgb-grey-color))
         blue-grey-color: rgb(var(--rgb-blue-grey-color))
         black-color: rgb(var(--rgb-black-color))
@@ -378,7 +378,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-03-09 13:11:39
+        # This file was generated at 2025-03-09 13:20:55
         #------------------------------------------------------
       
       
@@ -700,7 +700,7 @@ Graphite Auto:
         orange-color: rgb(var(--rgb-orange-color))
         deep-orange-color: rgb(var(--rgb-deep-orange-color))
         brown-color: rgb(var(--rgb-brown-color))
-        light-grey-color: rgb(var(--rgb-disabled-color))
+        light-grey-color: rgb(var(--rgb-grey-color))
         grey-color: rgb(var(--rgb-grey-color))
         blue-grey-color: rgb(var(--rgb-blue-grey-color))
         black-color: rgb(var(--rgb-black-color))
