@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-01-05 15:13:54
+  # This file was generated at 2025-03-09 13:20:55
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -44,7 +44,7 @@ Graphite:
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-primary-light: rgb(105 124 144)
   token-color-accent: var(--token-color-primary)
-  token-color-disabled: rgba(255, 255, 255, 0.2)
+  token-color-disabled: rgb(0, 0, 0)
   token-color-feedback-info: rgb(39, 209, 246)
   token-color-feedback-warning: rgb(255, 219, 117)
   token-color-feedback-error: rgb(234, 114, 135)
@@ -60,7 +60,7 @@ Graphite:
   token-color-text-sidebar: var(--token-color-text-secondary)
   token-color-text-label-badge: rgb(198, 203, 210)
   token-color-text-chip: var(--token-color-white)
-  token-color-background-base: rgb(22, 24, 29)
+  token-color-background-base: rgb(20, 22, 26)
   token-color-background-secondary: rgb(28, 29, 33)
   token-color-background-sidebar: var(--token-color-background-base)
   token-color-background-input-base: rgb(46, 48, 56)
@@ -82,7 +82,7 @@ Graphite:
   token-color-codemirror-string: rgb(119, 196, 229)
   token-color-codemirror-keyword: rgb(140, 169, 255)
   token-color-codemirror-number: rgb(255, 91, 29)
-  token-shadow-card-medium: 0 3px 13px 0 rgba(0, 0, 0, 0.07)
+  token-shadow-card-medium: 0 3px 16px 0 rgba(0, 0, 0, 0.12)
 
   ##################################################
   # Size tokens
@@ -90,9 +90,9 @@ Graphite:
 
   ##################################################
   ## Radius
-  token-size-radius-small: 9px
+  token-size-radius-small: 12px
   token-size-radius-medium: 16px
-  token-size-radius-large: 18px
+  token-size-radius-large: 20px
   token-size-radius-card: var(--token-size-radius-large)
   ##################################################
   ## Border
@@ -103,7 +103,7 @@ Graphite:
   token-size-height-navbar: 56px
   ##################################################
   ## Font
-  token-size-font-medium: 18px
+  token-size-font-medium: 17px
   token-size-font-large: 28px
   token-size-font-title: var(--token-size-font-large)
   token-size-font-title-card: var(--token-size-font-medium)
@@ -313,13 +313,32 @@ Graphite:
   rgb-disabled-color: var(--token-rgb-disabled)
   rgb-state-inactive-color: var(--token-rgb-state-inactive)
   ##################################################
+  # Indicator colors
+  red-color: rgb(var(--rgb-red-color))
+  pink-color: rgb(var(--rgb-pink-color))
+  purple-color: rgb(var(--rgb-purple-color))
+  deep-purple-color: rgb(var(--rgb-deep-purple-color))
+  indigo-color: rgb(var(--rgb-indigo-color))
+  blue-color: rgb(var(--rgb-blue-color))
+  light-blue-color: rgb(var(--rgb-light-blue-color))
+  cyan-color: rgb(var(--rgb-cyan-color))
+  teal-color: rgb(var(--rgb-teal-color))
+  green-color: rgb(var(--rgb-green-color))
+  light-green-color: rgb(var(--rgb-light-green-color))
+  lime-color: rgb(var(--rgb-lime-color))
+  yellow-color: rgb(var(--rgb-yellow-color))
+  amber-color: rgb(var(--rgb-amber-color))
+  orange-color: rgb(var(--rgb-orange-color))
+  deep-orange-color: rgb(var(--rgb-deep-orange-color))
+  brown-color: rgb(var(--rgb-brown-color))
+  light-grey-color: rgb(var(--rgb-grey-color))
+  grey-color: rgb(var(--rgb-grey-color))
+  blue-grey-color: rgb(var(--rgb-blue-grey-color))
+  black-color: rgb(var(--rgb-black-color))
+  white-color: rgb(var(--rgb-white-color))
+  ##################################################
   # Extentions
   ##################################################
-
-  ##################################################
-  # HACS
-  hacs-new-color: rgb(27, 153, 123)
-  hacs-error-color: rgb(182, 46, 95)
   ##################################################
   # Mini graph card
   mcg-title-font-weight: 400

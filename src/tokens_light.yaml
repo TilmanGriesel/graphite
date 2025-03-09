@@ -22,7 +22,7 @@ token-rgb-amber: 255, 193, 7
 token-rgb-orange: 255, 158, 0
 token-rgb-deep-orange: 255, 87, 34
 token-rgb-brown: 121, 85, 72
-token-rgb-grey: 158, 158, 158
+token-rgb-grey: 139, 140, 157
 token-rgb-blue-grey: 96, 125, 139
 token-rgb-disabled: 189, 189, 189
 token-rgb-state-inactive: 176, 190, 197
@@ -45,7 +45,7 @@ token-color-text-sidebar-selected: var(--token-color-text-primary)
 token-color-text-sidebar: var(--token-color-text-secondary)
 token-color-text-label-badge: rgba(19, 21, 54, 0.7)
 token-color-text-chip: var(--token-color-black)
-token-color-background-base: rgb(225, 226, 229)
+token-color-background-base: rgb(228, 229, 233)
 token-color-background-secondary: rgb(245, 245, 245)
 token-color-background-sidebar: var(--token-color-background-base)
 token-color-background-input-base: rgb(255, 255, 255)
@@ -67,4 +67,4 @@ token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
 token-color-codemirror-string: rgb(0, 77, 153)
 token-color-codemirror-keyword: rgb(70, 112, 216)
 token-color-codemirror-number: rgb(204, 85, 0)
-token-shadow-card-medium: 0 2px 4px 0px rgba(0, 0, 0, 0.06)
+token-shadow-card-medium: 0 2px 18px 0px rgba(0, 0, 0, 0.08)
