@@ -1,0 +1,20 @@
+alias: Patch Graphite Theme
+icon: mdi:palette-swatch
+description: Customize the primary color of the Graphite theme.
+fields:
+  user_primary_color:
+    selector:
+      color_rgb: {}
+    default:
+      - 224
+      - 138
+      - 0
+    name: Primary Color
+    required: true
+    description: Choose your custom primary color (RGB format).
+sequence:
+  - action: shell_command.patch_graphite_theme_primary_color
+    data:
+      rgb_value: "{{ user_primary_color | join(',') }}"
+  - action: frontend.reload_themes
+    data: {}
