@@ -19,9 +19,10 @@ import fcntl
 from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.4.2"
+__version__ = "1.5.0"
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.5.0": "Fixed comment handling to ignore commented tokens",
     "1.4.2": "Allow none value",
     "1.4.1": "Improved logging and arguments",
     "1.4.0": "Added support for card-mod tokens",
@@ -59,7 +60,6 @@ logger.addFilter(VersionFilter())
 
 class ValidationError(Exception):
     """Raised when input is invalid."""
-
     pass
 
 
@@ -216,9 +216,25 @@ class ThemePatcher:
 
         try:
             with open(file_path, "r", encoding="utf-8") as f:
-                content = f.read()
+                lines = f.readlines()
 
-            token_exists = f"{self.token}:" in content
+            # Check if token exists as an actual property (not in a comment)
+            token_exists = False
+            token_line_index = -1
+            
+            # Process line by line
+            for i, line in enumerate(lines):
+                line_stripped = line.lstrip()
+                # Skip empty lines and comments
+                if not line_stripped or line_stripped.startswith('#'):
+                    continue
+                
+                # Check if this non-comment line contains our token
+                if line_stripped.startswith(f"{self.token}:"):
+                    token_exists = True
+                    token_line_index = i
+                    break
+
             if not token_exists and not create_token:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
@@ -226,55 +242,62 @@ class ThemePatcher:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
             # Determine indentation
-            lines = content.split("\n")
             if self.token_type == TokenType.CARD_MOD:
-                if "card-mod-theme:" not in content:
+                card_mod_theme_index = -1
+                for i, line in enumerate(lines):
+                    line_stripped = line.lstrip()
+                    if line_stripped.startswith("card-mod-theme:") and not line_stripped.startswith('#'):
+                        card_mod_theme_index = i
+                        break
+                        
+                if card_mod_theme_index == -1:
                     logger.error("No card-mod-theme key found.")
                     return False
-                card_mod_theme_index = next(
-                    (i for i, line in enumerate(lines) if "card-mod-theme:" in line), -1
-                )
-                if card_mod_theme_index == -1:
-                    logger.error("Could not find card-mod-theme section.")
-                    return False
+                    
                 base_indent = len(lines[card_mod_theme_index]) - len(
                     lines[card_mod_theme_index].lstrip()
                 )
             else:
-                # Use indentation of the last non-empty line
-                last_non_empty_line = next(
-                    (line for line in reversed(lines) if line.strip()), ""
-                )
-                base_indent = len(last_non_empty_line) - len(
-                    last_non_empty_line.lstrip()
-                )
+                # Find indentation from last non-comment line
+                base_indent = 0
+                for line in reversed(lines):
+                    line_stripped = line.lstrip()
+                    if line_stripped and not line_stripped.startswith('#'):
+                        base_indent = len(line) - len(line_stripped)
+                        break
 
             token_indent = " " * base_indent
-            new_value = (
+            new_line = (
                 f"{token_indent}{self.token}: {value}  "
                 f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}"
             )
 
             if token_exists:
-                pattern = f"^[ \t]*{self.token}:.*(?:\r\n|\r|\n|$)"
-                updated_content = re.sub(
-                    pattern, new_value + "\n", content, flags=re.MULTILINE
-                )
+                # Update existing token
+                lines[token_line_index] = new_line
             else:
                 if self.token_type == TokenType.CARD_MOD:
-                    lines.insert(card_mod_theme_index + 1, new_value)
-                    updated_content = "\n".join(lines)
+                    lines.insert(card_mod_theme_index + 1, new_line)
                 else:
-                    if "# User defined entries" not in content:
-                        custom_section = (
-                            f"\n{token_indent}##############################################################################\n"
-                            f"{token_indent}# User defined entries\n"
-                        )
+                    # Check for user section
+                    user_section_exists = False
+                    for line in lines:
+                        if "# User defined entries" in line:
+                            user_section_exists = True
+                            break
+                            
+                    if not user_section_exists:
+                        lines.append(f"\n{token_indent}##############################################################################\n")
+                        lines.append(f"{token_indent}# User defined entries\n")
                     else:
-                        custom_section = "\n"
-                    updated_content = (
-                        content.rstrip() + custom_section + new_value + "\n"
-                    )
+                        lines.append("\n")
+                        
+                    lines.append(new_line)
+
+            # Join lines and ensure file ends with newline
+            updated_content = ''.join(lines)
+            if not updated_content.endswith('\n'):
+                updated_content += '\n'
 
             # Write changes atomically
             with tempfile.NamedTemporaryFile(
@@ -330,7 +353,6 @@ class ThemePatcher:
         except Exception as e:
             logger.error(f"Update failed: {str(e)}")
             return False
-
 
 def print_version():
     """Print version info and changelog."""
