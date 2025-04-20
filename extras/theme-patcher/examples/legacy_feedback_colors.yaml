@@ -1,0 +1,489 @@
+alias: Patch Legacy Graphite Color Mappings
+description: Maps color variables to align with legacy Graphite theme feedback colors.
+icon: mdi:palette-swatch
+sequence:
+  - alias: Map RGB Primary Color
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-primary-color
+      type: generic
+      value: var(--token-rgb-primary)
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-accent-color
+      type: generic
+      value: var(--token-rgb-primary)
+    alias: Map RGB Accent Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-white-color
+      type: generic
+      value: var(--token-rgb-white)
+    alias: Map RGB White Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-purple-color
+      type: generic
+      value: var(--token-rgb-purple)
+    alias: Map RGB Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-pink-color
+      type: generic
+      value: var(--token-rgb-pink)
+    alias: Map RGB Pink Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-red-color
+      type: generic
+      value: var(--token-rgb-red)
+    alias: Map RGB Red Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-deep-purple-color
+      type: generic
+      value: var(--token-rgb-deep-purple)
+    alias: Map RGB Deep Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-indigo-color
+      type: generic
+      value: var(--token-rgb-indigo)
+    alias: Map RGB Indigo Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-blue-color
+      type: generic
+      value: var(--token-rgb-blue)
+    alias: Map RGB Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-light-blue-color
+      type: generic
+      value: var(--token-rgb-light-blue)
+    alias: Map RGB Light Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-cyan-color
+      type: generic
+      value: var(--token-rgb-cyan)
+    alias: Map RGB Cyan Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-teal-color
+      type: generic
+      value: var(--token-rgb-teal)
+    alias: Map RGB Teal Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-green-color
+      type: generic
+      value: var(--token-rgb-green)
+    alias: Map RGB Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-light-green-color
+      type: generic
+      value: var(--token-rgb-light-green)
+    alias: Map RGB Light Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-lime-color
+      type: generic
+      value: var(--token-rgb-lime)
+    alias: Map RGB Lime Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-yellow-color
+      type: generic
+      value: var(--token-rgb-yellow)
+    alias: Map RGB Yellow Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-amber-color
+      type: generic
+      value: var(--token-rgb-amber)
+    alias: Map RGB Amber Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-orange-color
+      type: generic
+      value: var(--token-rgb-orange)
+    alias: Map RGB Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-deep-orange-color
+      type: generic
+      value: var(--token-rgb-deep-orange)
+    alias: Map RGB Deep Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-brown-color
+      type: generic
+      value: var(--token-rgb-brown)
+    alias: Map RGB Brown Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-grey-color
+      type: generic
+      value: var(--token-rgb-grey)
+    alias: Map RGB Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-blue-grey-color
+      type: generic
+      value: var(--token-rgb-blue-grey)
+    alias: Map RGB Blue Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-black-color
+      type: generic
+      value: var(--token-rgb-black)
+    alias: Map RGB Black Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-disabled-color
+      type: generic
+      value: var(--token-rgb-disabled)
+    alias: Map RGB Disabled Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: rgb-state-inactive-color
+      type: generic
+      value: var(--token-rgb-state-inactive)
+    alias: Map RGB State Inactive Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: red-color
+      type: generic
+      value: rgb(var(--rgb-red-color))
+    alias: Map HA Red Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: pink-color
+      type: generic
+      value: rgb(var(--rgb-pink-color))
+    alias: Map HA Pink Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: purple-color
+      type: generic
+      value: rgb(var(--rgb-purple-color))
+    alias: Map HA Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: deep-purple-color
+      type: generic
+      value: rgb(var(--rgb-deep-purple-color))
+    alias: Map HA Deep Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: indigo-color
+      type: generic
+      value: rgb(var(--rgb-indigo-color))
+    alias: Map HA Indigo Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: blue-color
+      type: generic
+      value: rgb(var(--rgb-blue-color))
+    alias: Map HA Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: light-blue-color
+      type: generic
+      value: rgb(var(--rgb-light-blue-color))
+    alias: Map HA Light Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: cyan-color
+      type: generic
+      value: rgb(var(--rgb-cyan-color))
+    alias: Map HA Cyan Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: teal-color
+      type: generic
+      value: rgb(var(--rgb-teal-color))
+    alias: Map HA Teal Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: green-color
+      type: generic
+      value: rgb(var(--rgb-green-color))
+    alias: Map HA Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: light-green-color
+      type: generic
+      value: rgb(var(--rgb-light-green-color))
+    alias: Map HA Light Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: lime-color
+      type: generic
+      value: rgb(var(--rgb-lime-color))
+    alias: Map HA Lime Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: yellow-color
+      type: generic
+      value: rgb(var(--rgb-yellow-color))
+    alias: Map HA Yellow Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: amber-color
+      type: generic
+      value: rgb(var(--rgb-amber-color))
+    alias: Map HA Amber Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: orange-color
+      type: generic
+      value: rgb(var(--rgb-orange-color))
+    alias: Map HA Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: deep-orange-color
+      type: generic
+      value: rgb(var(--rgb-deep-orange-color))
+    alias: Map HA Deep Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: brown-color
+      type: generic
+      value: rgb(var(--rgb-brown-color))
+    alias: Map HA Brown Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: light-grey-color
+      type: generic
+      value: rgb(var(--rgb-grey-color))
+    alias: Map HA Light Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: grey-color
+      type: generic
+      value: rgb(var(--rgb-grey-color))
+    alias: Map HA Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: blue-grey-color
+      type: generic
+      value: rgb(var(--rgb-blue-grey-color))
+    alias: Map HA Blue Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: black-color
+      type: generic
+      value: rgb(var(--rgb-black-color))
+    alias: Map HA Black Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: white-color
+      type: generic
+      value: rgb(var(--rgb-white-color))
+    alias: Map HA White Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-white
+      type: generic
+      value: var(--rgb-white-color)
+    alias: Map Mushroom White Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-purple
+      type: generic
+      value: var(--rgb-purple-color)
+    alias: Map Mushroom Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-pink
+      type: generic
+      value: var(--rgb-pink-color)
+    alias: Map Mushroom Pink Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-red
+      type: generic
+      value: var(--rgb-red-color)
+    alias: Map Mushroom Red Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-deep-purple
+      type: generic
+      value: var(--rgb-deep-purple-color)
+    alias: Map Mushroom Deep Purple Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-indigo
+      type: generic
+      value: var(--rgb-indigo-color)
+    alias: Map Mushroom Indigo Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-blue
+      type: generic
+      value: var(--rgb-blue-color)
+    alias: Map Mushroom Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-light-blue
+      type: generic
+      value: var(--rgb-light-blue-color)
+    alias: Map Mushroom Light Blue Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-cyan
+      type: generic
+      value: var(--rgb-cyan-color)
+    alias: Map Mushroom Cyan Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-teal
+      type: generic
+      value: var(--rgb-teal-color)
+    alias: Map Mushroom Teal Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-green
+      type: generic
+      value: var(--rgb-green-color)
+    alias: Map Mushroom Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-light-green
+      type: generic
+      value: var(--rgb-light-green-color)
+    alias: Map Mushroom Light Green Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-lime
+      type: generic
+      value: var(--rgb-lime-color)
+    alias: Map Mushroom Lime Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-yellow
+      type: generic
+      value: var(--rgb-yellow-color)
+    alias: Map Mushroom Yellow Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-amber
+      type: generic
+      value: var(--rgb-amber-color)
+    alias: Map Mushroom Amber Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-orange
+      type: generic
+      value: var(--rgb-orange-color)
+    alias: Map Mushroom Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-deep-orange
+      type: generic
+      value: var(--rgb-deep-orange-color)
+    alias: Map Mushroom Deep Orange Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-brown
+      type: generic
+      value: var(--rgb-brown-color)
+    alias: Map Mushroom Brown Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-grey
+      type: generic
+      value: var(--rgb-grey-color)
+    alias: Map Mushroom Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-blue-grey
+      type: generic
+      value: var(--rgb-blue-grey-color)
+    alias: Map Mushroom Blue Grey Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-black
+      type: generic
+      value: var(--rgb-black-color)
+    alias: Map Mushroom Black Color
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: mush-rgb-disabled
+      type: generic
+      value: var(--rgb-disabled-color)
+    alias: Map Mushroom Disabled Color
+  - action: frontend.reload_themes
+    data: {}

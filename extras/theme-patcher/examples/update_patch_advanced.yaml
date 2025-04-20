@@ -1,0 +1,39 @@
+alias: Patch Graphite Theme (Advanced)
+description: Advanced customization of the Graphite theme.
+icon: mdi:dev-to
+fields:
+  user_primary_color:
+    selector:
+      color_rgb: {}
+    default:
+      - 224
+      - 138
+      - 0
+    name: Primary Color
+    required: true
+    description: Choose your custom primary color (RGB format).
+  user_radius_large:
+    selector:
+      number:
+        min: 0
+        max: 100
+        step: 4
+    name: Large Radius
+    description: Choose your custom radius.
+    default: 18
+    required: true
+sequence:
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-primary
+      type: rgb
+      value: "{{ user_primary_color | join(',') }}"
+  - action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-size-radius-large
+      type: radius
+      value: "{{ user_radius_large }}"
+  - action: frontend.reload_themes
+    data: {}

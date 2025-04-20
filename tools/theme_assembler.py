@@ -5,9 +5,10 @@ import logging
 import argparse
 import shutil
 import yaml
+import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Generator, Dict, Any
+from typing import List, Generator, Dict, Any, Set, Tuple
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
@@ -131,16 +132,60 @@ def generate_auto_theme(
     theme_name: str,
     timestamp: str,
 ) -> None:
-    def read_theme_content(theme_path: Path, indent_level: str) -> str:
+    def read_theme_content(theme_path: Path, indent_level: str, is_light: bool = True) -> Tuple[str, Set[str]]:
         with theme_path.open("r") as f:
             lines = f.readlines()[1:]  # Skip the theme name line
             content = []
+            seen_anchors = set()
+            
             for line in lines:
                 # Skip the card-mod-theme line if it exists
-                if not line.strip().startswith("card-mod-theme:"):
-                    content.append(f"{indent_level}{line}")
-            return "".join(content)
+                if line.strip().startswith("card-mod-theme:"):
+                    continue
+                
+                # Handle anchors
+                anchor_match = re.search(r'&(\w+)', line)
+                if anchor_match:
+                    anchor_name = anchor_match.group(1)
+                    seen_anchors.add(anchor_name)
+                
+                content.append(f"{indent_level}{line}")
+            
+            return "".join(content), seen_anchors
 
+    # First pass: collect all anchors from both files
+    _, light_anchors = read_theme_content(light_theme_path, "", True)
+    _, dark_anchors = read_theme_content(dark_theme_path, "", False)
+    
+    # Find duplicate anchors
+    duplicate_anchors = light_anchors.intersection(dark_anchors)
+    
+    # Second pass: Process files, renaming anchors in the dark theme
+    def process_theme_content(theme_path: Path, indent_level: str, is_light: bool = True) -> str:
+        with theme_path.open("r") as f:
+            lines = f.readlines()[1:]  # Skip the theme name line
+            content = []
+            
+            for line in lines:
+                # Skip the card-mod-theme line if it exists
+                if line.strip().startswith("card-mod-theme:"):
+                    continue
+                
+                # In dark theme, rename duplicate anchors and their references
+                if not is_light:
+                    for anchor in duplicate_anchors:
+                        # Replace anchor definitions
+                        if f"&{anchor}" in line:
+                            line = line.replace(f"&{anchor}", f"&{anchor}_dark")
+                        
+                        # Replace anchor references
+                        if f"*{anchor}" in line:
+                            line = line.replace(f"*{anchor}", f"*{anchor}_dark")
+                
+                content.append(f"{indent_level}{line}")
+            
+            return "".join(content)
+    
     content = []
     sanitized_name = ThemeData._sanitize_theme_name(theme_name)
     card_mod_theme = ThemeData._get_card_mod_theme_name(theme_name)
@@ -149,9 +194,9 @@ def generate_auto_theme(
     content.append(f"  card-mod-theme: {card_mod_theme}\n")
     content.append("  modes:\n")
     content.append("    light:")
-    content.append(read_theme_content(light_theme_path, "      "))
+    content.append(process_theme_content(light_theme_path, "      ", True))
     content.append("    dark:")
-    content.append(read_theme_content(dark_theme_path, "      "))
+    content.append(process_theme_content(dark_theme_path, "      ", False))
     content.append("\n")
 
     final_content = "".join(content)
