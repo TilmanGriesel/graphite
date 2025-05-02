@@ -267,9 +267,10 @@ class ThemePatcher:
                         break
 
             token_indent = " " * base_indent
+            # newline character \n added at the end after timestamp on 2025-05-01
             new_line = (
                 f"{token_indent}{self.token}: {value}  "
-                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}"
+                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
             )
 
             if token_exists:
@@ -285,12 +286,12 @@ class ThemePatcher:
                         if "# User defined entries" in line:
                             user_section_exists = True
                             break
-                            
+                    # 'else' and 'lines.append' lines below commented to avoid blank lines between tokens created/updated under user section
                     if not user_section_exists:
                         lines.append(f"\n{token_indent}##############################################################################\n")
                         lines.append(f"{token_indent}# User defined entries\n")
-                    else:
-                        lines.append("\n")
+                    #else:
+                    #    lines.append("\n")
                         
                     lines.append(new_line)
 
