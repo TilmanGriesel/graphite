@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-04-12 13:06:28
+  # This file was generated at 2025-05-30 09:46:40
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -145,7 +145,18 @@ Graphite:
   paper-slider-height: var(--token-size-height-slider)
   ##################################################
   # Typography
+  # Font Family Tokens
   primary-font-family: var(--token-font-family-primary)
+  ha-font-family-body: var(--token-font-family-primary)
+  ha-font-family-heading: var(--token-font-family-primary)
+  ha-font-family-code: var(--token-font-family-primary)
+  ha-font-family-longform: var(--token-font-family-primary)
+  ## Font Family Tokens Legacy Compatibility
+  ha-card-header-font-family: var(--token-font-family-primary)
+  mdc-typography-font-family: var(--token-font-family-primary)
+  mdc-typography-button-font-family: var(--token-font-family-primary)
+  mdc-typography-body1-font-family: var(--token-font-family-primary)
+  md-list-item-label-text-font: var(--token-font-family-primary)
   paper-font-common-base_-_font-family: var(--token-font-family-primary)
   paper-font-common-code_-_font-family: var(--token-font-family-primary)
   paper-font-body1_-_font-family: var(--token-font-family-primary)
@@ -153,15 +164,28 @@ Graphite:
   paper-font-headline_-_font-family: var(--token-font-family-primary)
   paper-font-caption_-_font-family: var(--token-font-family-primary)
   paper-font-title_-_font-family: var(--token-font-family-primary)
-  ha-card-header-font-family: var(--token-font-family-primary)
-  mdc-typography-font-family: var(--token-font-family-primary)
-  mdc-typography-button-font-family: var(--token-font-family-primary)
-  mdc-typography-body1-font-family: var(--token-font-family-primary)
+  # Font Weight Tokens
+  ha-font-weight-normal: var(--token-weight-font-body)
+  ha-font-weight-medium: var(--token-weight-font-title)
+  ha-font-weight-bold: var(--token-weight-font-title)
+  ha-font-weight-body: var(--token-weight-font-body)
+  ha-font-weight-heading: var(--token-weight-font-title)
+  ha-font-weight-action: var(--token-weight-font-title)
+  ## Font Weight Legacy Compatibility
   mdc-typography-button-font-weight: var(--token-weight-font-title)
   title-font-weight: var(--token-weight-font-title)
+  # Font Size Tokens
+  ha-font-size-m: var(--token-size-font-body)
+  ha-font-size-l: var(--token-size-font-subhead)
+  ha-font-size-xl: var(--token-size-font-title)
+  ha-font-size-2xl: var(--token-size-font-headline)
+  ha-font-size-4xl: var(--token-size-font-display)
+  ## Size Legacy Compatibility
   title-font-size: var(--token-size-font-title)
   ha-heading-card-title-font-size: var(--token-size-font-title-card)
   ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
+  # Font Smoothing
+  ha-font-smoothing: antialiased
   ##################################################
   # Text
   primary-text-color: var(--token-color-text-primary)
