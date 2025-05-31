@@ -21,7 +21,7 @@ token-rgb-amber: 255, 193, 7
 token-rgb-orange: 255, 158, 0
 token-rgb-deep-orange: 255, 87, 34
 token-rgb-brown: 121, 85, 72
-token-rgb-grey: 139, 140, 157
+token-rgb-grey: 103, 104, 119
 token-rgb-blue-grey: 96, 125, 139
 token-rgb-disabled: 189, 189, 189
 token-rgb-state-inactive: 176, 190, 197
