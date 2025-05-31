@@ -286,12 +286,10 @@ class ThemePatcher:
                         if "# User defined entries" in line:
                             user_section_exists = True
                             break
-                    # 'else' and 'lines.append' lines below commented to avoid blank lines between tokens created/updated under user section
+                    
                     if not user_section_exists:
                         lines.append(f"\n{token_indent}##############################################################################\n")
                         lines.append(f"{token_indent}# User defined entries\n")
-                    #else:
-                    #    lines.append("\n")
                         
                     lines.append(new_line)
 
