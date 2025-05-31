@@ -67,6 +67,7 @@ app-header-edit-text-color: var(--token-color-text-primary)
 # ..............................................................................
 # Icon colors
 paper-item-icon-color: var(--token-color-text-primary)
+state-inactive-color: var(--token-color-text-secondary)
 # ..............................................................................
 # Main interface colors
 primary-color: var(--token-color-primary)
