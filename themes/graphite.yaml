@@ -8,15 +8,14 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-05-31 14:24:01
+  # This file was generated at 2025-05-31 14:56:21
   #------------------------------------------------------
 
   card-mod-theme: Graphite
 
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Dark theme color tokens
-  ##################################################
-
+  # ------------------------------------------------------------------------------
   token-rgb-primary: 224, 138, 0
   token-rgb-black: 0, 0, 0
   token-rgb-white: 240, 243, 255
@@ -84,74 +83,68 @@ Graphite:
   token-color-codemirror-number: rgb(255, 91, 29)
   token-shadow-card-medium: 0 3px 16px 0 rgba(0, 0, 0, 0.12)
 
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Size tokens
-  ##################################################
-
-  ##################################################
-  ## Radius
+  # ------------------------------------------------------------------------------
+  # Radius
   token-size-radius-small: 12px
   token-size-radius-medium: 16px
   token-size-radius-large: 20px
   token-size-radius-card: var(--token-size-radius-large)
-  ##################################################
-  ## Border
+  # ..............................................................................
+  # Border
   token-size-width-border-card: 0
-  ##################################################
-  ## Height
+  # ..............................................................................
+  # Height
   token-size-height-slider: 4px
   token-size-height-navbar: 56px
-  ##################################################
-  ## Font
+  # ..............................................................................
+  # Font
   token-size-font-medium: 16px
   token-size-font-large: 28px
   token-size-font-title: var(--token-size-font-large)
   token-size-font-title-card: var(--token-size-font-medium)
-  ##################################################
-  ## Spacing
+  # ..............................................................................
+  # Spacing
   token-size-spacing-medium: 16px
   token-size-section-min-width: 320px
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Color tokens
+  # ------------------------------------------------------------------------------
+  # Base
   token-color-transparent: rgba(0, 0, 0, 0)
   token-color-black: rgb(0, 0, 0)
   token-color-white: rgb(255, 255, 255)
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Other tokens
-  ##################################################
-
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Opacity
   token-opacity-ripple-hover: 0.14
-  ##################################################
-  ## Font
-  token-weight-font-title-card: 400
-  ##################################################
-  # Font family
+  # ..............................................................................
+  # Font
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+  token-weight-font-title-card: 400
 
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Definitions
-  ##################################################
-
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Shapes
   mdc-shape-small: var(--token-size-radius-small)
   mdc-shape-medium: var(--token-size-radius-medium)
   mdc-shape-large: var(--token-size-radius-large)
-  ##################################################
+  # ..............................................................................
   # Sizes
   header-height: var(--token-size-height-navbar)
   paper-slider-height: var(--token-size-height-slider)
-  ##################################################
+  # ..............................................................................
   # Typography
-  # Font Family Tokens
+  ## Font Family Tokens
   primary-font-family: var(--token-font-family-primary)
   ha-font-family-body: var(--token-font-family-primary)
   ha-font-family-heading: var(--token-font-family-primary)
   ha-font-family-code: var(--token-font-family-primary)
   ha-font-family-longform: var(--token-font-family-primary)
-  ## Font Family Tokens Legacy Compatibility
+  ## ::Legacy:: Font Family Tokens
   ha-card-header-font-family: var(--token-font-family-primary)
   mdc-typography-font-family: var(--token-font-family-primary)
   mdc-typography-button-font-family: var(--token-font-family-primary)
@@ -164,37 +157,40 @@ Graphite:
   paper-font-headline_-_font-family: var(--token-font-family-primary)
   paper-font-caption_-_font-family: var(--token-font-family-primary)
   paper-font-title_-_font-family: var(--token-font-family-primary)
-  # Font Weight Tokens
+  ## Font Weight Tokens
   ha-font-weight-normal: var(--token-weight-font-body)
   ha-font-weight-medium: var(--token-weight-font-title)
   ha-font-weight-bold: var(--token-weight-font-title)
   ha-font-weight-body: var(--token-weight-font-body)
   ha-font-weight-heading: var(--token-weight-font-title)
   ha-font-weight-action: var(--token-weight-font-title)
-  ## Font Weight Legacy Compatibility
+  ## ::Legacy:: Font Weight
   mdc-typography-button-font-weight: var(--token-weight-font-title)
   title-font-weight: var(--token-weight-font-title)
-  # Font Size Tokens
+  ## Font Size Tokens
   ha-font-size-m: var(--token-size-font-body)
   ha-font-size-l: var(--token-size-font-subhead)
   ha-font-size-xl: var(--token-size-font-title)
   ha-font-size-2xl: var(--token-size-font-headline)
   ha-font-size-4xl: var(--token-size-font-display)
-  ## Size Legacy Compatibility
+  ## ::Legacy:: Size
   title-font-size: var(--token-size-font-title)
   ha-heading-card-title-font-size: var(--token-size-font-title-card)
   ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
-  # Font Smoothing
+  ## Font Smoothing
   ha-font-smoothing: antialiased
-  ##################################################
-  # Text
+  # ..............................................................................
+  # Text colors
   primary-text-color: var(--token-color-text-primary)
   secondary-text-color: var(--token-color-text-secondary)
   text-primary-color: var(--token-color-text-primary)
   text-light-primary-color: var(--token-color-text-primary)
   disabled-text-color: var(--token-color-text-disabled)
   app-header-edit-text-color: var(--token-color-text-primary)
-  ##################################################
+  # ..............................................................................
+  # Icon colors
+  paper-item-icon-color: var(--token-color-text-primary)
+  # ..............................................................................
   # Main interface colors
   primary-color: var(--token-color-primary)
   dark-primary-color: var(--primary-color)
@@ -203,31 +199,31 @@ Graphite:
   divider-color: var(--token-color-background-divider)
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
   disabled-color: var(--token-color-disabled)
-  ##################################################
+  # ..............................................................................
   # Feedback colors
   info-color: var(--token-color-feedback-info)
   success-color: var(--token-color-feedback-success)
   warning-color: var(--token-color-feedback-warning)
   error-color: var(--token-color-feedback-error)
-  ##################################################
-  # Background
+  # ..............................................................................
+  # Background colors
   lovelace-background: var(--token-color-background-base)
   primary-background-color: var(--token-color-background-base)
   secondary-background-color: var(--token-color-background-secondary)
   clear-background-color: var(--token-color-background-input-base)
-  ##################################################
-  # Navbar
+  # ..............................................................................
+  # Navbar colors
   app-header-background-color: var(--primary-background-color)
   app-header-text-color: var(--token-color-icon-primary)
   app-header-edit-background-color: var(--token-color-background-card)
-  ##################################################
-  # Sidebar
+  # ..............................................................................
+  # Sidebar colors
   sidebar-icon-color: var(--token-color-icon-sidebar)
   sidebar-text-color: var(--sidebar-icon-color)
   sidebar-background-color: var(--token-color-background-sidebar)
   sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
   sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
-  ##################################################
+  # ..............................................................................
   # Cards
   border-radius: var(--token-size-radius-card)
   card-background-color: var(--token-color-background-card)
@@ -238,16 +234,16 @@ Graphite:
   ha-card-border-style: none
   ha-card-border: none
   ha-card-box-shadow: var(--token-shadow-card-medium)
-  ##################################################
+  # ..............................................................................
   # Sections
   ha-view-sections-column-gap: var(--token-size-spacing-medium)
   ha-view-sections-column-min-width: var(--token-size-section-min-width)
-  ##################################################
+  # ..............................................................................
   # States
   state-icon-color: var(--token-color-icon-primary)
   state-on-color: var(--token-color-feedback-success)
   state-off-color: var(--token-color-feedback-error)
-  ##################################################
+  # ..............................................................................
   # Label-badge
   label-badge-text-color: var(--token-color-text-primary)
   label-badge-red: var(--token-color-background-label-badge-red)
@@ -255,26 +251,26 @@ Graphite:
   label-badge-green: var(--token-color-background-label-badge-green)
   label-badge-yellow: var(--token-color-background-label-badge-yellow)
   label-badge-grey: var(--token-color-background-label-badge-grey)
-  ##################################################
+  # ..............................................................................
   # Chip
   ha-chip-text-color: var(--token-color-text-chip)
-  ##################################################
+  # ..............................................................................
   # Dialog
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
-  ##################################################
+  # ..............................................................................
   # Slider
   paper-slider-knob-color: var(--token-color-primary)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
-  ##################################################
+  # ..............................................................................
   # Switch
   switch-checked-button-color: var(--primary-color)
   switch-checked-track-color: var(--switch-checked-button-color)
   switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
   switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
-  ##################################################
+  # ..............................................................................
   # Toggles
   paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
   paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
@@ -282,10 +278,10 @@ Graphite:
   paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
   mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
   mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
-  ##################################################
+  # ..............................................................................
   # List items
   mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
-  ##################################################
+  # ..............................................................................
   # Text Fields an Dropdown
   input-background-color: var(--token-color-background-input-base)
   input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
@@ -300,7 +296,7 @@ Graphite:
   input-hover-line-color: var(--primary-color)
   mdc-select-idle-line-color: var(--color-background-base)
   mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
-  ##################################################
+  # ..............................................................................
   # Editor
   code-editor-background-color: var(--token-color-background-base)
   codemirror-meta: var(--token-color-text-primary)
@@ -309,96 +305,12 @@ Graphite:
   codemirror-string: var(--token-color-codemirror-string)
   codemirror-keyword: var(--token-color-codemirror-keyword)
   codemirror-number: var(--token-color-codemirror-number)
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Extentions
-  ##################################################
-  ##################################################
+  # ------------------------------------------------------------------------------
   # Mini graph card
   mcg-title-font-weight: 400
-  ##################################################
+  # ..............................................................................
   # Mushroom
   mush-title-font-weight: var(--title-font-weight)
   mush-title-font-size: var(--title-font-size)
-  ##################################################
-  # Indicator Colors
-  # IMPORTANT: Mapping indicator colors may lead to unforeseen side effects
-  # and is not enabled by default to maintain compatibility with HA updates.
-  # This section is retained for reference purposes only.
-  # ------------------------------------------------
-  # RGB Indicator Color Definitions
-  # ------------------------------------------------
-  # rgb-primary-color: var(--token-rgb-primary)
-  # rgb-accent-color: var(--token-rgb-primary)
-  # rgb-white-color: var(--token-rgb-white)
-  # rgb-purple-color: var(--token-rgb-purple)
-  # rgb-pink-color: var(--token-rgb-pink)
-  # rgb-red-color: var(--token-rgb-red)
-  # rgb-deep-purple-color: var(--token-rgb-deep-purple)
-  # rgb-indigo-color: var(--token-rgb-indigo)
-  # rgb-blue-color: var(--token-rgb-blue)
-  # rgb-light-blue-color: var(--token-rgb-light-blue)
-  # rgb-cyan-color: var(--token-rgb-cyan)
-  # rgb-teal-color: var(--token-rgb-teal)
-  # rgb-green-color: var(--token-rgb-green)
-  # rgb-light-green-color: var(--token-rgb-light-green)
-  # rgb-lime-color: var(--token-rgb-lime)
-  # rgb-yellow-color: var(--token-rgb-yellow)
-  # rgb-amber-color: var(--token-rgb-amber)
-  # rgb-orange-color: var(--token-rgb-orange)
-  # rgb-deep-orange-color: var(--token-rgb-deep-orange)
-  # rgb-brown-color: var(--token-rgb-brown)
-  # rgb-grey-color: var(--token-rgb-grey)
-  # rgb-blue-grey-color: var(--token-rgb-blue-grey)
-  # rgb-black-color: var(--token-rgb-black)
-  # rgb-disabled-color: var(--token-rgb-disabled)
-  # rgb-state-inactive-color: var(--token-rgb-state-inactive)
-  # ------------------------------------------------
-  # HA Indicator Colors
-  # ------------------------------------------------
-  # red-color: rgb(var(--rgb-red-color))
-  # pink-color: rgb(var(--rgb-pink-color))
-  # purple-color: rgb(var(--rgb-purple-color))
-  # deep-purple-color: rgb(var(--rgb-deep-purple-color))
-  # indigo-color: rgb(var(--rgb-indigo-color))
-  # blue-color: rgb(var(--rgb-blue-color))
-  # light-blue-color: rgb(var(--rgb-light-blue-color))
-  # cyan-color: rgb(var(--rgb-cyan-color))
-  # teal-color: rgb(var(--rgb-teal-color))
-  # green-color: rgb(var(--rgb-green-color))
-  # light-green-color: rgb(var(--rgb-light-green-color))
-  # lime-color: rgb(var(--rgb-lime-color))
-  # yellow-color: rgb(var(--rgb-yellow-color))
-  # amber-color: rgb(var(--rgb-amber-color))
-  # orange-color: rgb(var(--rgb-orange-color))
-  # deep-orange-color: rgb(var(--rgb-deep-orange-color))
-  # brown-color: rgb(var(--rgb-brown-color))
-  # light-grey-color: rgb(var(--rgb-grey-color))
-  # grey-color: rgb(var(--rgb-grey-color))
-  # blue-grey-color: rgb(var(--rgb-blue-grey-color))
-  # black-color: rgb(var(--rgb-black-color))
-  # white-color: rgb(var(--rgb-white-color))
-  # ------------------------------------------------
-  # Mushroom Indicator Colors
-  # ------------------------------------------------
-  # mush-rgb-white: var(--rgb-white-color)
-  # mush-rgb-purple: var(--rgb-purple-color)
-  # mush-rgb-pink: var(--rgb-pink-color)
-  # mush-rgb-red: var(--rgb-red-color)
-  # mush-rgb-deep-purple: var(--rgb-deep-purple-color)
-  # mush-rgb-indigo: var(--rgb-indigo-color)
-  # mush-rgb-blue: var(--rgb-blue-color)
-  # mush-rgb-light-blue: var(--rgb-light-blue-color)
-  # mush-rgb-cyan: var(--rgb-cyan-color)
-  # mush-rgb-teal: var(--rgb-teal-color)
-  # mush-rgb-green: var(--rgb-green-color)
-  # mush-rgb-light-green: var(--rgb-light-green-color)
-  # mush-rgb-lime: var(--rgb-lime-color)
-  # mush-rgb-yellow: var(--rgb-yellow-color)
-  # mush-rgb-amber: var(--rgb-amber-color)
-  # mush-rgb-orange: var(--rgb-orange-color)
-  # mush-rgb-deep-orange: var(--rgb-deep-orange-color)
-  # mush-rgb-brown: var(--rgb-brown-color)
-  # mush-rgb-grey: var(--rgb-grey-color)
-  # mush-rgb-blue-grey: var(--rgb-blue-grey-color)
-  # mush-rgb-black: var(--rgb-black-color)
-  # mush-rgb-disabled: var(--rgb-disabled-color)
