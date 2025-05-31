@@ -16,7 +16,7 @@ token-rgb-teal: 0, 150, 136
 token-rgb-green: 56, 142, 60
 token-rgb-light-green: 139, 195, 74
 token-rgb-lime: 205, 220, 57
-token-rgb-yellow: 255, 235, 59
+token-rgb-yellow: 250, 183, 0
 token-rgb-amber: 255, 193, 7
 token-rgb-orange: 255, 158, 0
 token-rgb-deep-orange: 255, 87, 34
