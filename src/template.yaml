@@ -192,3 +192,15 @@ mcg-title-font-weight: 400
 # Mushroom
 mush-title-font-weight: var(--title-font-weight)
 mush-title-font-size: var(--title-font-size)
+# ------------------------------------------------
+# HA Indicator Colors
+# ------------------------------------------------
+# Note: Amber is not safe to be modified, causes history-graph rendering issues.
+# Potentially other color definitions could cause issues too.
+# Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+# ------------------------------------------------
+# RGB Indicator Color Definitions
+# ------------------------------------------------
+# Grey
+light-grey-color: rgb(var(--token-rgb-grey))
+mush-rgb-grey: var(--token-rgb-grey)
