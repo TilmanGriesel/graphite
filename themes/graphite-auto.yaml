@@ -10,7 +10,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-05-31 15:06:34
+        # This file was generated at 2025-05-31 16:48:42
         #------------------------------------------------------
       
       
@@ -60,7 +60,7 @@ Graphite Auto:
         token-color-text-sidebar: var(--token-color-text-secondary)
         token-color-text-label-badge: rgba(19, 21, 54, 0.7)
         token-color-text-chip: var(--token-color-black)
-        token-color-background-base: rgb(228, 229, 233)
+        token-color-background-base: rgb(234, 235, 238)
         token-color-background-secondary: rgb(245, 245, 245)
         token-color-background-sidebar: var(--token-color-background-base)
         token-color-background-input-base: rgb(255, 255, 255)
@@ -82,7 +82,7 @@ Graphite Auto:
         token-color-codemirror-string: rgb(0, 77, 153)
         token-color-codemirror-keyword: rgb(70, 112, 216)
         token-color-codemirror-number: rgb(204, 85, 0)
-        token-shadow-card-medium: 0 2px 18px 0px rgba(0, 0, 0, 0.08)
+        token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
       
         # ------------------------------------------------------------------------------
         # Size tokens
@@ -101,10 +101,17 @@ Graphite Auto:
         token-size-height-navbar: 56px
         # ..............................................................................
         # Font
-        token-size-font-medium: 16px
-        token-size-font-large: 28px
-        token-size-font-title: var(--token-size-font-large)
-        token-size-font-title-card: var(--token-size-font-medium)
+        token-size-font-xs: calc(10px * var(--ha-font-size-scale))
+        token-size-font-s: calc(12px * var(--ha-font-size-scale))
+        token-size-font-m: calc(14px * var(--ha-font-size-scale))
+        token-size-font-l: calc(15px * var(--ha-font-size-scale))
+        token-size-font-xl: calc(20px * var(--ha-font-size-scale))
+        token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
+        token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
+        token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
+        token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
+        token-size-font-title: var(--token-size-font-l)
+        token-size-font-title-card: var(--token-size-font-l)
         # ..............................................................................
         # Spacing
         token-size-spacing-medium: 16px
@@ -124,7 +131,7 @@ Graphite Auto:
         # ..............................................................................
         # Font
         token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-        token-weight-font-title-card: 400
+        token-weight-font-title-card: 500
       
         # ------------------------------------------------------------------------------
         # Definitions
@@ -169,11 +176,15 @@ Graphite Auto:
         mdc-typography-button-font-weight: var(--token-weight-font-title)
         title-font-weight: var(--token-weight-font-title)
         ## Font Size Tokens
-        ha-font-size-m: var(--token-size-font-body)
-        ha-font-size-l: var(--token-size-font-subhead)
-        ha-font-size-xl: var(--token-size-font-title)
-        ha-font-size-2xl: var(--token-size-font-headline)
-        ha-font-size-4xl: var(--token-size-font-display)
+        ha-font-size-xs: var(--token-size-font-xs)
+        ha-font-size-s: var(--token-size-font-s)
+        ha-font-size-m: var(--token-size-font-m)
+        ha-font-size-l: var(--token-size-font-l)
+        ha-font-size-xl: var(--token-size-font-xl)
+        ha-font-size-2xl: var(--token-size-font-2xl)
+        ha-font-size-3xl: var(--token-size-font-3xl)
+        ha-font-size-4xl: var(--token-size-font-4xl)
+        ha-font-size-5xl: var(--token-size-font-5xl)
         ## ::Legacy:: Size
         title-font-size: var(--token-size-font-title)
         ha-heading-card-title-font-size: var(--token-size-font-title-card)
@@ -185,12 +196,13 @@ Graphite Auto:
         primary-text-color: var(--token-color-text-primary)
         secondary-text-color: var(--token-color-text-secondary)
         text-primary-color: var(--token-color-text-primary)
-        text-light-primary-color: var(--token-color-text-primary)
         disabled-text-color: var(--token-color-text-disabled)
         app-header-edit-text-color: var(--token-color-text-primary)
+        text-light-primary-color: rgb(28, 29, 33)
         # ..............................................................................
         # Icon colors
         paper-item-icon-color: var(--token-color-text-primary)
+        state-inactive-color: var(--token-color-text-secondary)
         # ..............................................................................
         # Main interface colors
         primary-color: var(--token-color-primary)
@@ -324,7 +336,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-05-31 15:06:34
+        # This file was generated at 2025-05-31 16:48:42
         #------------------------------------------------------
       
       
@@ -396,7 +408,7 @@ Graphite Auto:
         token-color-codemirror-string: rgb(119, 196, 229)
         token-color-codemirror-keyword: rgb(140, 169, 255)
         token-color-codemirror-number: rgb(255, 91, 29)
-        token-shadow-card-medium: 0 3px 16px 0 rgba(0, 0, 0, 0.12)
+        token-shadow-card-medium: 0 3px 8px 0 rgba(0, 0, 0, 0.12)
       
         # ------------------------------------------------------------------------------
         # Size tokens
@@ -415,10 +427,17 @@ Graphite Auto:
         token-size-height-navbar: 56px
         # ..............................................................................
         # Font
-        token-size-font-medium: 16px
-        token-size-font-large: 28px
-        token-size-font-title: var(--token-size-font-large)
-        token-size-font-title-card: var(--token-size-font-medium)
+        token-size-font-xs: calc(10px * var(--ha-font-size-scale))
+        token-size-font-s: calc(12px * var(--ha-font-size-scale))
+        token-size-font-m: calc(14px * var(--ha-font-size-scale))
+        token-size-font-l: calc(15px * var(--ha-font-size-scale))
+        token-size-font-xl: calc(20px * var(--ha-font-size-scale))
+        token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
+        token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
+        token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
+        token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
+        token-size-font-title: var(--token-size-font-l)
+        token-size-font-title-card: var(--token-size-font-l)
         # ..............................................................................
         # Spacing
         token-size-spacing-medium: 16px
@@ -438,7 +457,7 @@ Graphite Auto:
         # ..............................................................................
         # Font
         token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-        token-weight-font-title-card: 400
+        token-weight-font-title-card: 500
       
         # ------------------------------------------------------------------------------
         # Definitions
@@ -483,11 +502,15 @@ Graphite Auto:
         mdc-typography-button-font-weight: var(--token-weight-font-title)
         title-font-weight: var(--token-weight-font-title)
         ## Font Size Tokens
-        ha-font-size-m: var(--token-size-font-body)
-        ha-font-size-l: var(--token-size-font-subhead)
-        ha-font-size-xl: var(--token-size-font-title)
-        ha-font-size-2xl: var(--token-size-font-headline)
-        ha-font-size-4xl: var(--token-size-font-display)
+        ha-font-size-xs: var(--token-size-font-xs)
+        ha-font-size-s: var(--token-size-font-s)
+        ha-font-size-m: var(--token-size-font-m)
+        ha-font-size-l: var(--token-size-font-l)
+        ha-font-size-xl: var(--token-size-font-xl)
+        ha-font-size-2xl: var(--token-size-font-2xl)
+        ha-font-size-3xl: var(--token-size-font-3xl)
+        ha-font-size-4xl: var(--token-size-font-4xl)
+        ha-font-size-5xl: var(--token-size-font-5xl)
         ## ::Legacy:: Size
         title-font-size: var(--token-size-font-title)
         ha-heading-card-title-font-size: var(--token-size-font-title-card)
@@ -499,12 +522,13 @@ Graphite Auto:
         primary-text-color: var(--token-color-text-primary)
         secondary-text-color: var(--token-color-text-secondary)
         text-primary-color: var(--token-color-text-primary)
-        text-light-primary-color: var(--token-color-text-primary)
         disabled-text-color: var(--token-color-text-disabled)
         app-header-edit-text-color: var(--token-color-text-primary)
+        text-light-primary-color: rgb(28, 29, 33)
         # ..............................................................................
         # Icon colors
         paper-item-icon-color: var(--token-color-text-primary)
+        state-inactive-color: var(--token-color-text-secondary)
         # ..............................................................................
         # Main interface colors
         primary-color: var(--token-color-primary)
