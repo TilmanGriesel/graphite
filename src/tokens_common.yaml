@@ -17,7 +17,7 @@ token-size-height-slider: 4px
 token-size-height-navbar: 56px
 ##################################################
 ## Font
-token-size-font-medium: 17px
+token-size-font-medium: 16px
 token-size-font-large: 28px
 token-size-font-title: var(--token-size-font-large)
 token-size-font-title-card: var(--token-size-font-medium)
@@ -39,7 +39,7 @@ token-color-white: rgb(255, 255, 255)
 token-opacity-ripple-hover: 0.14
 ##################################################
 ## Font
-token-weight-font-title-card: 600
+token-weight-font-title-card: 400
 ##################################################
 # Font family
 token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
