@@ -15,10 +15,17 @@ token-size-height-slider: 4px
 token-size-height-navbar: 56px
 # ..............................................................................
 # Font
-token-size-font-medium: 16px
-token-size-font-large: 28px
-token-size-font-title: var(--token-size-font-large)
-token-size-font-title-card: var(--token-size-font-medium)
+token-size-font-xs: calc(10px * var(--ha-font-size-scale))
+token-size-font-s: calc(12px * var(--ha-font-size-scale))
+token-size-font-m: calc(14px * var(--ha-font-size-scale))
+token-size-font-l: calc(15px * var(--ha-font-size-scale))
+token-size-font-xl: calc(20px * var(--ha-font-size-scale))
+token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
+token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
+token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
+token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
+token-size-font-title: var(--token-size-font-l)
+token-size-font-title-card: var(--token-size-font-l)
 # ..............................................................................
 # Spacing
 token-size-spacing-medium: 16px
@@ -38,4 +45,4 @@ token-opacity-ripple-hover: 0.14
 # ..............................................................................
 # Font
 token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-token-weight-font-title-card: 400
+token-weight-font-title-card: 500
