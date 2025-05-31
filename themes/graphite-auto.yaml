@@ -10,14 +10,14 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-05-31 16:48:42
+        # This file was generated at 2025-05-31 17:21:17
         #------------------------------------------------------
       
       
         # ------------------------------------------------------------------------------
         # Light theme color tokens
         # ------------------------------------------------------------------------------
-        token-rgb-primary: 255, 158, 0
+        token-rgb-primary: 238, 147, 0
         token-rgb-black: 0, 0, 0
         token-rgb-white: 240, 243, 255
         token-rgb-purple: 129, 45, 250
@@ -32,12 +32,12 @@ Graphite Auto:
         token-rgb-green: 56, 142, 60
         token-rgb-light-green: 139, 195, 74
         token-rgb-lime: 205, 220, 57
-        token-rgb-yellow: 255, 235, 59
+        token-rgb-yellow: 250, 183, 0
         token-rgb-amber: 255, 193, 7
         token-rgb-orange: 255, 158, 0
         token-rgb-deep-orange: 255, 87, 34
         token-rgb-brown: 121, 85, 72
-        token-rgb-grey: 139, 140, 157
+        token-rgb-grey: 103, 104, 119
         token-rgb-blue-grey: 96, 125, 139
         token-rgb-disabled: 189, 189, 189
         token-rgb-state-inactive: 176, 190, 197
@@ -327,6 +327,18 @@ Graphite Auto:
         # Mushroom
         mush-title-font-weight: var(--title-font-weight)
         mush-title-font-size: var(--title-font-size)
+        # ------------------------------------------------
+        # HA Indicator Colors
+        # ------------------------------------------------
+        # Note: Amber is not safe to be modified, causes history-graph rendering issues.
+        # Potentially other color definitions could cause issues too.
+        # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+        # ------------------------------------------------
+        # RGB Indicator Color Definitions
+        # ------------------------------------------------
+        # Grey
+        light-grey-color: rgb(var(--token-rgb-grey))
+        mush-rgb-grey: var(--token-rgb-grey)
     dark:      
         # Graphite is a contemporary theme that offers both a calm dark color scheme and a
         # clean light theme, featuring native device fonts and a cohesive design
@@ -336,7 +348,7 @@ Graphite Auto:
         # https://github.com/TilmanGriesel/graphite
       
         #------------------------------------------------------
-        # This file was generated at 2025-05-31 16:48:42
+        # This file was generated at 2025-05-31 17:21:17
         #------------------------------------------------------
       
       
@@ -653,4 +665,16 @@ Graphite Auto:
         # Mushroom
         mush-title-font-weight: var(--title-font-weight)
         mush-title-font-size: var(--title-font-size)
+        # ------------------------------------------------
+        # HA Indicator Colors
+        # ------------------------------------------------
+        # Note: Amber is not safe to be modified, causes history-graph rendering issues.
+        # Potentially other color definitions could cause issues too.
+        # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+        # ------------------------------------------------
+        # RGB Indicator Color Definitions
+        # ------------------------------------------------
+        # Grey
+        light-grey-color: rgb(var(--token-rgb-grey))
+        mush-rgb-grey: var(--token-rgb-grey)
 
