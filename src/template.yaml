@@ -61,9 +61,9 @@ ha-font-smoothing: antialiased
 primary-text-color: var(--token-color-text-primary)
 secondary-text-color: var(--token-color-text-secondary)
 text-primary-color: var(--token-color-text-primary)
-text-light-primary-color: var(--token-color-text-primary)
 disabled-text-color: var(--token-color-text-disabled)
 app-header-edit-text-color: var(--token-color-text-primary)
+text-light-primary-color: rgb(28, 29, 33)
 # ..............................................................................
 # Icon colors
 paper-item-icon-color: var(--token-color-text-primary)
