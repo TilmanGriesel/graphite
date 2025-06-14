@@ -1,10 +1,6 @@
 # ------------------------------------------------------------------------------
 # Definitions
 # ------------------------------------------------------------------------------
-# Shapes
-mdc-shape-small: var(--token-size-radius-small)
-mdc-shape-medium: var(--token-size-radius-medium)
-mdc-shape-large: var(--token-size-radius-large)
 # ..............................................................................
 # Sizes
 header-height: var(--token-size-height-navbar)

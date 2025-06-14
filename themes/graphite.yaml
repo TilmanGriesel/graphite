@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-05-31 17:21:17
+  # This file was generated at 2025-06-14 15:49:23
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -135,10 +135,6 @@ Graphite:
   # ------------------------------------------------------------------------------
   # Definitions
   # ------------------------------------------------------------------------------
-  # Shapes
-  mdc-shape-small: var(--token-size-radius-small)
-  mdc-shape-medium: var(--token-size-radius-medium)
-  mdc-shape-large: var(--token-size-radius-large)
   # ..............................................................................
   # Sizes
   header-height: var(--token-size-height-navbar)
