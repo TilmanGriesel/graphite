@@ -286,22 +286,49 @@ class ThemePatcher:
                 logger.error(f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})")
                 return False
 
-            # Check if token exists as an actual property (not in a comment)
-            token_exists = False
-            token_line_index = -1
+            # Check if token exists - handle both flat and nested modes structure
+            token_instances = []  # List of (line_index, is_in_modes_section) tuples
+            in_modes_section = False
+            in_light_or_dark = False
+            current_indent_level = 0
             
-            # Process line by line
             for i, line in enumerate(lines):
                 line_stripped = line.lstrip()
                 # Skip empty lines and comments
                 if not line_stripped or line_stripped.startswith('#'):
                     continue
                 
-                # Check if this non-comment line contains our token
+                # Calculate indentation level
+                indent_level = len(line) - len(line_stripped)
+                
+                # Track if we're in a modes section
+                if line_stripped.startswith("modes:"):
+                    in_modes_section = True
+                    current_indent_level = indent_level
+                    continue
+                elif in_modes_section and indent_level <= current_indent_level:
+                    # We've left the modes section
+                    in_modes_section = False
+                    in_light_or_dark = False
+                
+                # Track if we're in light: or dark: subsection
+                if in_modes_section and (line_stripped.startswith("light:") or line_stripped.startswith("dark:")):
+                    in_light_or_dark = True
+                    continue
+                elif in_modes_section and in_light_or_dark and indent_level <= current_indent_level + 2:
+                    # We've left the light/dark subsection
+                    in_light_or_dark = False
+                
+                # Check for token in appropriate context
                 if line_stripped.startswith(f"{self.token}:"):
-                    token_exists = True
-                    token_line_index = i
-                    break
+                    if not in_modes_section:
+                        # Found token at root level (normal theme)
+                        token_instances.append((i, False))
+                    elif in_light_or_dark:
+                        # Found token in modes section (auto theme)
+                        token_instances.append((i, True))
+            
+            token_exists = len(token_instances) > 0
 
             if not token_exists and not create_token:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
@@ -361,24 +388,104 @@ class ThemePatcher:
             )
 
             if token_exists:
-                # Update existing token
-                lines[token_line_index] = new_line
+                # Update existing token instances
+                for line_index, is_in_modes in reversed(token_instances):
+                    # Use appropriate indentation for each instance
+                    if is_in_modes:
+                        # For modes section, use the existing line's indentation
+                        existing_line = lines[line_index]
+                        existing_indent = len(existing_line) - len(existing_line.lstrip())
+                        instance_indent = " " * existing_indent
+                    else:
+                        # For root level, use base indentation
+                        instance_indent = token_indent
+                    
+                    instance_line = (
+                        f"{instance_indent}{self.token}: {value}  "
+                        f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+                    )
+                    lines[line_index] = instance_line
+                    
+                logger.info(f"Updated {len(token_instances)} instances of token '{self.token}'")
             else:
+                # Create new token - handle modes structure if needed
                 if self.token_type == TokenType.CARD_MOD:
                     lines.insert(card_mod_theme_index + 1, new_line)
                 else:
-                    # Check for user section
-                    user_section_exists = False
-                    for line in lines:
-                        if "# User defined entries" in line:
-                            user_section_exists = True
-                            break
+                    # Check if this file has a modes structure for auto themes
+                    has_modes_structure = any("modes:" in line for line in lines)
                     
-                    if not user_section_exists:
-                        lines.append(f"\n{token_indent}##############################################################################\n")
-                        lines.append(f"{token_indent}# User defined entries\n")
+                    if has_modes_structure:
+                        # Insert token in both light and dark modes if they exist
+                        light_section_end = -1
+                        dark_section_end = -1
+                        in_modes = False
+                        in_light = False
+                        in_dark = False
+                        modes_indent = 0
                         
-                    lines.append(new_line)
+                        for i, line in enumerate(lines):
+                            line_stripped = line.lstrip()
+                            if line_stripped.startswith("modes:"):
+                                in_modes = True
+                                modes_indent = len(line) - len(line_stripped)
+                                continue
+                            elif in_modes and line_stripped.startswith("light:"):
+                                in_light = True
+                                in_dark = False
+                            elif in_modes and line_stripped.startswith("dark:"):
+                                in_dark = True
+                                in_light = False
+                                if light_section_end > -1:
+                                    light_section_end = i - 1
+                            elif in_modes and len(line) - len(line_stripped) <= modes_indent and line_stripped:
+                                # End of modes section
+                                if in_dark:
+                                    dark_section_end = i
+                                elif in_light:
+                                    light_section_end = i
+                                break
+                        
+                        # If we didn't find explicit end, use end of file
+                        if in_light and light_section_end == -1:
+                            light_section_end = len(lines)
+                        if in_dark and dark_section_end == -1:
+                            dark_section_end = len(lines)
+                        
+                        # Insert in both sections with proper indentation
+                        mode_token_indent = " " * (modes_indent + 8)  # modes + light/dark + token level
+                        mode_new_line = (
+                            f"{mode_token_indent}{self.token}: {value}  "
+                            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+                        )
+                        
+                        insertions_made = 0
+                        if dark_section_end > -1:
+                            lines.insert(dark_section_end, mode_new_line)
+                            insertions_made += 1
+                        if light_section_end > -1:
+                            # Adjust index if we already inserted in dark section
+                            insert_at = light_section_end + insertions_made
+                            lines.insert(insert_at, mode_new_line)
+                            insertions_made += 1
+                            
+                        if insertions_made > 0:
+                            logger.info(f"Created token '{self.token}' in {insertions_made} mode section(s)")
+                        else:
+                            logger.warning("Could not find appropriate location in modes structure")
+                    else:
+                        # Standard theme - add to user section
+                        user_section_exists = False
+                        for line in lines:
+                            if "# User defined entries" in line:
+                                user_section_exists = True
+                                break
+                        
+                        if not user_section_exists:
+                            lines.append(f"\n{token_indent}##############################################################################\n")
+                            lines.append(f"{token_indent}# User defined entries\n")
+                            
+                        lines.append(new_line)
 
             # Join lines and ensure file ends with newline
             updated_content = ''.join(lines)
