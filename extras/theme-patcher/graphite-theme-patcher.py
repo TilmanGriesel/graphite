@@ -3,7 +3,10 @@
 """
 Graphite Theme Patcher
 
-Updates token values in theme files for the Home Assistant Graphite theme.
+A comprehensive tool for updating token values in Home Assistant Graphite theme files.
+
+Author: Tilman Griesel
+License: MIT
 """
 
 import sys
@@ -21,9 +24,10 @@ from enum import Enum, auto
 
 __version__ = "1.6.0"
 
-MAX_FILES_TO_PROCESS = 50
-MAX_FILE_SIZE_MB = 10
-MAX_LINES_PER_FILE = 10000
+# Security and performance constraints
+MAX_FILES_TO_PROCESS = 50       # Maximum number of YAML files to process per operation
+MAX_FILE_SIZE_MB = 10          # Maximum file size in megabytes to prevent memory issues
+MAX_LINES_PER_FILE = 10000     # Maximum lines per file to prevent DoS attacks
 
 __author__ = "Tilman Griesel"
 __changelog__ = {
@@ -45,31 +49,40 @@ log_dir.mkdir(exist_ok=True)
 
 def detect_homeassistant_config_path() -> str:
     """
-    Detect Home Assistant configuration directory.
+    Automatically detect the Home Assistant configuration directory.
     
-    Returns the path to the HA config directory containing themes and scripts folders.
-    Checks for common HA installation patterns.
+    Searches common installation locations to find a valid Home Assistant
+    configuration directory containing a themes folder.
+    
+    Returns:
+        str: Path to the themes directory within the HA configuration
+        
+    Search order:
+        1. /config (Home Assistant OS/Supervised)
+        2. /root/.homeassistant (HA Core default)
+        3. ~/.homeassistant (HA Core user installation)
+        4. Parent directory of script location
+        5. Fallback to /config/themes
     """
-    # Common HA paths to check
     candidate_paths = [
-        "/config",  # Home Assistant OS/Supervised
-        "/root/.homeassistant",  # HA Core default
-        str(Path.home() / ".homeassistant"),  # HA Core user install
-        str(script_dir.parent),  # Directory above script location
+        "/config",                              # Home Assistant OS/Supervised
+        "/root/.homeassistant",                 # HA Core default installation
+        str(Path.home() / ".homeassistant"),   # HA Core user installation
+        str(script_dir.parent),                 # Script parent directory
     ]
     
     for path in candidate_paths:
         config_path = Path(path)
         themes_path = config_path / "themes"
         
-        # Check if this looks like a HA config directory
+        # Validate that this appears to be a valid HA configuration directory
         if (config_path.exists() and 
             config_path.is_dir() and 
             themes_path.exists() and 
             themes_path.is_dir()):
             return str(themes_path)
     
-    # Fallback to original default
+    # Fallback to standard HA OS path if no valid directory found
     return "/config/themes"
 
 logging.basicConfig(
@@ -86,7 +99,10 @@ logger.version = __version__
 
 
 class VersionFilter(logging.Filter):
+    """Custom logging filter to inject version information into log records."""
+    
     def filter(self, record):
+        """Add version information to log record."""
         record.version = __version__
         return True
 
@@ -95,13 +111,28 @@ logger.addFilter(VersionFilter())
 
 
 class ValidationError(Exception):
-    """Raised when input is invalid."""
+    """Custom exception raised when input validation fails."""
     pass
 
 
 @contextmanager
 def file_lock(lock_file: Path):
-    """Provide an exclusive file lock for atomic operations."""
+    """
+    Provide an exclusive file lock for atomic YAML file operations.
+    
+    Creates a lock file to prevent concurrent modifications of the same
+    theme file, ensuring data integrity during updates.
+    
+    Args:
+        lock_file: Path to the file being locked
+        
+    Yields:
+        None: Context manager for use in with statement
+        
+    Note:
+        Uses POSIX file locking (fcntl) which is not available on Windows.
+        Lock files are automatically cleaned up on exit.
+    """
     lock_path = lock_file.with_suffix(".lock")
     lock_fd = None
     try:
@@ -122,15 +153,26 @@ def file_lock(lock_file: Path):
 
 
 class TokenType(Enum):
-    RGB = auto()
-    SIZE = auto()
-    OPACITY = auto()
-    RADIUS = auto()
-    GENERIC = auto()
-    CARD_MOD = auto()
+    """Enumeration of supported token types with their validation rules."""
+    
+    RGB = auto()        # Color tokens expecting RGB/RGBA values
+    SIZE = auto()       # Size tokens expecting pixel values
+    OPACITY = auto()    # Opacity tokens expecting 0-1 decimal values
+    RADIUS = auto()     # Border radius tokens expecting pixel values
+    GENERIC = auto()    # Generic tokens with minimal validation
+    CARD_MOD = auto()   # Card-mod specific tokens requiring quotes
 
     @classmethod
     def from_string(cls, value: str) -> "TokenType":
+        """
+        Convert string token type to enum value.
+        
+        Args:
+            value: String representation of token type
+            
+        Returns:
+            TokenType: Corresponding enum value, defaults to GENERIC
+        """
         mapping = {
             "rgb": cls.RGB,
             "size": cls.SIZE,
@@ -143,6 +185,13 @@ class TokenType(Enum):
 
 
 class ThemePatcher:
+    """
+    Core class for updating token values in Home Assistant theme files.
+    
+    Provides comprehensive token management with support for both standard
+    themes and auto themes with mode-specific targeting capabilities.
+    """
+    
     def __init__(
         self,
         token: str = "token-rgb-primary",
@@ -151,19 +200,38 @@ class ThemePatcher:
         base_path: Optional[str] = None,
         target_mode: str = "all",
     ):
+        """
+        Initialize the theme patcher with specified parameters.
+        
+        Args:
+            token: Name of the token to update
+            token_type: Type of token (rgb, size, opacity, radius, generic, card-mod)
+            theme: Name of the theme directory
+            base_path: Base themes directory path (auto-detected if None)
+            target_mode: Target mode for auto themes (light, dark, all)
+        """
         self.theme = theme
-        # Use dynamic detection if no base_path provided
+        self.target_mode = target_mode
+        
+        # Auto-detect base path if not provided
         if base_path is None:
             base_path = detect_homeassistant_config_path()
         self.theme_path = Path(base_path) / theme
+        
         self.token = token
         self.token_type = TokenType.from_string(token_type)
-        self.target_mode = target_mode
+        
+        # Validate configuration before proceeding
         self._validate_paths()
         self._validate_token()
 
     def _validate_paths(self) -> None:
-        """Check directories exist and are writable."""
+        """
+        Validate that theme directories exist and are accessible.
+        
+        Raises:
+            ValidationError: If directories are missing, invalid, or not writable
+        """
         base_path = self.theme_path.parent
         if not base_path.exists():
             raise ValidationError(f"Directory not found: {base_path}")
@@ -178,31 +246,50 @@ class ThemePatcher:
             raise ValidationError(f"Cannot write to theme: {self.theme_path}")
 
     def _validate_token(self) -> None:
-        """Ensure token is a valid YAML key and safe to use."""
+        """
+        Validate token name for security and YAML compatibility.
+        
+        Ensures the token name is safe to use in YAML files and prevents
+        injection attacks through malicious token names.
+        
+        Raises:
+            ValidationError: If token name is invalid or potentially dangerous
+        """
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
             
         token = self.token.strip()
         
-        # Check for potentially dangerous characters
+        # Validate against potentially dangerous characters
         dangerous_chars = ['\n', '\r', '\t', '#', ':', '"', "'", '\\', '`']
         if any(char in token for char in dangerous_chars):
             raise ValidationError(f"Token contains invalid characters: {token}")
             
-        # Ensure token doesn't start with special YAML characters
+        # Prevent tokens starting with YAML special characters
         if token.startswith(('-', '!', '&', '*', '|', '>', '%', '@')):
             raise ValidationError(f"Token cannot start with YAML special character: {token}")
             
-        # Check reasonable length limits
+        # Enforce reasonable length constraints
         if len(token) > 100:
             raise ValidationError(f"Token name too long (max 100 chars): {token}")
             
-        # Ensure it's a valid identifier-like string
+        # Require valid identifier format
         if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', token):
             raise ValidationError(f"Token must be alphanumeric with hyphens/underscores: {token}")
 
     def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
-        """Parse comma-separated RGB or RGBA values."""
+        """
+        Parse and validate color values in RGB or RGBA format.
+        
+        Args:
+            value: Comma-separated color values (e.g., "255, 128, 0" or "255, 128, 0, 0.8")
+            
+        Returns:
+            Tuple containing RGB values list and optional alpha value
+            
+        Raises:
+            ValidationError: If color format is invalid or values are out of range
+        """
         try:
             components = [x.strip() for x in value.split(",")]
             if len(components) not in (3, 4):
@@ -220,14 +307,25 @@ class ThemePatcher:
             raise ValidationError("Invalid color values")
 
     def _validate_value(self, value: Optional[str]) -> Optional[str]:
-        """Validate and format the value based on the token type."""
+        """
+        Validate and format token value according to its type.
+        
+        Args:
+            value: Raw token value to validate
+            
+        Returns:
+            Formatted and validated token value, or None if input is None
+            
+        Raises:
+            ValidationError: If value is invalid for the token type
+        """
         if value is None:
             return None
 
         if self.token_type == TokenType.GENERIC:
             return value
 
-        # Strip quotes for other types
+        # Remove surrounding quotes for processing
         value = value.strip().strip("\"'")
 
         try:
@@ -258,10 +356,11 @@ class ThemePatcher:
             elif self.token_type == TokenType.RGB:
                 rgb, alpha = self._parse_color_value(value)
                 if "rgb" in self.token.lower():
-                    # Token name includes 'rgb', so just commas
+                    # RGB tokens use comma-separated format without function wrapper
                     if alpha is not None:
                         raise ValidationError("RGB tokens cannot have alpha")
                     return f"{rgb[0]}, {rgb[1]}, {rgb[2]}"
+                # Use CSS function format for other color tokens
                 if alpha is not None:
                     return f"rgba({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
                 return f"rgb({rgb[0]}, {rgb[1]}, {rgb[2]})"
@@ -291,8 +390,8 @@ class ThemePatcher:
             logger.debug(f"Processing file: {file_path} ({len(lines)} lines)")
             logger.debug(f"Looking for token: '{self.token}' of type: {self.token_type.name}")
 
-            # Check if token exists - handle both flat and nested modes structure
-            token_instances = []  # List of (line_index, is_in_modes_section, mode_type) tuples
+            # Analyze file structure to locate tokens in both standard and auto themes
+            token_instances = []  # Track found tokens: (line_index, is_in_modes_section, mode_type)
             in_modes_section = False
             in_light_or_dark = False
             current_mode_type = None
@@ -300,46 +399,46 @@ class ThemePatcher:
             
             for i, line in enumerate(lines):
                 line_stripped = line.lstrip()
-                # Skip empty lines and comments
+                # Process only non-empty, non-comment lines
                 if not line_stripped or line_stripped.startswith('#'):
                     continue
                 
-                # Calculate indentation level
+                # Determine current indentation depth for structure tracking
                 indent_level = len(line) - len(line_stripped)
                 
-                # Track if we're in a modes section
+                # Detect entry into auto theme modes section
                 if line_stripped.startswith("modes:"):
                     in_modes_section = True
                     current_indent_level = indent_level
                     logger.debug(f"Line {i+1}: Entering modes section (indent: {indent_level})")
                     continue
                 elif in_modes_section and indent_level <= current_indent_level:
-                    # We've left the modes section
+                    # Exit modes section when indentation returns to original level
                     in_modes_section = False
                     in_light_or_dark = False
                     logger.debug(f"Line {i+1}: Exiting modes section")
                 
-                # Track if we're in light: or dark: subsection (extensible for future modes)
+                # Detect specific mode subsections (extensible for future theme modes)
                 if in_modes_section and (line_stripped.startswith("light:") or line_stripped.startswith("dark:")):
                     current_mode_type = "light" if line_stripped.startswith("light:") else "dark"
                     in_light_or_dark = True
                     logger.debug(f"Line {i+1}: Entering {current_mode_type} mode section")
                     continue
                 elif in_modes_section and in_light_or_dark and indent_level <= current_indent_level + 2:
-                    # We've left the light/dark subsection
+                    # Exit mode subsection when indentation decreases
                     in_light_or_dark = False
                     current_mode_type = None
                     logger.debug(f"Line {i+1}: Exiting light/dark mode section")
                 
-                # Check for token in appropriate context
+                # Evaluate token matches against targeting criteria
                 if line_stripped.startswith(f"{self.token}:"):
                     if not in_modes_section:
-                        # Found token at root level (normal theme)
-                        if self.target_mode == "all":  # For non-modes themes, always include
+                        # Standard theme: include tokens when targeting all modes
+                        if self.target_mode == "all":
                             token_instances.append((i, False, None))
                             logger.debug(f"Line {i+1}: Found token at root level: {line_stripped}")
                     elif in_light_or_dark:
-                        # Found token in modes section (auto theme) - check if we should include it
+                        # Auto theme: include tokens matching target mode criteria
                         should_include = (
                             self.target_mode == "all" or 
                             self.target_mode == current_mode_type
