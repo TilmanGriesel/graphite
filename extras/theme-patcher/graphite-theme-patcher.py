@@ -19,14 +19,15 @@ import fcntl
 from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
-# Resource limits for safety
 MAX_FILES_TO_PROCESS = 50
 MAX_FILE_SIZE_MB = 10
 MAX_LINES_PER_FILE = 10000
+
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "1.6.0": "Major robustness improvements with auto-detection, rollback, and validation",
     "1.5.0": "Fixed comment handling to ignore commented tokens",
     "1.4.2": "Allow none value",
     "1.4.1": "Improved logging and arguments",
