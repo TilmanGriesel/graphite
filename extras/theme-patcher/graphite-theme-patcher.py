@@ -149,6 +149,7 @@ class ThemePatcher:
         token_type: str = "rgb",
         theme: str = "graphite",
         base_path: Optional[str] = None,
+        target_mode: str = "all",
     ):
         self.theme = theme
         # Use dynamic detection if no base_path provided
@@ -157,6 +158,7 @@ class ThemePatcher:
         self.theme_path = Path(base_path) / theme
         self.token = token
         self.token_type = TokenType.from_string(token_type)
+        self.target_mode = target_mode
         self._validate_paths()
         self._validate_token()
 
@@ -273,7 +275,7 @@ class ThemePatcher:
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
     ) -> bool:
-        """Update or create the token in a YAML file."""
+        """Update or create the token in a YAML file with mode-specific handling."""
         if value is None:
             return True
 
@@ -290,9 +292,10 @@ class ThemePatcher:
             logger.debug(f"Looking for token: '{self.token}' of type: {self.token_type.name}")
 
             # Check if token exists - handle both flat and nested modes structure
-            token_instances = []  # List of (line_index, is_in_modes_section) tuples
+            token_instances = []  # List of (line_index, is_in_modes_section, mode_type) tuples
             in_modes_section = False
             in_light_or_dark = False
+            current_mode_type = None
             current_indent_level = 0
             
             for i, line in enumerate(lines):
@@ -316,35 +319,47 @@ class ThemePatcher:
                     in_light_or_dark = False
                     logger.debug(f"Line {i+1}: Exiting modes section")
                 
-                # Track if we're in light: or dark: subsection
+                # Track if we're in light: or dark: subsection (extensible for future modes)
                 if in_modes_section and (line_stripped.startswith("light:") or line_stripped.startswith("dark:")):
-                    mode_type = "light" if line_stripped.startswith("light:") else "dark"
+                    current_mode_type = "light" if line_stripped.startswith("light:") else "dark"
                     in_light_or_dark = True
-                    logger.debug(f"Line {i+1}: Entering {mode_type} mode section")
+                    logger.debug(f"Line {i+1}: Entering {current_mode_type} mode section")
                     continue
                 elif in_modes_section and in_light_or_dark and indent_level <= current_indent_level + 2:
                     # We've left the light/dark subsection
                     in_light_or_dark = False
+                    current_mode_type = None
                     logger.debug(f"Line {i+1}: Exiting light/dark mode section")
                 
                 # Check for token in appropriate context
                 if line_stripped.startswith(f"{self.token}:"):
                     if not in_modes_section:
                         # Found token at root level (normal theme)
-                        token_instances.append((i, False))
-                        logger.debug(f"Line {i+1}: Found token at root level: {line_stripped}")
+                        if self.target_mode == "all":  # For non-modes themes, always include
+                            token_instances.append((i, False, None))
+                            logger.debug(f"Line {i+1}: Found token at root level: {line_stripped}")
                     elif in_light_or_dark:
-                        # Found token in modes section (auto theme)
-                        token_instances.append((i, True))
-                        logger.debug(f"Line {i+1}: Found token in modes section: {line_stripped}")
+                        # Found token in modes section (auto theme) - check if we should include it
+                        should_include = (
+                            self.target_mode == "all" or 
+                            self.target_mode == current_mode_type
+                        )
+                        if should_include:
+                            token_instances.append((i, True, current_mode_type))
+                            logger.debug(f"Line {i+1}: Found token in {current_mode_type} mode section: {line_stripped}")
+                        else:
+                            logger.debug(f"Line {i+1}: Skipping token in {current_mode_type} mode (target: {self.target_mode})")
                     else:
                         logger.debug(f"Line {i+1}: Found token but not in valid context: {line_stripped}")
             
             token_exists = len(token_instances) > 0
             
             logger.debug(f"Token detection summary: found {len(token_instances)} instances")
-            for idx, (line_num, in_modes) in enumerate(token_instances):
-                context = "modes section" if in_modes else "root level"
+            for idx, (line_num, in_modes, mode_type) in enumerate(token_instances):
+                if in_modes:
+                    context = f"{mode_type} mode section"
+                else:
+                    context = "root level"
                 logger.debug(f"  Instance {idx+1}: Line {line_num+1} ({context})")
 
             if not token_exists and not create_token:
@@ -409,8 +424,13 @@ class ThemePatcher:
             if token_exists:
                 # Update existing token instances
                 logger.debug(f"Updating {len(token_instances)} existing token instances")
-                for idx, (line_index, is_in_modes) in enumerate(reversed(token_instances)):
+                for idx, (line_index, is_in_modes, mode_type) in enumerate(reversed(token_instances)):
                     original_line = lines[line_index].rstrip()
+                    
+                    # Use the same value for all targeted modes
+                    target_value = value
+                    if is_in_modes:
+                        logger.debug(f"Applying value to {mode_type} mode: '{target_value}'")
                     
                     # Use appropriate indentation for each instance
                     if is_in_modes:
@@ -418,14 +438,14 @@ class ThemePatcher:
                         existing_line = lines[line_index]
                         existing_indent = len(existing_line) - len(existing_line.lstrip())
                         instance_indent = " " * existing_indent
-                        context = "modes section"
+                        context = f"{mode_type} mode section"
                     else:
                         # For root level, use base indentation
                         instance_indent = token_indent
                         context = "root level"
                     
                     instance_line = (
-                        f"{instance_indent}{self.token}: {value}  "
+                        f"{instance_indent}{self.token}: {target_value}  "
                         f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
                     )
                     
@@ -493,17 +513,29 @@ class ThemePatcher:
                         )
                         
                         insertions_made = 0
-                        if dark_section_end > -1:
+                        
+                        # Insert in dark section if targeted
+                        if dark_section_end > -1 and (self.target_mode == "all" or self.target_mode == "dark"):
+                            dark_new_line = (
+                                f"{mode_token_indent}{self.token}: {value}  "
+                                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+                            )
                             logger.debug(f"Inserting token in dark section at line {dark_section_end}")
-                            logger.debug(f"Dark section line: {mode_new_line.rstrip()}")
-                            lines.insert(dark_section_end, mode_new_line)
+                            logger.debug(f"Dark section line: {dark_new_line.rstrip()}")
+                            lines.insert(dark_section_end, dark_new_line)
                             insertions_made += 1
-                        if light_section_end > -1:
+                            
+                        # Insert in light section if targeted  
+                        if light_section_end > -1 and (self.target_mode == "all" or self.target_mode == "light"):
+                            light_new_line = (
+                                f"{mode_token_indent}{self.token}: {value}  "
+                                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+                            )
                             # Adjust index if we already inserted in dark section
                             insert_at = light_section_end + insertions_made
                             logger.debug(f"Inserting token in light section at line {insert_at}")
-                            logger.debug(f"Light section line: {mode_new_line.rstrip()}")
-                            lines.insert(insert_at, mode_new_line)
+                            logger.debug(f"Light section line: {light_new_line.rstrip()}")
+                            lines.insert(insert_at, light_new_line)
                             insertions_made += 1
                             
                         if insertions_made > 0:
@@ -564,10 +596,13 @@ class ThemePatcher:
             return False
 
     def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
-        """Set token value across all relevant YAML files."""
+        """Set token value across all relevant YAML files with mode targeting."""
         if value is None:
             logger.info("Skipping update: value is None")
             return True
+            
+        logger.debug(f"Target mode: {self.target_mode}")
+        logger.debug(f"Value to apply: '{value}'")
 
         try:
             logger.debug(f"Validating input value: '{value}'")
@@ -575,6 +610,7 @@ class ThemePatcher:
             if validated_value is None:
                 raise ValidationError(f"Invalid value: {value}")
             logger.debug(f"Validated value: '{validated_value}'")
+            
 
             yaml_files = []
             try:
@@ -732,6 +768,11 @@ def validate_args(args: argparse.Namespace) -> bool:
 
     # Path validation will be handled by ThemePatcher._validate_paths()
     # since we now support auto-detection when args.path is None
+    
+    # Mode validation (future-proofed for additional modes)
+    if args.mode not in ["light", "dark", "all"]:
+        logger.error(f"Invalid mode: {args.mode}")
+        return False
 
     return True
 
@@ -791,6 +832,13 @@ def main():
             action="store_true",
             help="Create token if it doesn't exist",
         )
+        parser.add_argument(
+            "-M",
+            "--mode",
+            default="all",
+            choices=["light", "dark", "all"],
+            help="For auto themes: target light mode, dark mode, or all (default: all)",
+        )
 
         args = parser.parse_args()
 
@@ -808,9 +856,12 @@ def main():
         # Determine the actual base path for logging
         actual_base_path = args.path if args.path else detect_homeassistant_config_path()
         
+        # Enhanced logging for mode-specific operations
+        mode_info = f"mode: {args.mode}"
+            
         logger.info(
             f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
-            f"with value: '{args.value}' (base path: '{actual_base_path}')"
+            f"with value: '{args.value}' ({mode_info}) (base path: '{actual_base_path}')"
         )
 
         patcher = ThemePatcher(
@@ -818,6 +869,7 @@ def main():
             token_type=args.type,
             theme=args.theme,
             base_path=args.path,
+            target_mode=args.mode,
         )
 
         # card-mod tokens must be created if missing
