@@ -413,14 +413,74 @@ class ThemePatcher:
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
 
+            # Create backups before modifying any files
+            backups = {}
+            try:
+                for yaml_file in yaml_files:
+                    backup_path = yaml_file.with_suffix(".yaml.backup")
+                    backup_path.write_bytes(yaml_file.read_bytes())
+                    backups[yaml_file] = backup_path
+                    logger.debug(f"Created backup: {backup_path}")
+            except Exception as e:
+                # Clean up any partial backups
+                for backup_path in backups.values():
+                    try:
+                        backup_path.unlink()
+                    except OSError:
+                        pass
+                raise ValidationError(f"Failed to create backups: {e}")
+
+            # Process files with rollback capability
+            processed_files = []
             success = True
-            for yaml_file in yaml_files:
-                logger.info(f"Processing: {yaml_file}")
-                with file_lock(yaml_file):
-                    if not self._process_yaml_file(
-                        yaml_file, validated_value, create_token
-                    ):
-                        success = False
+            
+            try:
+                for yaml_file in yaml_files:
+                    logger.info(f"Processing: {yaml_file}")
+                    with file_lock(yaml_file):
+                        if self._process_yaml_file(yaml_file, validated_value, create_token):
+                            processed_files.append(yaml_file)
+                        else:
+                            success = False
+                            break
+                            
+                if success:
+                    # All files processed successfully, clean up backups
+                    for backup_path in backups.values():
+                        try:
+                            backup_path.unlink()
+                        except OSError:
+                            logger.warning(f"Could not remove backup: {backup_path}")
+                else:
+                    # Rollback all changes
+                    logger.error("Rolling back changes due to processing failure")
+                    for yaml_file in processed_files:
+                        try:
+                            backup_path = backups[yaml_file]
+                            yaml_file.write_bytes(backup_path.read_bytes())
+                            logger.info(f"Restored: {yaml_file}")
+                        except Exception as e:
+                            logger.error(f"Failed to restore {yaml_file}: {e}")
+                    
+                    # Clean up backups after rollback
+                    for backup_path in backups.values():
+                        try:
+                            backup_path.unlink()
+                        except OSError:
+                            pass
+                            
+            except Exception as e:
+                # Emergency rollback on unexpected errors
+                logger.error(f"Emergency rollback due to: {e}")
+                for yaml_file, backup_path in backups.items():
+                    try:
+                        if backup_path.exists():
+                            yaml_file.write_bytes(backup_path.read_bytes())
+                            backup_path.unlink()
+                    except Exception as rollback_error:
+                        logger.error(f"Emergency rollback failed for {yaml_file}: {rollback_error}")
+                raise
+                
             return success
 
         except Exception as e:
