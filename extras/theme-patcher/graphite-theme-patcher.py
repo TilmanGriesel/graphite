@@ -369,11 +369,28 @@ class ThemePatcher:
             if validated_value is None:
                 raise ValidationError(f"Invalid value: {value}")
 
-            yaml_files = [
-                path
-                for path in self.theme_path.rglob("*.yaml")
-                if path.parent == self.theme_path or self.theme_path in path.resolve().parents
-            ]
+            yaml_files = []
+            try:
+                # Resolve theme path to prevent symlink traversal attacks
+                theme_path_resolved = self.theme_path.resolve()
+                for path in self.theme_path.rglob("*.yaml"):
+                    try:
+                        path_resolved = path.resolve()
+                        # Ensure the file is within the theme directory
+                        if (path_resolved.parent == theme_path_resolved or 
+                            theme_path_resolved in path_resolved.parents):
+                            # Additional check: ensure no upward traversal in relative path
+                            try:
+                                path_resolved.relative_to(theme_path_resolved)
+                                yaml_files.append(path)
+                            except ValueError:
+                                # Path is outside theme directory
+                                logger.warning(f"Skipping file outside theme directory: {path}")
+                    except (OSError, RuntimeError) as e:
+                        # Handle broken symlinks or circular references
+                        logger.warning(f"Skipping problematic path {path}: {e}")
+            except (OSError, RuntimeError) as e:
+                raise ValidationError(f"Error scanning theme directory: {e}")
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
 
