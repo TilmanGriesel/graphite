@@ -170,9 +170,28 @@ class ThemePatcher:
             raise ValidationError(f"Cannot write to theme: {self.theme_path}")
 
     def _validate_token(self) -> None:
-        """Ensure token is a non-empty string."""
+        """Ensure token is a valid YAML key and safe to use."""
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
+            
+        token = self.token.strip()
+        
+        # Check for potentially dangerous characters
+        dangerous_chars = ['\n', '\r', '\t', '#', ':', '"', "'", '\\', '`']
+        if any(char in token for char in dangerous_chars):
+            raise ValidationError(f"Token contains invalid characters: {token}")
+            
+        # Ensure token doesn't start with special YAML characters
+        if token.startswith(('-', '!', '&', '*', '|', '>', '%', '@')):
+            raise ValidationError(f"Token cannot start with YAML special character: {token}")
+            
+        # Check reasonable length limits
+        if len(token) > 100:
+            raise ValidationError(f"Token name too long (max 100 chars): {token}")
+            
+        # Ensure it's a valid identifier-like string
+        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', token):
+            raise ValidationError(f"Token must be alphanumeric with hyphens/underscores: {token}")
 
     def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
         """Parse comma-separated RGB or RGBA values."""
