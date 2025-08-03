@@ -36,6 +36,36 @@ script_dir = Path(__file__).parent
 log_dir = script_dir / "logs"
 log_dir.mkdir(exist_ok=True)
 
+
+def detect_homeassistant_config_path() -> str:
+    """
+    Detect Home Assistant configuration directory.
+    
+    Returns the path to the HA config directory containing themes and scripts folders.
+    Checks for common HA installation patterns.
+    """
+    # Common HA paths to check
+    candidate_paths = [
+        "/config",  # Home Assistant OS/Supervised
+        "/root/.homeassistant",  # HA Core default
+        str(Path.home() / ".homeassistant"),  # HA Core user install
+        str(script_dir.parent),  # Directory above script location
+    ]
+    
+    for path in candidate_paths:
+        config_path = Path(path)
+        themes_path = config_path / "themes"
+        
+        # Check if this looks like a HA config directory
+        if (config_path.exists() and 
+            config_path.is_dir() and 
+            themes_path.exists() and 
+            themes_path.is_dir()):
+            return str(themes_path)
+    
+    # Fallback to original default
+    return "/config/themes"
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - [v%(version)s] - %(levelname)s - %(message)s",
@@ -107,9 +137,12 @@ class ThemePatcher:
         token: str = "token-rgb-primary",
         token_type: str = "rgb",
         theme: str = "graphite",
-        base_path: str = "/config/themes",
+        base_path: Optional[str] = None,
     ):
         self.theme = theme
+        # Use dynamic detection if no base_path provided
+        if base_path is None:
+            base_path = detect_homeassistant_config_path()
         self.theme_path = Path(base_path) / theme
         self.token = token
         self.token_type = TokenType.from_string(token_type)
@@ -386,14 +419,8 @@ def validate_args(args: argparse.Namespace) -> bool:
         logger.error("Theme must be a non-empty string.")
         return False
 
-    if not args.path or not args.path.strip():
-        logger.error("Path must be a non-empty string.")
-        return False
-
-    theme_path = Path(args.path)
-    if not theme_path.exists() or not theme_path.is_dir():
-        logger.error(f"Invalid theme path: {args.path}")
-        return False
+    # Path validation will be handled by ThemePatcher._validate_paths()
+    # since we now support auto-detection when args.path is None
 
     return True
 
@@ -444,8 +471,8 @@ def main():
         parser.add_argument(
             "-p",
             "--path",
-            default="/config/themes",
-            help="Base path for themes (default: /config/themes)",
+            default=None,
+            help="Base path for themes (default: auto-detect HA config directory)",
         )
         parser.add_argument(
             "-c",
@@ -467,9 +494,12 @@ def main():
         # Override token name for card-mod
         token = args.token if args.type != "card-mod" else "card-mod-root"
 
+        # Determine the actual base path for logging
+        actual_base_path = args.path if args.path else detect_homeassistant_config_path()
+        
         logger.info(
             f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
-            f"with value: '{args.value}'"
+            f"with value: '{args.value}' (base path: '{actual_base_path}')"
         )
 
         patcher = ThemePatcher(
