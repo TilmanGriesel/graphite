@@ -366,8 +366,8 @@ class ThemePatcher:
 
             yaml_files = [
                 path
-                for path in self.theme_path.rglob("*")
-                if path.suffix == ".yaml" and self.theme_path in path.resolve().parents
+                for path in self.theme_path.rglob("*.yaml")
+                if path.parent == self.theme_path or self.theme_path in path.resolve().parents
             ]
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
