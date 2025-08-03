@@ -1,0 +1,85 @@
+# ------------------------------------------------------------------------------
+# E-ink Dark theme color tokens - White text on black background
+# ------------------------------------------------------------------------------
+token-rgb-primary: 150, 150, 150
+token-rgb-black: 0, 0, 0
+token-rgb-white: 220, 220, 220
+# Red family - brightest grays for warm colors
+token-rgb-red: 200, 200, 200
+token-rgb-pink: 190, 190, 190
+token-rgb-deep-orange: 180, 180, 180
+token-rgb-orange: 170, 170, 170
+# Yellow family - bright grays
+token-rgb-yellow: 210, 210, 210
+token-rgb-amber: 200, 200, 200
+token-rgb-lime: 190, 190, 190
+# Green family - medium-bright grays
+token-rgb-green: 160, 160, 160
+token-rgb-light-green: 150, 150, 150
+token-rgb-teal: 140, 140, 140
+# Blue family - medium grays
+token-rgb-blue: 130, 130, 130
+token-rgb-light-blue: 125, 125, 125
+token-rgb-cyan: 120, 120, 120
+token-rgb-indigo: 115, 115, 115
+# Purple family - darker grays
+token-rgb-purple: 110, 110, 110
+token-rgb-deep-purple: 100, 100, 100
+# Brown family - darkest grays
+token-rgb-brown: 90, 90, 90
+# E-ink gray tone system (dark theme - white text on black background)
+token-rgb-grey-1: 220, 220, 220
+token-rgb-grey-2: 180, 180, 180
+token-rgb-grey-3: 120, 120, 120
+token-rgb-grey-4: 80, 80, 80
+token-rgb-grey: 120, 120, 120
+token-rgb-blue-grey: 120, 120, 120
+token-rgb-disabled: 120, 120, 120
+token-rgb-state-inactive: 180, 180, 180
+token-color-primary: rgb(var(--token-rgb-primary))
+token-color-primary-light: rgb(var(--token-rgb-grey-3))
+token-color-accent: var(--token-color-primary)
+token-color-disabled: rgb(var(--token-rgb-grey-3))
+token-color-feedback-info: rgb(var(--token-rgb-grey-1))
+token-color-feedback-warning: rgb(var(--token-rgb-grey-1))
+token-color-feedback-error: rgb(var(--token-rgb-grey-1))
+token-color-feedback-success: rgb(var(--token-rgb-grey-1))
+token-color-icon-primary: rgb(var(--token-rgb-grey-1))
+token-color-icon-secondary: rgb(var(--token-rgb-grey-2))
+token-color-icon-sidebar: rgb(var(--token-rgb-grey-2))
+token-color-icon-sidebar-selected: rgb(var(--token-rgb-grey-1))
+token-color-text-primary: rgb(var(--token-rgb-grey-1))
+token-color-text-secondary: rgb(var(--token-rgb-grey-2))
+token-color-text-disabled: rgb(var(--token-rgb-grey-3))
+token-color-text-sidebar-selected: rgb(var(--token-rgb-grey-1))
+token-color-text-sidebar: var(--token-color-text-secondary)
+token-color-text-label-badge: rgb(var(--token-rgb-grey-1))
+token-color-text-chip: var(--token-color-white)
+token-color-background-base: rgb(0, 0, 0)
+token-color-background-secondary: rgb(0, 0, 0)
+token-color-background-sidebar: var(--token-color-background-base)
+token-color-background-input-base: rgb(0, 0, 0)
+token-color-background-input-disabled: rgb(0, 0, 0)
+token-color-background-label-badge: rgb(0, 0, 0)
+token-color-background-card: rgb(0, 0, 0)
+token-color-background-skrim: rgba(255, 255, 255, 0.8)
+token-color-background-divider: rgb(var(--token-rgb-grey-4))
+token-color-background-scrollbar-thumb: rgb(var(--token-rgb-grey-3))
+token-color-background-label-badge-red: rgb(0, 0, 0)
+token-color-background-label-badge-green: rgb(0, 0, 0)
+token-color-background-label-badge-blue: rgb(0, 0, 0)
+token-color-background-label-badge-yellow: rgb(0, 0, 0)
+token-color-background-label-badge-grey: rgb(0, 0, 0)
+token-color-background-popup-scrim: rgba(255, 255, 255, 0.8)
+token-color-border-card: rgb(255, 255, 255)
+token-color-switch-button-unchecked: rgb(0, 0, 0)
+token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
+token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
+token-color-codemirror-keyword: rgb(var(--token-rgb-grey-1))
+token-color-codemirror-number: rgb(var(--token-rgb-grey-2))
+token-shadow-card-medium: none
+# ..............................................................................
+# Font Weight
+token-weight-font-body: 900
+token-weight-font-title: 900
+token-weight-font-title-card: 900

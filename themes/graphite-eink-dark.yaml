@@ -1,4 +1,4 @@
-Graphite Light:
+Graphite E-ink Dark:
 
   # Graphite is a contemporary theme that offers both a calm dark color scheme and a
   # clean light theme, featuring native device fonts and a cohesive design
@@ -11,77 +11,93 @@ Graphite Light:
   # This file was generated at 2025-08-03 16:53:50
   #------------------------------------------------------
 
-  card-mod-theme: Graphite Light
+  card-mod-theme: Graphite E-ink Dark
 
   # ------------------------------------------------------------------------------
-  # Light theme color tokens
+  # E-ink Dark theme color tokens - White text on black background
   # ------------------------------------------------------------------------------
-  token-rgb-primary: 238, 147, 0
+  token-rgb-primary: 150, 150, 150
   token-rgb-black: 0, 0, 0
-  token-rgb-white: 240, 243, 255
-  token-rgb-purple: 129, 45, 250
-  token-rgb-pink: 204, 0, 136
-  token-rgb-red: 204, 0, 51
-  token-rgb-deep-purple: 98, 0, 234
-  token-rgb-indigo: 48, 63, 159
-  token-rgb-blue: 33, 150, 243
-  token-rgb-light-blue: 3, 169, 244
-  token-rgb-cyan: 0, 188, 212
-  token-rgb-teal: 0, 150, 136
-  token-rgb-green: 56, 142, 60
-  token-rgb-light-green: 139, 195, 74
-  token-rgb-lime: 205, 220, 57
-  token-rgb-yellow: 250, 183, 0
-  token-rgb-amber: 255, 193, 7
-  token-rgb-orange: 255, 158, 0
-  token-rgb-deep-orange: 255, 87, 34
-  token-rgb-brown: 121, 85, 72
-  token-rgb-grey: 103, 104, 119
-  token-rgb-blue-grey: 96, 125, 139
-  token-rgb-disabled: 189, 189, 189
-  token-rgb-state-inactive: 176, 190, 197
+  token-rgb-white: 220, 220, 220
+  # Red family - brightest grays for warm colors
+  token-rgb-red: 200, 200, 200
+  token-rgb-pink: 190, 190, 190
+  token-rgb-deep-orange: 180, 180, 180
+  token-rgb-orange: 170, 170, 170
+  # Yellow family - bright grays
+  token-rgb-yellow: 210, 210, 210
+  token-rgb-amber: 200, 200, 200
+  token-rgb-lime: 190, 190, 190
+  # Green family - medium-bright grays
+  token-rgb-green: 160, 160, 160
+  token-rgb-light-green: 150, 150, 150
+  token-rgb-teal: 140, 140, 140
+  # Blue family - medium grays
+  token-rgb-blue: 130, 130, 130
+  token-rgb-light-blue: 125, 125, 125
+  token-rgb-cyan: 120, 120, 120
+  token-rgb-indigo: 115, 115, 115
+  # Purple family - darker grays
+  token-rgb-purple: 110, 110, 110
+  token-rgb-deep-purple: 100, 100, 100
+  # Brown family - darkest grays
+  token-rgb-brown: 90, 90, 90
+  # E-ink gray tone system (dark theme - white text on black background)
+  token-rgb-grey-1: 220, 220, 220
+  token-rgb-grey-2: 180, 180, 180
+  token-rgb-grey-3: 120, 120, 120
+  token-rgb-grey-4: 80, 80, 80
+  token-rgb-grey: 120, 120, 120
+  token-rgb-blue-grey: 120, 120, 120
+  token-rgb-disabled: 120, 120, 120
+  token-rgb-state-inactive: 180, 180, 180
   token-color-primary: rgb(var(--token-rgb-primary))
-  token-color-primary-light: rgb(167 182 199)
+  token-color-primary-light: rgb(var(--token-rgb-grey-3))
   token-color-accent: var(--token-color-primary)
-  token-color-disabled: rgb(173 176 184)
-  token-color-feedback-info: rgb(39, 209, 246)
-  token-color-feedback-warning: rgb(255, 219, 117)
-  token-color-feedback-error: rgb(234, 114, 135)
-  token-color-feedback-success: rgb(118, 214, 152)
-  token-color-icon-primary: rgba(19, 21, 54, 0.87)
-  token-color-icon-secondary: rgba(19, 21, 54, 0.8)
-  token-color-icon-sidebar: rgba(19, 21, 54, 0.7)
-  token-color-icon-sidebar-selected: var(--token-color-icon-primary)
-  token-color-text-primary: rgba(19, 21, 54, 0.95)
-  token-color-text-secondary: rgba(19, 21, 54, 0.8)
-  token-color-text-disabled: rgba(19, 21, 54, 0.38)
-  token-color-text-sidebar-selected: var(--token-color-text-primary)
+  token-color-disabled: rgb(var(--token-rgb-grey-3))
+  token-color-feedback-info: rgb(var(--token-rgb-grey-1))
+  token-color-feedback-warning: rgb(var(--token-rgb-grey-1))
+  token-color-feedback-error: rgb(var(--token-rgb-grey-1))
+  token-color-feedback-success: rgb(var(--token-rgb-grey-1))
+  token-color-icon-primary: rgb(var(--token-rgb-grey-1))
+  token-color-icon-secondary: rgb(var(--token-rgb-grey-2))
+  token-color-icon-sidebar: rgb(var(--token-rgb-grey-2))
+  token-color-icon-sidebar-selected: rgb(var(--token-rgb-grey-1))
+  token-color-text-primary: rgb(var(--token-rgb-grey-1))
+  token-color-text-secondary: rgb(var(--token-rgb-grey-2))
+  token-color-text-disabled: rgb(var(--token-rgb-grey-3))
+  token-color-text-sidebar-selected: rgb(var(--token-rgb-grey-1))
   token-color-text-sidebar: var(--token-color-text-secondary)
-  token-color-text-label-badge: rgba(19, 21, 54, 0.7)
-  token-color-text-chip: var(--token-color-black)
-  token-color-background-base: rgb(234, 235, 238)
-  token-color-background-secondary: rgb(245, 245, 245)
+  token-color-text-label-badge: rgb(var(--token-rgb-grey-1))
+  token-color-text-chip: var(--token-color-white)
+  token-color-background-base: rgb(0, 0, 0)
+  token-color-background-secondary: rgb(0, 0, 0)
   token-color-background-sidebar: var(--token-color-background-base)
-  token-color-background-input-base: rgb(255, 255, 255)
-  token-color-background-input-disabled: rgb(245, 245, 245)
-  token-color-background-label-badge: rgb(230, 230, 230)
-  token-color-background-card: rgb(255, 255, 255)
-  token-color-background-skrim: rgba(0, 0, 0, 0.5)
-  token-color-background-divider: rgb(224, 224, 224)
-  token-color-background-scrollbar-thumb: rgb(200, 200, 200)
-  token-color-background-label-badge-red: var(--token-color-feedback-error)
-  token-color-background-label-badge-green: rgb(78, 183, 128)
-  token-color-background-label-badge-blue: var(--token-color-feedback-info)
-  token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
-  token-color-background-label-badge-grey: rgb(83, 90, 103)
-  token-color-background-popup-scrim: rgba(0, 0, 0, 0.5)
-  token-color-border-card: rgb(224, 224, 224)
-  token-color-switch-button-unchecked: rgba(0, 0, 0, 0.5)
-  token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
-  token-color-codemirror-string: rgb(0, 77, 153)
-  token-color-codemirror-keyword: rgb(70, 112, 216)
-  token-color-codemirror-number: rgb(204, 85, 0)
-  token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
+  token-color-background-input-base: rgb(0, 0, 0)
+  token-color-background-input-disabled: rgb(0, 0, 0)
+  token-color-background-label-badge: rgb(0, 0, 0)
+  token-color-background-card: rgb(0, 0, 0)
+  token-color-background-skrim: rgba(255, 255, 255, 0.8)
+  token-color-background-divider: rgb(var(--token-rgb-grey-4))
+  token-color-background-scrollbar-thumb: rgb(var(--token-rgb-grey-3))
+  token-color-background-label-badge-red: rgb(0, 0, 0)
+  token-color-background-label-badge-green: rgb(0, 0, 0)
+  token-color-background-label-badge-blue: rgb(0, 0, 0)
+  token-color-background-label-badge-yellow: rgb(0, 0, 0)
+  token-color-background-label-badge-grey: rgb(0, 0, 0)
+  token-color-background-popup-scrim: rgba(255, 255, 255, 0.8)
+  token-color-border-card: rgb(255, 255, 255)
+  token-color-switch-button-unchecked: rgb(0, 0, 0)
+  token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
+  token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
+  token-color-codemirror-keyword: rgb(var(--token-rgb-grey-1))
+  token-color-codemirror-number: rgb(var(--token-rgb-grey-2))
+  token-shadow-card-medium: none
+  # ..............................................................................
+  # Font Weight
+  token-weight-font-body: 900
+  token-weight-font-title: 900
+  token-weight-font-title-card: 900
 
   # ------------------------------------------------------------------------------
   # Size tokens
@@ -238,9 +254,9 @@ Graphite Light:
   ha-card-background: var(--token-color-background-card)
   ha-card-border-radius: var(--token-size-radius-card)
   ha-card-border-color: var(--token-color-border-card)
-  ha-card-border-width: var(--token-size-width-border-card)
-  ha-card-border-style: none
-  ha-card-border: none
+  ha-card-border-width: 2px
+  ha-card-border-style: solid
+  ha-card-border: 2px solid var(--token-color-border-card)
   ha-card-box-shadow: var(--token-shadow-card-medium)
   # ..............................................................................
   # Sections
@@ -322,15 +338,78 @@ Graphite Light:
   # Mushroom
   mush-title-font-weight: var(--title-font-weight)
   mush-title-font-size: var(--title-font-size)
-  # ------------------------------------------------
-  # HA Indicator Colors
-  # ------------------------------------------------
-  # Note: Amber is not safe to be modified, causes history-graph rendering issues.
-  # Potentially other color definitions could cause issues too.
-  # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
-  # ------------------------------------------------
-  # RGB Indicator Color Definitions
-  # ------------------------------------------------
-  # Grey
-  light-grey-color: rgb(var(--token-rgb-grey))
+  mush-rgb-white: var(--token-rgb-white)
+  mush-rgb-purple: var(--token-rgb-purple)
+  mush-rgb-pink: var(--token-rgb-pink)
+  mush-rgb-red: var(--token-rgb-red)
+  mush-rgb-deep-purple: var(--token-rgb-deep-purple)
+  mush-rgb-indigo: var(--token-rgb-indigo)
+  mush-rgb-blue: var(--token-rgb-blue)
+  mush-rgb-light-blue: var(--token-rgb-light-blue)
+  mush-rgb-cyan: var(--token-rgb-cyan)
+  mush-rgb-teal: var(--token-rgb-teal)
+  mush-rgb-green: var(--token-rgb-green)
+  mush-rgb-light-green: var(--token-rgb-light-green)
+  mush-rgb-lime: var(--token-rgb-lime)
+  mush-rgb-yellow: var(--token-rgb-yellow)
+  mush-rgb-amber: var(--token-rgb-amber)
+  mush-rgb-orange: var(--token-rgb-orange)
+  mush-rgb-deep-orange: var(--token-rgb-deep-orange)
+  mush-rgb-brown: var(--token-rgb-brown)
   mush-rgb-grey: var(--token-rgb-grey)
+  mush-rgb-blue-grey: var(--token-rgb-blue-grey)
+  mush-rgb-black: var(--token-rgb-black)
+  mush-rgb-disabled: var(--token-rgb-disabled)
+  # ------------------------------------------------
+  # HA Indicator Colors - E-ink Gray Tone Overrides
+  # ------------------------------------------------
+  # Indicator colors mapped to distinct gray tones for e-ink displays
+  red-color: rgb(var(--token-rgb-red))
+  pink-color: rgb(var(--token-rgb-pink))
+  purple-color: rgb(var(--token-rgb-purple))
+  deep-purple-color: rgb(var(--token-rgb-deep-purple))
+  indigo-color: rgb(var(--token-rgb-indigo))
+  blue-color: rgb(var(--token-rgb-blue))
+  light-blue-color: rgb(var(--token-rgb-light-blue))
+  cyan-color: rgb(var(--token-rgb-cyan))
+  teal-color: rgb(var(--token-rgb-teal))
+  green-color: rgb(var(--token-rgb-green))
+  light-green-color: rgb(var(--token-rgb-light-green))
+  lime-color: rgb(var(--token-rgb-lime))
+  yellow-color: rgb(var(--token-rgb-yellow))
+  amber-color: rgb(var(--token-rgb-amber))
+  orange-color: rgb(var(--token-rgb-orange))
+  deep-orange-color: rgb(var(--token-rgb-deep-orange))
+  brown-color: rgb(var(--token-rgb-brown))
+  light-grey-color: rgb(var(--token-rgb-grey))
+  grey-color: rgb(var(--token-rgb-grey))
+  blue-grey-color: rgb(var(--token-rgb-blue-grey))
+  black-color: rgb(var(--token-rgb-black))
+  white-color: rgb(var(--token-rgb-white))
+  # ------------------------------------------------
+  # State Colors - E-ink Optimized
+  # ------------------------------------------------
+  state-home-color: rgb(var(--token-rgb-grey-1))
+  state-not_home-color: rgb(var(--token-rgb-grey-3))
+  state-unknown-color: rgb(var(--token-rgb-grey-3))
+  state-idle-color: rgb(var(--token-rgb-grey-2))
+  # ------------------------------------------------
+  # Energy Dashboard Colors - E-ink Gray Mapping
+  # ------------------------------------------------
+  energy-grid-consumption-color: rgb(var(--token-rgb-grey-1))
+  energy-grid-return-color: rgb(var(--token-rgb-grey-2))
+  energy-solar-color: rgb(var(--token-rgb-grey-1))
+  energy-non-fossil-color: rgb(var(--token-rgb-grey-2))
+  energy-battery-out-color: rgb(var(--token-rgb-grey-2))
+  energy-battery-in-color: rgb(var(--token-rgb-grey-3))
+  energy-gas-color: rgb(var(--token-rgb-grey-3))
+  energy-water-color: rgb(var(--token-rgb-grey-2))
+  # ------------------------------------------------
+  # Material Design Component Colors - E-ink
+  # ------------------------------------------------
+  mdc-theme-primary: rgb(var(--token-rgb-grey-1))
+  mdc-theme-secondary: rgb(var(--token-rgb-grey-2))
+  mdc-theme-surface: var(--token-color-background-card)
+  mdc-theme-on-primary: var(--token-color-background-base)
+  mdc-theme-on-secondary: var(--token-color-background-base)
+  mdc-theme-on-surface: rgb(var(--token-rgb-grey-1))

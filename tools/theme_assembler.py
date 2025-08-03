@@ -271,12 +271,18 @@ def main():
         tokens_common_file = src_dir / "tokens_common.yaml"
         tokens_dark_file = src_dir / "tokens_dark.yaml"
         tokens_light_file = src_dir / "tokens_light.yaml"
+        tokens_eink_dark_file = src_dir / "tokens_eink_dark.yaml"
+        tokens_eink_light_file = src_dir / "tokens_eink_light.yaml"
         template_file = src_dir / "template.yaml"
+        template_eink_file = src_dir / "template_eink.yaml"
 
         tokens_common_lines = read_file(tokens_common_file)
         tokens_dark_lines = read_file(tokens_dark_file)
         tokens_light_lines = read_file(tokens_light_file)
+        tokens_eink_dark_lines = read_file(tokens_eink_dark_file)
+        tokens_eink_light_lines = read_file(tokens_eink_light_file)
         template_lines = read_file(template_file)
+        template_eink_lines = read_file(template_eink_file)
 
         if themes_dir.exists():
             shutil.rmtree(themes_dir)
@@ -289,11 +295,25 @@ def main():
                 "theme_name": get_theme_name(base_name, dev_mode=dev_mode),
                 "tokens_theme_lines": tokens_dark_lines,
                 "output_filename": get_filename(base_name),
+                "template_lines": template_lines,
             },
             {
                 "theme_name": get_theme_name(base_name, "Light", dev_mode=dev_mode),
                 "tokens_theme_lines": tokens_light_lines,
                 "output_filename": get_filename(base_name, "light"),
+                "template_lines": template_lines,
+            },
+            {
+                "theme_name": get_theme_name(base_name, "E-ink Dark", dev_mode=dev_mode),
+                "tokens_theme_lines": tokens_eink_dark_lines,
+                "output_filename": get_filename(base_name, "eink-dark"),
+                "template_lines": template_eink_lines,
+            },
+            {
+                "theme_name": get_theme_name(base_name, "E-ink Light", dev_mode=dev_mode),
+                "tokens_theme_lines": tokens_eink_light_lines,
+                "output_filename": get_filename(base_name, "eink-light"),
+                "template_lines": template_eink_lines,
             },
         ]
 
@@ -302,7 +322,7 @@ def main():
                 theme_name=theme["theme_name"],
                 tokens_common_lines=tokens_common_lines,
                 tokens_theme_lines=theme["tokens_theme_lines"],
-                template_lines=template_lines,
+                template_lines=theme["template_lines"],
                 timestamp=timestamp,
             )
             output_path = themes_dir / theme["output_filename"]
