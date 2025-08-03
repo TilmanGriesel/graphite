@@ -318,8 +318,27 @@ class ThemePatcher:
                         break
                         
                 if card_mod_theme_index == -1:
-                    logger.error("No card-mod-theme key found.")
-                    return False
+                    if create_token:
+                        # Create card-mod-theme section if it doesn't exist
+                        logger.info("Creating card-mod-theme section")
+                        # Find a good place to insert it (after existing sections)
+                        insert_index = len(lines)
+                        for i, line in enumerate(lines):
+                            line_stripped = line.lstrip()
+                            if line_stripped and not line_stripped.startswith('#'):
+                                # Found first non-comment line, use its indentation
+                                base_indent = len(line) - len(line_stripped)
+                                break
+                        else:
+                            base_indent = 0
+                            
+                        # Insert card-mod-theme section
+                        indent_str = " " * base_indent
+                        lines.append(f"\n{indent_str}card-mod-theme:\n")
+                        card_mod_theme_index = len(lines) - 1
+                    else:
+                        logger.error("No card-mod-theme key found and create_token=False")
+                        return False
                     
                 base_indent = len(lines[card_mod_theme_index]) - len(
                     lines[card_mod_theme_index].lstrip()
