@@ -14,6 +14,9 @@ dev:
 	chmod +x tools/rebuild_dev.sh
 	./tools/rebuild_dev.sh
 
+dev-sync: theme
+	cp themes/*.yaml /Volumes/config/themes/graphite/
+
 format:
 	@echo "Formatting YAML files..."
 	pre-commit run --all-files
