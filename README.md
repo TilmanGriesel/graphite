@@ -80,6 +80,14 @@ I've created a token abstraction and a script to help maintain Graphite's consis
 
 ---
 
+### E-Ink Themes
+Graphite also offers two themes designed specifically for E-Ink displays: Graphite E-Ink Light and Graphite E-Ink Dark.
+These themes mark the beginning of the Graphite E-Ink family. While they may still need some fine-tuning, your feedback is welcome and will help guide future improvements.
+
+<p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/graphite-e-ink.webp"/></p>
+
+---
+
 ### Examples
 
 If you're curious about the cards from my screenshot, you can [check out my examples](https://graphite.tilmangriesel.com/guides/card-examples.html).
