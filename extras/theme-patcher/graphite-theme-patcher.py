@@ -73,7 +73,7 @@ def detect_homeassistant_config_path() -> str:
     return "/config/themes"
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s - [v%(version)s] - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler(log_dir / "graphite_theme_patcher.log"),
@@ -285,6 +285,9 @@ class ThemePatcher:
             if len(lines) > MAX_LINES_PER_FILE:
                 logger.error(f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})")
                 return False
+                
+            logger.debug(f"Processing file: {file_path} ({len(lines)} lines)")
+            logger.debug(f"Looking for token: '{self.token}' of type: {self.token_type.name}")
 
             # Check if token exists - handle both flat and nested modes structure
             token_instances = []  # List of (line_index, is_in_modes_section) tuples
@@ -305,36 +308,52 @@ class ThemePatcher:
                 if line_stripped.startswith("modes:"):
                     in_modes_section = True
                     current_indent_level = indent_level
+                    logger.debug(f"Line {i+1}: Entering modes section (indent: {indent_level})")
                     continue
                 elif in_modes_section and indent_level <= current_indent_level:
                     # We've left the modes section
                     in_modes_section = False
                     in_light_or_dark = False
+                    logger.debug(f"Line {i+1}: Exiting modes section")
                 
                 # Track if we're in light: or dark: subsection
                 if in_modes_section and (line_stripped.startswith("light:") or line_stripped.startswith("dark:")):
+                    mode_type = "light" if line_stripped.startswith("light:") else "dark"
                     in_light_or_dark = True
+                    logger.debug(f"Line {i+1}: Entering {mode_type} mode section")
                     continue
                 elif in_modes_section and in_light_or_dark and indent_level <= current_indent_level + 2:
                     # We've left the light/dark subsection
                     in_light_or_dark = False
+                    logger.debug(f"Line {i+1}: Exiting light/dark mode section")
                 
                 # Check for token in appropriate context
                 if line_stripped.startswith(f"{self.token}:"):
                     if not in_modes_section:
                         # Found token at root level (normal theme)
                         token_instances.append((i, False))
+                        logger.debug(f"Line {i+1}: Found token at root level: {line_stripped}")
                     elif in_light_or_dark:
                         # Found token in modes section (auto theme)
                         token_instances.append((i, True))
+                        logger.debug(f"Line {i+1}: Found token in modes section: {line_stripped}")
+                    else:
+                        logger.debug(f"Line {i+1}: Found token but not in valid context: {line_stripped}")
             
             token_exists = len(token_instances) > 0
+            
+            logger.debug(f"Token detection summary: found {len(token_instances)} instances")
+            for idx, (line_num, in_modes) in enumerate(token_instances):
+                context = "modes section" if in_modes else "root level"
+                logger.debug(f"  Instance {idx+1}: Line {line_num+1} ({context})")
 
             if not token_exists and not create_token:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            logger.debug(f"Using timestamp: {timestamp}")
+            logger.debug(f"Target value: '{value}'")
 
             # Determine indentation
             if self.token_type == TokenType.CARD_MOD:
@@ -389,31 +408,45 @@ class ThemePatcher:
 
             if token_exists:
                 # Update existing token instances
-                for line_index, is_in_modes in reversed(token_instances):
+                logger.debug(f"Updating {len(token_instances)} existing token instances")
+                for idx, (line_index, is_in_modes) in enumerate(reversed(token_instances)):
+                    original_line = lines[line_index].rstrip()
+                    
                     # Use appropriate indentation for each instance
                     if is_in_modes:
                         # For modes section, use the existing line's indentation
                         existing_line = lines[line_index]
                         existing_indent = len(existing_line) - len(existing_line.lstrip())
                         instance_indent = " " * existing_indent
+                        context = "modes section"
                     else:
                         # For root level, use base indentation
                         instance_indent = token_indent
+                        context = "root level"
                     
                     instance_line = (
                         f"{instance_indent}{self.token}: {value}  "
                         f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
                     )
+                    
+                    logger.debug(f"  Modification {idx+1} at line {line_index+1} ({context}):")
+                    logger.debug(f"    Before: {original_line}")
+                    logger.debug(f"    After:  {instance_line.rstrip()}")
+                    
                     lines[line_index] = instance_line
                     
                 logger.info(f"Updated {len(token_instances)} instances of token '{self.token}'")
             else:
                 # Create new token - handle modes structure if needed
+                logger.debug("Creating new token instance(s)")
                 if self.token_type == TokenType.CARD_MOD:
+                    logger.debug(f"Inserting card-mod token after line {card_mod_theme_index+1}")
+                    logger.debug(f"New line: {new_line.rstrip()}")
                     lines.insert(card_mod_theme_index + 1, new_line)
                 else:
                     # Check if this file has a modes structure for auto themes
                     has_modes_structure = any("modes:" in line for line in lines)
+                    logger.debug(f"Theme has modes structure: {has_modes_structure}")
                     
                     if has_modes_structure:
                         # Insert token in both light and dark modes if they exist
@@ -461,11 +494,15 @@ class ThemePatcher:
                         
                         insertions_made = 0
                         if dark_section_end > -1:
+                            logger.debug(f"Inserting token in dark section at line {dark_section_end}")
+                            logger.debug(f"Dark section line: {mode_new_line.rstrip()}")
                             lines.insert(dark_section_end, mode_new_line)
                             insertions_made += 1
                         if light_section_end > -1:
                             # Adjust index if we already inserted in dark section
                             insert_at = light_section_end + insertions_made
+                            logger.debug(f"Inserting token in light section at line {insert_at}")
+                            logger.debug(f"Light section line: {mode_new_line.rstrip()}")
                             lines.insert(insert_at, mode_new_line)
                             insertions_made += 1
                             
@@ -475,6 +512,7 @@ class ThemePatcher:
                             logger.warning("Could not find appropriate location in modes structure")
                     else:
                         # Standard theme - add to user section
+                        logger.debug("Processing standard theme structure")
                         user_section_exists = False
                         for line in lines:
                             if "# User defined entries" in line:
@@ -482,27 +520,38 @@ class ThemePatcher:
                                 break
                         
                         if not user_section_exists:
+                            logger.debug("Creating user defined entries section")
                             lines.append(f"\n{token_indent}##############################################################################\n")
                             lines.append(f"{token_indent}# User defined entries\n")
+                        else:
+                            logger.debug("User defined entries section already exists")
                             
+                        logger.debug(f"Appending new token line: {new_line.rstrip()}")
                         lines.append(new_line)
 
             # Join lines and ensure file ends with newline
             updated_content = ''.join(lines)
             if not updated_content.endswith('\n'):
                 updated_content += '\n'
+                logger.debug("Added missing newline at end of file")
 
+            logger.debug(f"Writing {len(updated_content)} characters to file")
+            
             # Write changes atomically
             with tempfile.NamedTemporaryFile(
                 mode="w", dir=file_path.parent, delete=False, encoding="utf-8"
             ) as tmp:
+                logger.debug(f"Created temporary file: {tmp.name}")
                 tmp.write(updated_content)
                 tmp.flush()
                 os.fsync(tmp.fileno())
+                logger.debug("Flushed and synced temporary file")
 
+            logger.debug(f"Replacing original file with temporary file")
             os.replace(tmp.name, file_path)
             action = "Created" if not token_exists else "Updated"
             logger.info(f"{action} token in {file_path}")
+            logger.debug(f"File operation completed successfully")
             return True
 
         except Exception as e:
@@ -521,9 +570,11 @@ class ThemePatcher:
             return True
 
         try:
+            logger.debug(f"Validating input value: '{value}'")
             validated_value = self._validate_value(value)
             if validated_value is None:
                 raise ValidationError(f"Invalid value: {value}")
+            logger.debug(f"Validated value: '{validated_value}'")
 
             yaml_files = []
             try:
@@ -565,12 +616,14 @@ class ThemePatcher:
 
             # Create backups before modifying any files
             backups = {}
+            logger.debug(f"Creating backups for {len(yaml_files)} files")
             try:
                 for yaml_file in yaml_files:
                     backup_path = yaml_file.with_suffix(".yaml.backup")
+                    file_size = yaml_file.stat().st_size
                     backup_path.write_bytes(yaml_file.read_bytes())
                     backups[yaml_file] = backup_path
-                    logger.debug(f"Created backup: {backup_path}")
+                    logger.debug(f"Created backup: {backup_path} ({file_size} bytes)")
             except Exception as e:
                 # Clean up any partial backups
                 for backup_path in backups.values():
@@ -596,26 +649,33 @@ class ThemePatcher:
                             
                 if success:
                     # All files processed successfully, clean up backups
+                    logger.debug(f"Cleaning up {len(backups)} backup files")
                     for backup_path in backups.values():
                         try:
                             backup_path.unlink()
+                            logger.debug(f"Removed backup: {backup_path}")
                         except OSError:
                             logger.warning(f"Could not remove backup: {backup_path}")
                 else:
                     # Rollback all changes
                     logger.error("Rolling back changes due to processing failure")
+                    logger.debug(f"Rolling back {len(processed_files)} files")
                     for yaml_file in processed_files:
                         try:
                             backup_path = backups[yaml_file]
+                            backup_size = backup_path.stat().st_size
                             yaml_file.write_bytes(backup_path.read_bytes())
                             logger.info(f"Restored: {yaml_file}")
+                            logger.debug(f"Restored {backup_size} bytes from {backup_path}")
                         except Exception as e:
                             logger.error(f"Failed to restore {yaml_file}: {e}")
                     
                     # Clean up backups after rollback
+                    logger.debug("Cleaning up backups after rollback")
                     for backup_path in backups.values():
                         try:
                             backup_path.unlink()
+                            logger.debug(f"Removed backup after rollback: {backup_path}")
                         except OSError:
                             pass
                             
