@@ -97,13 +97,18 @@ class ValidationError(Exception):
 def file_lock(lock_file: Path):
     """Provide an exclusive file lock for atomic operations."""
     lock_path = lock_file.with_suffix(".lock")
+    lock_fd = None
     try:
-        with open(lock_path, "w") as f:
-            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
-            yield
+        lock_fd = os.open(lock_path, os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o600)
+        fcntl.flock(lock_fd, fcntl.LOCK_EX)
+        yield
     finally:
-        with open(lock_path, "w") as f:
-            fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        if lock_fd is not None:
+            try:
+                fcntl.flock(lock_fd, fcntl.LOCK_UN)
+                os.close(lock_fd)
+            except OSError:
+                pass
         try:
             lock_path.unlink()
         except OSError:
