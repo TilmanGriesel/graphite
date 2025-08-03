@@ -20,6 +20,11 @@ from typing import Optional, List, Union, Dict, Tuple
 from enum import Enum, auto
 
 __version__ = "1.5.0"
+
+# Resource limits for safety
+MAX_FILES_TO_PROCESS = 50
+MAX_FILE_SIZE_MB = 10
+MAX_LINES_PER_FILE = 10000
 __author__ = "Tilman Griesel"
 __changelog__ = {
     "1.5.0": "Fixed comment handling to ignore commented tokens",
@@ -274,6 +279,11 @@ class ThemePatcher:
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
+                
+            # Check line count limit
+            if len(lines) > MAX_LINES_PER_FILE:
+                logger.error(f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})")
+                return False
 
             # Check if token exists as an actual property (not in a comment)
             token_exists = False
@@ -412,6 +422,19 @@ class ThemePatcher:
                 raise ValidationError(f"Error scanning theme directory: {e}")
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
+                
+            # Check resource limits
+            if len(yaml_files) > MAX_FILES_TO_PROCESS:
+                raise ValidationError(f"Too many YAML files ({len(yaml_files)} > {MAX_FILES_TO_PROCESS})")
+                
+            # Validate file sizes
+            for yaml_file in yaml_files:
+                try:
+                    file_size = yaml_file.stat().st_size
+                    if file_size > MAX_FILE_SIZE_MB * 1024 * 1024:
+                        raise ValidationError(f"File too large: {yaml_file} ({file_size / 1024 / 1024:.1f}MB > {MAX_FILE_SIZE_MB}MB)")
+                except OSError as e:
+                    raise ValidationError(f"Cannot access file {yaml_file}: {e}")
 
             # Create backups before modifying any files
             backups = {}
