@@ -6,7 +6,7 @@
 	<a href="https://github.com/tilmangriesel/graphite/issues"><img src="https://img.shields.io/github/issues/tilmangriesel/graphite?colorA=1F2229&colorB=5c5e70&style=for-the-badge"></a>
 </p>
 
-**Graphite** is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors.
+Graphite is a modern theme that offers a soothing dark mode alongside a bright, clean light mode. It uses native device fonts and maintains a unified design language across all Home Assistant interfaces, from the admin panel to code editors. In addition to the standard light and dark modes, Graphite also includes dedicated e-ink variants specifically for e-paper displays. These minimalist themes are optimized for readability, providing a crisp and battery-friendly experience ideal for dashboards on e-ink devices.
 
 <p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/dark.png"/></p>
 <p align="center"><img src="https://raw.githubusercontent.com/TilmanGriesel/graphite/HEAD/docs/public/assets/screenshot/light.png"/></p>
