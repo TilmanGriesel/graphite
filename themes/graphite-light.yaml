@@ -8,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-08-04 21:36:48
+  # This file was generated at 2025-08-05 09:22:08
   #------------------------------------------------------
 
   card-mod-theme: Graphite Light
@@ -87,7 +87,6 @@ Graphite Light:
   token-weight-font-body: 400
   token-weight-font-title: 600
   token-weight-font-title-card: var(--token-weight-font-title)
-
 
   # ------------------------------------------------------------------------------
   # Size tokens

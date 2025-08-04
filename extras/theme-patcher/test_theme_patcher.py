@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test suite for Graphite Theme Patcher v2.0.0
+Test suite for Graphite Theme Patcher
 
 Tests the theme patcher against actual theme files to validate:
 - Standard theme updates (graphite.yaml)
@@ -124,7 +124,7 @@ class ThemePatcherTester:
         passed = (
             success
             and "token-rgb-primary: 255, 128, 64" in content
-            and "Modified by Graphite Theme Patcher v2.0.0" in content
+            and "Modified by Graphite Theme Patcher" in content
         )
 
         return TestResult(
@@ -185,7 +185,7 @@ class ThemePatcherTester:
 
         # Check that token was updated in both light and dark modes
         light_updated = content.count("token-rgb-primary: 200, 100, 50") >= 1
-        has_timestamps = content.count("Modified by Graphite Theme Patcher v2.0.0") >= 1
+        has_timestamps = content.count("Modified by Graphite Theme Patcher") >= 1
 
         passed = success and light_updated and has_timestamps
 
@@ -223,7 +223,9 @@ class ThemePatcherTester:
             "custom-auto-token: rgb(99, 88, 77)"
         )  # RGB function format
         user_sections = content.count("# User defined entries")
-        proper_indent = content.count("        custom-auto-token:")  # 8 spaces
+        proper_indent = content.count(
+            "      custom-auto-token:"
+        )  # 6 spaces (correct YAML indentation)
 
         passed = (
             success and token_count >= 2 and user_sections >= 2 and proper_indent >= 2
@@ -448,7 +450,7 @@ class ThemePatcherTester:
 
     def run_all_tests(self):
         """Run all tests and report results."""
-        print("🧪 Starting Theme-Patcher v2.0.0 Test Suite\n")
+        print("🧪 Starting Theme-Patcher Test Suite\n")
 
         self.setup()
 
@@ -492,7 +494,7 @@ class ThemePatcherTester:
         print(f"TEST SUMMARY: {passed}/{total} tests passed")
 
         if passed == total:
-            print("🎉 All tests passed! Theme-Patcher v2.0.0 is working correctly.")
+            print("🎉 All tests passed! Theme-Patcher is working correctly.")
             return True
         else:
             print("🚨 Some tests failed. Check the output above for details.")

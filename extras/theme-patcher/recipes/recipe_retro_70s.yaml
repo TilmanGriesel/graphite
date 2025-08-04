@@ -1,0 +1,185 @@
+# Theme Patcher Recipe: Retro 70s
+# A nostalgic color scheme inspired by 1970s design aesthetics
+# Features warm earth tones, burnt oranges, avocado greens, and rich browns
+
+recipe:
+  name: "Retro 70s Theme"
+  author: "Tilman Griesel"
+  author_url: "https://github.com/TilmanGriesel/graphite"
+  description: "Example of groovy earth tones and warm colors inspired by 1970s interior design - think wood paneling, shag carpets, and harvest gold appliances"
+  version: "1.0.0"
+  patcher_version: ">=2.0.0"
+  screenshot_url: ""
+  
+  # Apply only to light theme variant
+  variants:
+    - "graphite-light"
+
+patches:
+  # Primary colors - burnt orange/amber typical of 70s
+  - token: "token-rgb-primary"
+    type: "rgb"
+    value: "204, 85, 0"
+    description: "Burnt orange primary - classic 70s color"
+  
+  - token: "token-rgb-orange"
+    type: "rgb"
+    value: "255, 140, 0"
+    description: "Bright sunset orange"
+  
+  - token: "token-rgb-amber"
+    type: "rgb"
+    value: "218, 165, 32"
+    description: "Golden amber - 70s harvest gold"
+  
+  - token: "token-rgb-yellow"
+    type: "rgb"
+    value: "255, 215, 0"
+    description: "Rich golden yellow"
+  
+  # Earth tones and natural colors
+  - token: "token-rgb-brown"
+    type: "rgb"
+    value: "139, 69, 19"
+    description: "Rich saddle brown - 70s furniture color"
+  
+  - token: "token-rgb-green"
+    type: "rgb"
+    value: "107, 142, 35"
+    description: "Olive/avocado green - iconic 70s color"
+  
+  - token: "token-rgb-light-green"
+    type: "rgb"
+    value: "154, 205, 50"
+    description: "Yellow-green - 70s kitchen appliance color"
+  
+  - token: "token-rgb-teal"
+    type: "rgb"
+    value: "0, 139, 139"
+    description: "Dark turquoise - 70s bathroom tile color"
+  
+  - token: "token-rgb-cyan"
+    type: "rgb"
+    value: "72, 209, 204"
+    description: "Turquoise cyan - 70s accent color"
+  
+  # Warm accent colors
+  - token: "token-rgb-red"
+    type: "rgb"
+    value: "178, 34, 34"
+    description: "Deep brick red"
+  
+  - token: "token-rgb-purple"
+    type: "rgb"
+    value: "138, 43, 226"
+    description: "Deep violet - 70s psychedelic accent"
+  
+  - token: "token-rgb-blue"
+    type: "rgb"
+    value: "70, 130, 180"
+    description: "Steel blue - muted 70s blue"
+  
+  - token: "token-rgb-indigo"
+    type: "rgb"
+    value: "75, 0, 130"
+    description: "Deep indigo - 70s night sky"
+  
+  # Muted greys with warm undertones
+  - token: "token-rgb-grey"
+    type: "rgb"
+    value: "128, 118, 105"
+    description: "Warm grey - mushroom color"
+  
+  - token: "token-rgb-blue-grey"
+    type: "rgb"
+    value: "112, 128, 144"
+    description: "Slate grey with blue undertones"
+  
+  # Feedback colors with 70s flair
+  - token: "token-color-feedback-warning"
+    type: "generic"
+    value: "rgb(218, 165, 32)"
+    description: "Golden amber warning"
+  
+  - token: "token-color-feedback-error"
+    type: "generic"
+    value: "rgb(178, 34, 34)"
+    description: "Brick red error"
+  
+  - token: "token-color-feedback-success"
+    type: "generic"
+    value: "rgb(107, 142, 35)"
+    description: "Olive green success"
+  
+  - token: "token-color-feedback-info"
+    type: "generic"
+    value: "rgb(70, 130, 180)"
+    description: "Steel blue info"
+  
+  # Light theme specific adjustments
+  - token: "token-color-background-label-badge"
+    type: "generic"
+    value: "rgb(218, 165, 32)"
+    description: "Amber badge background for light theme"
+  
+  # Text colors with warm undertones for light theme
+  - token: "token-color-text-primary"
+    type: "generic"
+    value: "rgba(65, 45, 30, 0.95)"
+    description: "Rich brown text for light theme"
+  
+  - token: "token-color-text-secondary"
+    type: "generic"
+    value: "rgba(65, 45, 30, 0.8)"
+    description: "Brown secondary text for light theme"
+  
+  # Icon colors for light theme
+  - token: "token-color-icon-primary"
+    type: "generic"
+    value: "rgba(139, 69, 19, 0.87)"
+    description: "Brown icons for light theme"
+  
+  - token: "token-color-icon-secondary"
+    type: "generic"
+    value: "rgba(139, 69, 19, 0.7)"
+    description: "Brown secondary icons for light theme"
+  
+  # Typography adjustments for retro feel
+  - token: "token-weight-font-title"
+    type: "generic"
+    value: "700"
+    description: "Bold titles for retro impact"
+  
+  # Background colors for immersive 70s light theme experience
+  - token: "token-color-background-base"
+    type: "generic"
+    value: "rgb(235, 228, 215)"
+    description: "Muted warm cream base - like vintage paper"
+  
+  - token: "token-color-background-card"
+    type: "generic"
+    value: "rgb(245, 238, 225)"
+    description: "Soft cream card background with warm undertones"
+  
+  - token: "token-color-background-secondary"
+    type: "generic"
+    value: "rgb(230, 220, 205)"
+    description: "Muted beige secondary background"
+  
+  # Border colors with earth tones for light theme
+  - token: "token-color-border-card"
+    type: "generic"
+    value: "rgb(210, 180, 140)"
+    description: "Tan card borders for light theme"
+  
+  # Scrollbar with earthy tones for light theme
+  - token: "token-color-background-scrollbar-thumb"
+    type: "generic"
+    value: "rgb(210, 180, 140)"
+    description: "Tan scrollbar for light theme"
+  
+  # Input field styling for light theme
+  - token: "token-color-background-input-base"
+    type: "generic"
+    value: "rgb(240, 235, 225)"
+    description: "Muted warm input backgrounds"

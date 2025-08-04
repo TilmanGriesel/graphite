@@ -1,0 +1,133 @@
+# Theme Patcher Recipe: Hello World
+
+recipe:
+  name: "Hello World Theme"
+  author: "Tilman Griesel"
+  author_url: "https://github.com/TilmanGriesel/graphite"
+  description: "A simple starter recipe demonstrating the most important tokens for theme customization"
+  version: "1.0.0"
+  patcher_version: ">=2.0.0"
+  screenshot_url: ""
+  
+  # THEME VARIANTS - Choose which theme files to modify
+  # Available variants:
+  # - "graphite"         -> Dark theme (themes/graphite.yaml)
+  # - "graphite-light"   -> Light theme (themes/graphite-light.yaml)  
+  # - "graphite-auto"    -> Auto theme with light/dark modes (themes/graphite-auto.yaml)
+  # - "graphite-eink-dark"   -> E-ink optimized dark theme
+  # - "graphite-eink-light"  -> E-ink optimized light theme
+  variants:
+    - "graphite-light"  # Starting with light theme for beginners
+
+patches:
+  # PRIMARY COLOR - The main accent color throughout the interface
+  - token: "token-rgb-primary"
+    type: "rgb"
+    value: "100, 149, 237"
+    description: "Cornflower blue primary color - main accent throughout UI"
+  
+  # FEEDBACK COLORS - Important for user notifications
+  - token: "token-color-feedback-success"
+    type: "generic"
+    value: "rgb(76, 175, 80)"
+    description: "Green success color for positive actions"
+  
+  - token: "token-color-feedback-warning"
+    type: "generic"
+    value: "rgb(255, 152, 0)"
+    description: "Orange warning color for caution messages"
+  
+  - token: "token-color-feedback-error"
+    type: "generic"
+    value: "rgb(244, 67, 54)"
+    description: "Red error color for critical alerts"
+  
+  - token: "token-color-feedback-info"
+    type: "generic"
+    value: "rgb(33, 150, 243)"
+    description: "Blue info color for informational messages"
+  
+  # BACKGROUND COLORS - The foundation of your theme
+  - token: "token-color-background-base"
+    type: "generic"
+    value: "rgb(248, 249, 250)"
+    description: "Main background color - the canvas of your interface"
+  
+  - token: "token-color-background-card"
+    type: "generic"
+    value: "rgb(255, 255, 255)"
+    description: "Card background color - surfaces that hold content"
+  
+  # TEXT COLORS - Essential for readability
+  - token: "token-color-text-primary"
+    type: "generic"
+    value: "rgba(33, 33, 33, 0.95)"
+    description: "Primary text color - main content text"
+  
+  - token: "token-color-text-secondary"
+    type: "generic"
+    value: "rgba(33, 33, 33, 0.75)"
+    description: "Secondary text color - subtitles and less important text"
+  
+  # ICON COLORS - Visual elements
+  - token: "token-color-icon-primary"
+    type: "generic"
+    value: "rgba(33, 33, 33, 0.87)"
+    description: "Primary icon color - main icons throughout interface"
+  
+  # ACCENT COLORS - Additional colors for variety
+  - token: "token-rgb-green"
+    type: "rgb"
+    value: "76, 175, 80"
+    description: "Green accent color - for positive elements"
+  
+  - token: "token-rgb-orange"
+    type: "rgb"
+    value: "255, 152, 0"
+    description: "Orange accent color - for attention-grabbing elements"
+  
+  - token: "token-rgb-blue"
+    type: "rgb"
+    value: "33, 150, 243"
+    description: "Blue accent color - for informational elements"
+
+# BEGINNER NOTES:
+# 
+# 1. TOKEN TYPES:
+#    - "rgb" tokens expect values like "255, 0, 0" (red, green, blue values 0-255)
+#    - "generic" tokens can accept full CSS color values like "rgb(255, 0, 0)" or "#ff0000"
+#
+# 2. THEME VARIANTS EXPLAINED:
+#    - Single themes (graphite, graphite-light): Simple, standalone theme files
+#    - Auto theme (graphite-auto): Contains both light and dark modes in one file
+#    - E-ink themes: Optimized for e-paper displays with reduced colors and contrast
+#
+# 3. MODE-SPECIFIC PATCHES:
+#    You can target specific modes in auto themes by adding "mode" to patches:
+#    - token: "token-color-background-base"
+#      value: "rgb(20, 20, 20)"
+#      mode: "dark"     # Only applies to dark mode in auto themes
+#    
+#    - token: "token-color-background-base" 
+#      value: "rgb(250, 250, 250)"
+#      mode: "light"    # Only applies to light mode in auto themes
+#    
+#    Without "mode", patches apply to all modes in the target variant.
+#
+# 4. CARD-MOD INTEGRATION:
+#    Each theme includes a "card-mod-theme" field that enables card-mod styling.
+#    This allows advanced users to:
+#    - Customize individual Lovelace cards beyond standard theme tokens
+#    - Apply CSS modifications to specific card types
+#    - Create complex visual effects and layouts
+#    - Override default card styling with custom CSS
+#    
+#    The theme patcher maintains card-mod compatibility automatically.
+#
+# 5. ESSENTIAL TOKENS TO START WITH:
+#    - token-rgb-primary: Your theme's main accent color
+#    - token-color-background-base: Main background color
+#    - token-color-background-card: Card/surface background
+#    - token-color-text-primary: Main text color
+#    - Feedback colors: success, warning, error, info
+#
