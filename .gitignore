@@ -10,3 +10,4 @@ cache
 .vscode
 node_modules
 TODOs.md
+*.pyc

@@ -1,0 +1,444 @@
+alias: "Test: Complete Feature Test Suite"
+description: |
+  Comprehensive automated test of theme patcher functionality.
+icon: mdi:test-tube
+sequence:
+  - alias: Initialize comprehensive test suite
+    action: persistent_notification.create
+    data:
+      title: Theme Patcher - Full Test Suite
+      message: Starting comprehensive test of all theme patcher features...
+      notification_id: theme_test_status
+  - alias: "Phase 1: Start token override tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 1/6
+      message: Testing token overrides...
+      notification_id: theme_test_status
+  - alias: "Override: Primary RGB to red"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-primary
+      type: rgb
+      value: 255, 107, 107
+  - alias: "Override: Secondary RGB to pink"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-secondary
+      type: rgb
+      value: 255, 182, 193
+  - alias: "Override: Accent RGB to purple"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-accent
+      type: rgb
+      value: 138, 43, 226
+  - alias: "Override: Small radius to 8px"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-size-radius-small
+      type: radius
+      value: "8"
+  - alias: "Override: Large radius to 20px"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-size-radius-large
+      type: radius
+      value: "20"
+  - alias: "Override: Disabled opacity to 0.4"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-opacity-disabled
+      type: opacity
+      value: "0.4"
+  - alias: "Phase 2: Start new token creation tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 2/6
+      message: Testing new token creation...
+      notification_id: theme_test_status
+  - alias: "Create: Success green RGB token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-green-success
+      type: rgb
+      value: 76, 175, 80
+      create: true
+  - alias: "Create: Error red RGB token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-red-error
+      type: rgb
+      value: 244, 67, 54
+      create: true
+  - alias: "Create: Warning orange RGB token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-orange-warning
+      type: rgb
+      value: 255, 152, 0
+      create: true
+  - alias: "Create: Dark overlay RGBA token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-overlay-dark
+      type: rgb
+      value: 0, 0, 0, 0.7
+      create: true
+  - alias: "Create: Light overlay RGBA token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-overlay-light
+      type: rgb
+      value: 255, 255, 255, 0.9
+      create: true
+  - alias: "Create: Extra small font size token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-font-xs
+      type: size
+      value: "10"
+      create: true
+  - alias: "Create: Extra large font size token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-font-xl
+      type: size
+      value: "24"
+      create: true
+  - alias: "Create: Huge spacing size token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-spacing-huge
+      type: size
+      value: "48"
+      create: true
+  - alias: "Create: Pill radius token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-radius-pill
+      type: radius
+      value: "50"
+      create: true
+  - alias: "Create: Square radius token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-radius-square
+      type: radius
+      value: "0"
+      create: true
+  - alias: "Create: Subtle opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-opacity-subtle
+      type: opacity
+      value: "0.05"
+      create: true
+  - alias: "Create: Percentage opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-opacity-percent
+      type: opacity
+      value: 85%
+      create: true
+  - alias: "Phase 3: Start card-mod token tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 3/6
+      message: Testing card-mod tokens...
+      notification_id: theme_test_status
+  - alias: "Create: Card border card-mod token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-card-border
+      type: card-mod
+      value: "border: 2px solid var(--primary-color)"
+      create: true
+  - alias: "Create: Card shadow card-mod token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-card-shadow
+      type: card-mod
+      value: "box-shadow: 0 4px 12px rgba(0,0,0,0.15)"
+      create: true
+  - alias: "Create: Card hover card-mod token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-card-hover
+      type: card-mod
+      value: "transform: translateY(-2px); transition: all 0.2s ease"
+      create: true
+  - alias: "Create: Card gradient card-mod token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-card-gradient
+      type: card-mod
+      value: >-
+        background: linear-gradient(135deg, var(--primary-color) 0%,
+        var(--accent-color) 100%)
+      create: true
+  - alias: "Phase 4: Start generic token tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 4/6
+      message: Testing generic tokens...
+      notification_id: theme_test_status
+  - alias: "Create: Font family generic token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-font-family
+      type: generic
+      value: Inter, -apple-system, BlinkMacSystemFont, sans-serif
+      create: true
+  - alias: "Create: Smooth transition generic token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-transition-smooth
+      type: generic
+      value: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+      create: true
+  - alias: "Create: Blur filter generic token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-filter-blur
+      type: generic
+      value: blur(4px) brightness(0.8)
+      create: true
+  - alias: "Create: Text shadow generic token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-text-shadow
+      type: generic
+      value: 0 1px 2px rgba(0,0,0,0.1)
+      create: true
+  - alias: "Phase 5: Start mode targeting tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 5/6
+      message: Testing mode targeting (light/dark)...
+      notification_id: theme_test_status
+  - alias: "Mode Test: Override primary RGB for light mode"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-primary
+      type: rgb
+      value: 41, 98, 255
+      mode: light
+  - alias: "Mode Test: Create light mode background token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-mode-light-bg
+      type: rgb
+      value: 248, 250, 252
+      mode: light
+      create: true
+  - alias: "Mode Test: Override primary RGB for dark mode"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-rgb-primary
+      type: rgb
+      value: 138, 180, 248
+      mode: dark
+  - alias: "Mode Test: Create dark mode background token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-mode-dark-bg
+      type: rgb
+      value: 18, 18, 23
+      mode: dark
+      create: true
+  - alias: "Mode Test: Create universal accent for all modes"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-universal-accent
+      type: rgb
+      value: 156, 39, 176
+      mode: all
+      create: true
+  - alias: "Mode Test: Override medium radius for all modes"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: token-size-radius-medium
+      type: radius
+      value: "12"
+      mode: all
+  - alias: "Mode Test: Create context-sensitive token for light"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-context-sensitive
+      type: rgb
+      value: 255, 193, 7
+      mode: light
+      create: true
+  - alias: "Mode Test: Create context-sensitive token for dark"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: custom-context-sensitive
+      type: rgb
+      value: 255, 235, 59
+      mode: dark
+      create: true
+  - alias: "Phase 6: Start edge cases and validation tests"
+    action: persistent_notification.create
+    data:
+      title: Theme Test Phase 6/6
+      message: Testing edge cases and validation...
+      notification_id: theme_test_status
+  - alias: "Edge Test: Create zero radius token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-zero-radius
+      type: radius
+      value: "0"
+      create: true
+  - alias: "Edge Test: Create zero opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-zero-opacity
+      type: opacity
+      value: "0"
+      create: true
+  - alias: "Edge Test: Create zero size token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-zero-size
+      type: size
+      value: "0"
+      create: true
+  - alias: "Edge Test: Create maximum RGB values token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-max-rgb
+      type: rgb
+      value: 255, 255, 255
+      create: true
+  - alias: "Edge Test: Create maximum opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-max-opacity
+      type: opacity
+      value: "1.0"
+      create: true
+  - alias: "Edge Test: Create minimum RGB values token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-min-rgb
+      type: rgb
+      value: 0, 0, 0
+      create: true
+  - alias: "Edge Test: Create 50% opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-opacity-50-percent
+      type: opacity
+      value: 50%
+      create: true
+  - alias: "Edge Test: Create 100% opacity token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-opacity-100-percent
+      type: opacity
+      value: 100%
+      create: true
+  - alias: "Edge Test: Create complex card-mod token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-complex-cardmod
+      type: card-mod
+      value: "border-radius: 16px; padding: 20px;"
+      create: true
+  - alias: "Edge Test: Create complex CSS generic token"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-complex-generic
+      type: generic
+      value: cubic-bezier(0.68, -0.55, 0.265, 1.55)
+      create: true
+  - alias: "Edge Test: Create long token name"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-very-long-token-name-for-validation
+      type: rgb
+      value: 100, 149, 237
+      create: true
+  - alias: "Edge Test: Create token with numbers"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-token-123-with-numbers
+      type: size
+      value: "14"
+      create: true
+  - alias: "Edge Test: Create token with underscores"
+    action: shell_command.patch_theme
+    data:
+      theme: graphite
+      token: test-token_with_underscores
+      type: radius
+      value: "6"
+      create: true
+  - alias: "Finalize: Reload all themes"
+    action: frontend.reload_themes
+    data: {}
+  - alias: Show comprehensive test completion status
+    action: persistent_notification.create
+    data:
+      title: Theme Patcher - All Tests Complete!
+      message: |
+        Comprehensive test suite completed successfully!
+
+        Check your Graphite theme files for all changes!
+        Themes have been automatically reloaded.
+      notification_id: theme_test_status
+  - alias: Wait before clearing comprehensive notification
+    delay:
+      seconds: 30
+  - alias: Clear comprehensive test notification
+    action: persistent_notification.dismiss
+    data:
+      notification_id: theme_test_status

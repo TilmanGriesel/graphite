@@ -1,672 +1,677 @@
 Graphite Auto:
   card-mod-theme: Graphite Auto
   modes:
-    light:      
-        # Graphite is a contemporary theme that offers both a calm dark color scheme and a
-        # clean light theme, featuring native device fonts and a cohesive design
-        # language. Carefully crafted to be visually appealing and easy on the eyes,
-        # Graphite ensures a consistent user experience throughout the entire Home
-        # Assistant interface, including the administration panel and code editors.
-        # https://github.com/TilmanGriesel/graphite
-      
-        #------------------------------------------------------
-        # This file was generated at 2025-08-03 16:53:50
-        #------------------------------------------------------
-      
-      
-        # ------------------------------------------------------------------------------
-        # Light theme color tokens
-        # ------------------------------------------------------------------------------
-        token-rgb-primary: 238, 147, 0
-        token-rgb-black: 0, 0, 0
-        token-rgb-white: 240, 243, 255
-        token-rgb-purple: 129, 45, 250
-        token-rgb-pink: 204, 0, 136
-        token-rgb-red: 204, 0, 51
-        token-rgb-deep-purple: 98, 0, 234
-        token-rgb-indigo: 48, 63, 159
-        token-rgb-blue: 33, 150, 243
-        token-rgb-light-blue: 3, 169, 244
-        token-rgb-cyan: 0, 188, 212
-        token-rgb-teal: 0, 150, 136
-        token-rgb-green: 56, 142, 60
-        token-rgb-light-green: 139, 195, 74
-        token-rgb-lime: 205, 220, 57
-        token-rgb-yellow: 250, 183, 0
-        token-rgb-amber: 255, 193, 7
-        token-rgb-orange: 255, 158, 0
-        token-rgb-deep-orange: 255, 87, 34
-        token-rgb-brown: 121, 85, 72
-        token-rgb-grey: 103, 104, 119
-        token-rgb-blue-grey: 96, 125, 139
-        token-rgb-disabled: 189, 189, 189
-        token-rgb-state-inactive: 176, 190, 197
-        token-color-primary: rgb(var(--token-rgb-primary))
-        token-color-primary-light: rgb(167 182 199)
-        token-color-accent: var(--token-color-primary)
-        token-color-disabled: rgb(173 176 184)
-        token-color-feedback-info: rgb(39, 209, 246)
-        token-color-feedback-warning: rgb(255, 219, 117)
-        token-color-feedback-error: rgb(234, 114, 135)
-        token-color-feedback-success: rgb(118, 214, 152)
-        token-color-icon-primary: rgba(19, 21, 54, 0.87)
-        token-color-icon-secondary: rgba(19, 21, 54, 0.8)
-        token-color-icon-sidebar: rgba(19, 21, 54, 0.7)
-        token-color-icon-sidebar-selected: var(--token-color-icon-primary)
-        token-color-text-primary: rgba(19, 21, 54, 0.95)
-        token-color-text-secondary: rgba(19, 21, 54, 0.8)
-        token-color-text-disabled: rgba(19, 21, 54, 0.38)
-        token-color-text-sidebar-selected: var(--token-color-text-primary)
-        token-color-text-sidebar: var(--token-color-text-secondary)
-        token-color-text-label-badge: rgba(19, 21, 54, 0.7)
-        token-color-text-chip: var(--token-color-black)
-        token-color-background-base: rgb(234, 235, 238)
-        token-color-background-secondary: rgb(245, 245, 245)
-        token-color-background-sidebar: var(--token-color-background-base)
-        token-color-background-input-base: rgb(255, 255, 255)
-        token-color-background-input-disabled: rgb(245, 245, 245)
-        token-color-background-label-badge: rgb(230, 230, 230)
-        token-color-background-card: rgb(255, 255, 255)
-        token-color-background-skrim: rgba(0, 0, 0, 0.5)
-        token-color-background-divider: rgb(224, 224, 224)
-        token-color-background-scrollbar-thumb: rgb(200, 200, 200)
-        token-color-background-label-badge-red: var(--token-color-feedback-error)
-        token-color-background-label-badge-green: rgb(78, 183, 128)
-        token-color-background-label-badge-blue: var(--token-color-feedback-info)
-        token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
-        token-color-background-label-badge-grey: rgb(83, 90, 103)
-        token-color-background-popup-scrim: rgba(0, 0, 0, 0.5)
-        token-color-border-card: rgb(224, 224, 224)
-        token-color-switch-button-unchecked: rgba(0, 0, 0, 0.5)
-        token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
-        token-color-codemirror-string: rgb(0, 77, 153)
-        token-color-codemirror-keyword: rgb(70, 112, 216)
-        token-color-codemirror-number: rgb(204, 85, 0)
-        token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
-      
-        # ------------------------------------------------------------------------------
-        # Size tokens
-        # ------------------------------------------------------------------------------
-        # Radius
-        token-size-radius-small: 12px
-        token-size-radius-medium: 16px
-        token-size-radius-large: 20px
-        token-size-radius-card: var(--token-size-radius-large)
-        # ..............................................................................
-        # Border
-        token-size-width-border-card: 0
-        # ..............................................................................
-        # Height
-        token-size-height-slider: 4px
-        token-size-height-navbar: 56px
-        # ..............................................................................
-        # Font
-        token-size-font-xs: calc(10px * var(--ha-font-size-scale))
-        token-size-font-s: calc(12px * var(--ha-font-size-scale))
-        token-size-font-m: calc(14px * var(--ha-font-size-scale))
-        token-size-font-l: calc(15px * var(--ha-font-size-scale))
-        token-size-font-xl: calc(20px * var(--ha-font-size-scale))
-        token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
-        token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
-        token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
-        token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
-        token-size-font-title: var(--token-size-font-l)
-        token-size-font-title-card: var(--token-size-font-l)
-        # ..............................................................................
-        # Spacing
-        token-size-spacing-medium: 16px
-        token-size-section-min-width: 320px
-        # ------------------------------------------------------------------------------
-        # Color tokens
-        # ------------------------------------------------------------------------------
-        # Base
-        token-color-transparent: rgba(0, 0, 0, 0)
-        token-color-black: rgb(0, 0, 0)
-        token-color-white: rgb(255, 255, 255)
-        # ------------------------------------------------------------------------------
-        # Other tokens
-        # ------------------------------------------------------------------------------
-        # Opacity
-        token-opacity-ripple-hover: 0.14
-        # ..............................................................................
-        # Font
-        token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-        token-weight-font-title-card: 500
-      
-        # ------------------------------------------------------------------------------
-        # Definitions
-        # ------------------------------------------------------------------------------
-        # ..............................................................................
-        # Sizes
-        header-height: var(--token-size-height-navbar)
-        paper-slider-height: var(--token-size-height-slider)
-        # ..............................................................................
-        # Typography
-        ## Font Family Tokens
-        primary-font-family: var(--token-font-family-primary)
-        ha-font-family-body: var(--token-font-family-primary)
-        ha-font-family-heading: var(--token-font-family-primary)
-        ha-font-family-code: var(--token-font-family-primary)
-        ha-font-family-longform: var(--token-font-family-primary)
-        ## ::Legacy:: Font Family Tokens
-        ha-card-header-font-family: var(--token-font-family-primary)
-        mdc-typography-font-family: var(--token-font-family-primary)
-        mdc-typography-button-font-family: var(--token-font-family-primary)
-        mdc-typography-body1-font-family: var(--token-font-family-primary)
-        md-list-item-label-text-font: var(--token-font-family-primary)
-        paper-font-common-base_-_font-family: var(--token-font-family-primary)
-        paper-font-common-code_-_font-family: var(--token-font-family-primary)
-        paper-font-body1_-_font-family: var(--token-font-family-primary)
-        paper-font-subhead_-_font-family: var(--token-font-family-primary)
-        paper-font-headline_-_font-family: var(--token-font-family-primary)
-        paper-font-caption_-_font-family: var(--token-font-family-primary)
-        paper-font-title_-_font-family: var(--token-font-family-primary)
-        ## Font Weight Tokens
-        ha-font-weight-normal: var(--token-weight-font-body)
-        ha-font-weight-medium: var(--token-weight-font-title)
-        ha-font-weight-bold: var(--token-weight-font-title)
-        ha-font-weight-body: var(--token-weight-font-body)
-        ha-font-weight-heading: var(--token-weight-font-title)
-        ha-font-weight-action: var(--token-weight-font-title)
-        ## ::Legacy:: Font Weight
-        mdc-typography-button-font-weight: var(--token-weight-font-title)
-        title-font-weight: var(--token-weight-font-title)
-        ## Font Size Tokens
-        ha-font-size-xs: var(--token-size-font-xs)
-        ha-font-size-s: var(--token-size-font-s)
-        ha-font-size-m: var(--token-size-font-m)
-        ha-font-size-l: var(--token-size-font-l)
-        ha-font-size-xl: var(--token-size-font-xl)
-        ha-font-size-2xl: var(--token-size-font-2xl)
-        ha-font-size-3xl: var(--token-size-font-3xl)
-        ha-font-size-4xl: var(--token-size-font-4xl)
-        ha-font-size-5xl: var(--token-size-font-5xl)
-        ## ::Legacy:: Size
-        title-font-size: var(--token-size-font-title)
-        ha-heading-card-title-font-size: var(--token-size-font-title-card)
-        ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
-        ## Font Smoothing
-        ha-font-smoothing: antialiased
-        # ..............................................................................
-        # Text colors
-        primary-text-color: var(--token-color-text-primary)
-        secondary-text-color: var(--token-color-text-secondary)
-        text-primary-color: var(--token-color-text-primary)
-        disabled-text-color: var(--token-color-text-disabled)
-        app-header-edit-text-color: var(--token-color-text-primary)
-        text-light-primary-color: rgb(28, 29, 33)
-        # ..............................................................................
-        # Icon colors
-        paper-item-icon-color: var(--token-color-text-primary)
-        state-inactive-color: var(--token-color-text-secondary)
-        # ..............................................................................
-        # Main interface colors
-        primary-color: var(--token-color-primary)
-        dark-primary-color: var(--primary-color)
-        light-primary-color: var(--token-color-primary-light)
-        accent-color: var(--token-color-accent)
-        divider-color: var(--token-color-background-divider)
-        scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
-        disabled-color: var(--token-color-disabled)
-        # ..............................................................................
-        # Feedback colors
-        info-color: var(--token-color-feedback-info)
-        success-color: var(--token-color-feedback-success)
-        warning-color: var(--token-color-feedback-warning)
-        error-color: var(--token-color-feedback-error)
-        # ..............................................................................
-        # Background colors
-        lovelace-background: var(--token-color-background-base)
-        primary-background-color: var(--token-color-background-base)
-        secondary-background-color: var(--token-color-background-secondary)
-        clear-background-color: var(--token-color-background-input-base)
-        # ..............................................................................
-        # Navbar colors
-        app-header-background-color: var(--primary-background-color)
-        app-header-text-color: var(--token-color-icon-primary)
-        app-header-edit-background-color: var(--token-color-background-card)
-        # ..............................................................................
-        # Sidebar colors
-        sidebar-icon-color: var(--token-color-icon-sidebar)
-        sidebar-text-color: var(--sidebar-icon-color)
-        sidebar-background-color: var(--token-color-background-sidebar)
-        sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
-        sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
-        # ..............................................................................
-        # Cards
-        border-radius: var(--token-size-radius-card)
-        card-background-color: var(--token-color-background-card)
-        ha-card-background: var(--token-color-background-card)
-        ha-card-border-radius: var(--token-size-radius-card)
-        ha-card-border-color: var(--token-color-border-card)
-        ha-card-border-width: var(--token-size-width-border-card)
-        ha-card-border-style: none
-        ha-card-border: none
-        ha-card-box-shadow: var(--token-shadow-card-medium)
-        # ..............................................................................
-        # Sections
-        ha-view-sections-column-gap: var(--token-size-spacing-medium)
-        ha-view-sections-column-min-width: var(--token-size-section-min-width)
-        # ..............................................................................
-        # States
-        state-icon-color: var(--token-color-icon-primary)
-        state-on-color: var(--token-color-feedback-success)
-        state-off-color: var(--token-color-feedback-error)
-        # ..............................................................................
-        # Label-badge
-        label-badge-text-color: var(--token-color-text-primary)
-        label-badge-red: var(--token-color-background-label-badge-red)
-        label-badge-blue: var(--token-color-background-label-badge-blue)
-        label-badge-green: var(--token-color-background-label-badge-green)
-        label-badge-yellow: var(--token-color-background-label-badge-yellow)
-        label-badge-grey: var(--token-color-background-label-badge-grey)
-        # ..............................................................................
-        # Chip
-        ha-chip-text-color: var(--token-color-text-chip)
-        # ..............................................................................
-        # Dialog
-        mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
-        # ..............................................................................
-        # Slider
-        paper-slider-knob-color: var(--token-color-primary)
-        paper-slider-knob-start-color: var(--paper-slider-knob-color)
-        paper-slider-pin-color: var(--paper-slider-knob-color)
-        paper-slider-active-color: var(--paper-slider-knob-color)
-        paper-slider-secondary-color: var(--light-primary-color)
-        # ..............................................................................
-        # Switch
-        switch-checked-button-color: var(--primary-color)
-        switch-checked-track-color: var(--switch-checked-button-color)
-        switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
-        switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
-        # ..............................................................................
-        # Toggles
-        paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
-        paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
-        paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
-        paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
-        mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
-        mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
-        # ..............................................................................
-        # List items
-        mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
-        # ..............................................................................
-        # Text Fields an Dropdown
-        input-background-color: var(--token-color-background-input-base)
-        input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
-        input-fill-color: var(--input-background-color)
-        input-ink-color: var(--token-color-text-primary)
-        input-label-ink-color: var(--token-color-text-primary)
-        input-disabled-fill-color: var(--input-background-token-color-disabled)
-        input-disabled-ink-color: var(--disabled-text-color)
-        input-disabled-label-ink-color: var(--disabled-text-color)
-        input-idle-line-color: var(--background-color)
-        input-dropdown-icon-color: var(--secondary-text-color)
-        input-hover-line-color: var(--primary-color)
-        mdc-select-idle-line-color: var(--color-background-base)
-        mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
-        # ..............................................................................
-        # Editor
-        code-editor-background-color: var(--token-color-background-base)
-        codemirror-meta: var(--token-color-text-primary)
-        codemirror-property: var(--accent-color)
-        codemirror-atom: var(--codemirror-property)
-        codemirror-string: var(--token-color-codemirror-string)
-        codemirror-keyword: var(--token-color-codemirror-keyword)
-        codemirror-number: var(--token-color-codemirror-number)
-        # ------------------------------------------------------------------------------
-        # Extentions
-        # ------------------------------------------------------------------------------
-        # Mini graph card
-        mcg-title-font-weight: 400
-        # ..............................................................................
-        # Mushroom
-        mush-title-font-weight: var(--title-font-weight)
-        mush-title-font-size: var(--title-font-size)
-        # ------------------------------------------------
-        # HA Indicator Colors
-        # ------------------------------------------------
-        # Note: Amber is not safe to be modified, causes history-graph rendering issues.
-        # Potentially other color definitions could cause issues too.
-        # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
-        # ------------------------------------------------
-        # RGB Indicator Color Definitions
-        # ------------------------------------------------
-        # Grey
-        light-grey-color: rgb(var(--token-rgb-grey))
-        mush-rgb-grey: var(--token-rgb-grey)
-    dark:      
-        # Graphite is a contemporary theme that offers both a calm dark color scheme and a
-        # clean light theme, featuring native device fonts and a cohesive design
-        # language. Carefully crafted to be visually appealing and easy on the eyes,
-        # Graphite ensures a consistent user experience throughout the entire Home
-        # Assistant interface, including the administration panel and code editors.
-        # https://github.com/TilmanGriesel/graphite
-      
-        #------------------------------------------------------
-        # This file was generated at 2025-08-03 16:53:50
-        #------------------------------------------------------
-      
-      
-        # ------------------------------------------------------------------------------
-        # Dark theme color tokens
-        # ------------------------------------------------------------------------------
-        token-rgb-primary: 224, 138, 0
-        token-rgb-black: 0, 0, 0
-        token-rgb-white: 240, 243, 255
-        token-rgb-purple: 189, 157, 255
-        token-rgb-pink: 255, 98, 192
-        token-rgb-red: 255, 97, 116
-        token-rgb-deep-purple: 166, 77, 255
-        token-rgb-indigo: 84, 132, 255
-        token-rgb-blue: 33, 150, 243
-        token-rgb-light-blue: 3, 169, 244
-        token-rgb-cyan: 0, 188, 212
-        token-rgb-teal: 107, 255, 237
-        token-rgb-green: 141, 253, 166
-        token-rgb-light-green: 156, 255, 166
-        token-rgb-lime: 205, 220, 57
-        token-rgb-yellow: 255, 235, 59
-        token-rgb-amber: 255, 211, 99
-        token-rgb-orange: 224, 138, 0
-        token-rgb-deep-orange: 255, 87, 34
-        token-rgb-brown: 121, 85, 72
-        token-rgb-grey: 158, 158, 158
-        token-rgb-blue-grey: 96, 125, 139
-        token-rgb-disabled: 61, 65, 85
-        token-rgb-state-inactive: 123, 126, 139
-        token-color-primary: rgb(var(--token-rgb-primary))
-        token-color-primary-light: rgb(105 124 144)
-        token-color-accent: var(--token-color-primary)
-        token-color-disabled: rgb(0, 0, 0)
-        token-color-feedback-info: rgb(39, 209, 246)
-        token-color-feedback-warning: rgb(255, 219, 117)
-        token-color-feedback-error: rgb(234, 114, 135)
-        token-color-feedback-success: rgb(118, 214, 152)
-        token-color-icon-primary: rgb(228, 228, 231)
-        token-color-icon-secondary: rgb(138, 140, 153)
-        token-color-icon-sidebar: rgb(147, 149, 159)
-        token-color-icon-sidebar-selected: rgb(174, 176, 183)
-        token-color-text-primary: rgb(228, 228, 231)
-        token-color-text-secondary: rgb(138, 140, 153)
-        token-color-text-disabled: rgba(255, 255, 255, 0.5)
-        token-color-text-sidebar-selected: rgb(214, 215, 219)
-        token-color-text-sidebar: var(--token-color-text-secondary)
-        token-color-text-label-badge: rgb(198, 203, 210)
-        token-color-text-chip: var(--token-color-white)
-        token-color-background-base: rgb(16, 18, 21)
-        token-color-background-secondary: rgb(28, 29, 33)
-        token-color-background-sidebar: var(--token-color-background-base)
-        token-color-background-input-base: rgb(46, 48, 56)
-        token-color-background-input-disabled: rgba(37, 37, 40, 0.5)
-        token-color-background-label-badge: rgb(54, 55, 67)
-        token-color-background-card: rgb(35, 36, 43)
-        token-color-background-skrim: rgba(0, 0, 3, 0.9)
-        token-color-background-divider: var(--token-color-background-sidebar)
-        token-color-background-scrollbar-thumb: rgb(46, 48, 56)
-        token-color-background-label-badge-red: var(--token-color-feedback-error)
-        token-color-background-label-badge-green: rgb(78, 183, 128)
-        token-color-background-label-badge-blue: var(--token-color-feedback-info)
-        token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
-        token-color-background-label-badge-grey: rgb(83, 90, 103)
-        token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
-        token-color-border-card: rgba(0, 0, 0, 0)
-        token-color-switch-button-unchecked: rgba(255, 255, 255, 0.7)
-        token-color-switch-track-unchecked: rgba(125, 128, 132, 0.4)
-        token-color-codemirror-string: rgb(119, 196, 229)
-        token-color-codemirror-keyword: rgb(140, 169, 255)
-        token-color-codemirror-number: rgb(255, 91, 29)
-        token-shadow-card-medium: 0 3px 8px 0 rgba(0, 0, 0, 0.12)
-      
-        # ------------------------------------------------------------------------------
-        # Size tokens
-        # ------------------------------------------------------------------------------
-        # Radius
-        token-size-radius-small: 12px
-        token-size-radius-medium: 16px
-        token-size-radius-large: 20px
-        token-size-radius-card: var(--token-size-radius-large)
-        # ..............................................................................
-        # Border
-        token-size-width-border-card: 0
-        # ..............................................................................
-        # Height
-        token-size-height-slider: 4px
-        token-size-height-navbar: 56px
-        # ..............................................................................
-        # Font
-        token-size-font-xs: calc(10px * var(--ha-font-size-scale))
-        token-size-font-s: calc(12px * var(--ha-font-size-scale))
-        token-size-font-m: calc(14px * var(--ha-font-size-scale))
-        token-size-font-l: calc(15px * var(--ha-font-size-scale))
-        token-size-font-xl: calc(20px * var(--ha-font-size-scale))
-        token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
-        token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
-        token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
-        token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
-        token-size-font-title: var(--token-size-font-l)
-        token-size-font-title-card: var(--token-size-font-l)
-        # ..............................................................................
-        # Spacing
-        token-size-spacing-medium: 16px
-        token-size-section-min-width: 320px
-        # ------------------------------------------------------------------------------
-        # Color tokens
-        # ------------------------------------------------------------------------------
-        # Base
-        token-color-transparent: rgba(0, 0, 0, 0)
-        token-color-black: rgb(0, 0, 0)
-        token-color-white: rgb(255, 255, 255)
-        # ------------------------------------------------------------------------------
-        # Other tokens
-        # ------------------------------------------------------------------------------
-        # Opacity
-        token-opacity-ripple-hover: 0.14
-        # ..............................................................................
-        # Font
-        token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-        token-weight-font-title-card: 500
-      
-        # ------------------------------------------------------------------------------
-        # Definitions
-        # ------------------------------------------------------------------------------
-        # ..............................................................................
-        # Sizes
-        header-height: var(--token-size-height-navbar)
-        paper-slider-height: var(--token-size-height-slider)
-        # ..............................................................................
-        # Typography
-        ## Font Family Tokens
-        primary-font-family: var(--token-font-family-primary)
-        ha-font-family-body: var(--token-font-family-primary)
-        ha-font-family-heading: var(--token-font-family-primary)
-        ha-font-family-code: var(--token-font-family-primary)
-        ha-font-family-longform: var(--token-font-family-primary)
-        ## ::Legacy:: Font Family Tokens
-        ha-card-header-font-family: var(--token-font-family-primary)
-        mdc-typography-font-family: var(--token-font-family-primary)
-        mdc-typography-button-font-family: var(--token-font-family-primary)
-        mdc-typography-body1-font-family: var(--token-font-family-primary)
-        md-list-item-label-text-font: var(--token-font-family-primary)
-        paper-font-common-base_-_font-family: var(--token-font-family-primary)
-        paper-font-common-code_-_font-family: var(--token-font-family-primary)
-        paper-font-body1_-_font-family: var(--token-font-family-primary)
-        paper-font-subhead_-_font-family: var(--token-font-family-primary)
-        paper-font-headline_-_font-family: var(--token-font-family-primary)
-        paper-font-caption_-_font-family: var(--token-font-family-primary)
-        paper-font-title_-_font-family: var(--token-font-family-primary)
-        ## Font Weight Tokens
-        ha-font-weight-normal: var(--token-weight-font-body)
-        ha-font-weight-medium: var(--token-weight-font-title)
-        ha-font-weight-bold: var(--token-weight-font-title)
-        ha-font-weight-body: var(--token-weight-font-body)
-        ha-font-weight-heading: var(--token-weight-font-title)
-        ha-font-weight-action: var(--token-weight-font-title)
-        ## ::Legacy:: Font Weight
-        mdc-typography-button-font-weight: var(--token-weight-font-title)
-        title-font-weight: var(--token-weight-font-title)
-        ## Font Size Tokens
-        ha-font-size-xs: var(--token-size-font-xs)
-        ha-font-size-s: var(--token-size-font-s)
-        ha-font-size-m: var(--token-size-font-m)
-        ha-font-size-l: var(--token-size-font-l)
-        ha-font-size-xl: var(--token-size-font-xl)
-        ha-font-size-2xl: var(--token-size-font-2xl)
-        ha-font-size-3xl: var(--token-size-font-3xl)
-        ha-font-size-4xl: var(--token-size-font-4xl)
-        ha-font-size-5xl: var(--token-size-font-5xl)
-        ## ::Legacy:: Size
-        title-font-size: var(--token-size-font-title)
-        ha-heading-card-title-font-size: var(--token-size-font-title-card)
-        ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
-        ## Font Smoothing
-        ha-font-smoothing: antialiased
-        # ..............................................................................
-        # Text colors
-        primary-text-color: var(--token-color-text-primary)
-        secondary-text-color: var(--token-color-text-secondary)
-        text-primary-color: var(--token-color-text-primary)
-        disabled-text-color: var(--token-color-text-disabled)
-        app-header-edit-text-color: var(--token-color-text-primary)
-        text-light-primary-color: rgb(28, 29, 33)
-        # ..............................................................................
-        # Icon colors
-        paper-item-icon-color: var(--token-color-text-primary)
-        state-inactive-color: var(--token-color-text-secondary)
-        # ..............................................................................
-        # Main interface colors
-        primary-color: var(--token-color-primary)
-        dark-primary-color: var(--primary-color)
-        light-primary-color: var(--token-color-primary-light)
-        accent-color: var(--token-color-accent)
-        divider-color: var(--token-color-background-divider)
-        scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
-        disabled-color: var(--token-color-disabled)
-        # ..............................................................................
-        # Feedback colors
-        info-color: var(--token-color-feedback-info)
-        success-color: var(--token-color-feedback-success)
-        warning-color: var(--token-color-feedback-warning)
-        error-color: var(--token-color-feedback-error)
-        # ..............................................................................
-        # Background colors
-        lovelace-background: var(--token-color-background-base)
-        primary-background-color: var(--token-color-background-base)
-        secondary-background-color: var(--token-color-background-secondary)
-        clear-background-color: var(--token-color-background-input-base)
-        # ..............................................................................
-        # Navbar colors
-        app-header-background-color: var(--primary-background-color)
-        app-header-text-color: var(--token-color-icon-primary)
-        app-header-edit-background-color: var(--token-color-background-card)
-        # ..............................................................................
-        # Sidebar colors
-        sidebar-icon-color: var(--token-color-icon-sidebar)
-        sidebar-text-color: var(--sidebar-icon-color)
-        sidebar-background-color: var(--token-color-background-sidebar)
-        sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
-        sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
-        # ..............................................................................
-        # Cards
-        border-radius: var(--token-size-radius-card)
-        card-background-color: var(--token-color-background-card)
-        ha-card-background: var(--token-color-background-card)
-        ha-card-border-radius: var(--token-size-radius-card)
-        ha-card-border-color: var(--token-color-border-card)
-        ha-card-border-width: var(--token-size-width-border-card)
-        ha-card-border-style: none
-        ha-card-border: none
-        ha-card-box-shadow: var(--token-shadow-card-medium)
-        # ..............................................................................
-        # Sections
-        ha-view-sections-column-gap: var(--token-size-spacing-medium)
-        ha-view-sections-column-min-width: var(--token-size-section-min-width)
-        # ..............................................................................
-        # States
-        state-icon-color: var(--token-color-icon-primary)
-        state-on-color: var(--token-color-feedback-success)
-        state-off-color: var(--token-color-feedback-error)
-        # ..............................................................................
-        # Label-badge
-        label-badge-text-color: var(--token-color-text-primary)
-        label-badge-red: var(--token-color-background-label-badge-red)
-        label-badge-blue: var(--token-color-background-label-badge-blue)
-        label-badge-green: var(--token-color-background-label-badge-green)
-        label-badge-yellow: var(--token-color-background-label-badge-yellow)
-        label-badge-grey: var(--token-color-background-label-badge-grey)
-        # ..............................................................................
-        # Chip
-        ha-chip-text-color: var(--token-color-text-chip)
-        # ..............................................................................
-        # Dialog
-        mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
-        # ..............................................................................
-        # Slider
-        paper-slider-knob-color: var(--token-color-primary)
-        paper-slider-knob-start-color: var(--paper-slider-knob-color)
-        paper-slider-pin-color: var(--paper-slider-knob-color)
-        paper-slider-active-color: var(--paper-slider-knob-color)
-        paper-slider-secondary-color: var(--light-primary-color)
-        # ..............................................................................
-        # Switch
-        switch-checked-button-color: var(--primary-color)
-        switch-checked-track-color: var(--switch-checked-button-color)
-        switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
-        switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
-        # ..............................................................................
-        # Toggles
-        paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
-        paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
-        paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
-        paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
-        mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
-        mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
-        # ..............................................................................
-        # List items
-        mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
-        # ..............................................................................
-        # Text Fields an Dropdown
-        input-background-color: var(--token-color-background-input-base)
-        input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
-        input-fill-color: var(--input-background-color)
-        input-ink-color: var(--token-color-text-primary)
-        input-label-ink-color: var(--token-color-text-primary)
-        input-disabled-fill-color: var(--input-background-token-color-disabled)
-        input-disabled-ink-color: var(--disabled-text-color)
-        input-disabled-label-ink-color: var(--disabled-text-color)
-        input-idle-line-color: var(--background-color)
-        input-dropdown-icon-color: var(--secondary-text-color)
-        input-hover-line-color: var(--primary-color)
-        mdc-select-idle-line-color: var(--color-background-base)
-        mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
-        # ..............................................................................
-        # Editor
-        code-editor-background-color: var(--token-color-background-base)
-        codemirror-meta: var(--token-color-text-primary)
-        codemirror-property: var(--accent-color)
-        codemirror-atom: var(--codemirror-property)
-        codemirror-string: var(--token-color-codemirror-string)
-        codemirror-keyword: var(--token-color-codemirror-keyword)
-        codemirror-number: var(--token-color-codemirror-number)
-        # ------------------------------------------------------------------------------
-        # Extentions
-        # ------------------------------------------------------------------------------
-        # Mini graph card
-        mcg-title-font-weight: 400
-        # ..............................................................................
-        # Mushroom
-        mush-title-font-weight: var(--title-font-weight)
-        mush-title-font-size: var(--title-font-size)
-        # ------------------------------------------------
-        # HA Indicator Colors
-        # ------------------------------------------------
-        # Note: Amber is not safe to be modified, causes history-graph rendering issues.
-        # Potentially other color definitions could cause issues too.
-        # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
-        # ------------------------------------------------
-        # RGB Indicator Color Definitions
-        # ------------------------------------------------
-        # Grey
-        light-grey-color: rgb(var(--token-rgb-grey))
-        mush-rgb-grey: var(--token-rgb-grey)
+    light:
 
+      # Graphite is a contemporary theme that offers both a calm dark color scheme and a
+      # clean light theme, featuring native device fonts and a cohesive design
+      # language. Carefully crafted to be visually appealing and easy on the eyes,
+      # Graphite ensures a consistent user experience throughout the entire Home
+      # Assistant interface, including the administration panel and code editors.
+      # https://github.com/TilmanGriesel/graphite
+
+      #------------------------------------------------------
+      # This file was generated at 2025-08-04 21:21:17
+      #------------------------------------------------------
+
+
+      # ------------------------------------------------------------------------------
+      # Light theme color tokens
+      # ------------------------------------------------------------------------------
+      token-rgb-primary: 238, 147, 0
+      token-rgb-black: 0, 0, 0
+      token-rgb-white: 240, 243, 255
+      token-rgb-purple: 129, 45, 250
+      token-rgb-pink: 204, 0, 136
+      token-rgb-red: 204, 0, 51
+      token-rgb-deep-purple: 98, 0, 234
+      token-rgb-indigo: 48, 63, 159
+      token-rgb-blue: 33, 150, 243
+      token-rgb-light-blue: 3, 169, 244
+      token-rgb-cyan: 0, 188, 212
+      token-rgb-teal: 0, 150, 136
+      token-rgb-green: 56, 142, 60
+      token-rgb-light-green: 139, 195, 74
+      token-rgb-lime: 205, 220, 57
+      token-rgb-yellow: 250, 183, 0
+      token-rgb-amber: 255, 193, 7
+      token-rgb-orange: 255, 158, 0
+      token-rgb-deep-orange: 255, 87, 34
+      token-rgb-brown: 121, 85, 72
+      token-rgb-grey: 103, 104, 119
+      token-rgb-blue-grey: 96, 125, 139
+      token-rgb-disabled: 189, 189, 189
+      token-rgb-state-inactive: 176, 190, 197
+      token-color-primary: rgb(var(--token-rgb-primary))
+      token-color-primary-light: rgb(167 182 199)
+      token-color-accent: var(--token-color-primary)
+      token-color-disabled: rgb(173 176 184)
+      token-color-feedback-info: rgb(39, 209, 246)
+      token-color-feedback-warning: rgb(255, 219, 117)
+      token-color-feedback-error: rgb(234, 114, 135)
+      token-color-feedback-success: rgb(118, 214, 152)
+      token-color-icon-primary: rgba(19, 21, 54, 0.87)
+      token-color-icon-secondary: rgba(19, 21, 54, 0.8)
+      token-color-icon-sidebar: rgba(19, 21, 54, 0.7)
+      token-color-icon-sidebar-selected: var(--token-color-icon-primary)
+      token-color-text-primary: rgba(19, 21, 54, 0.95)
+      token-color-text-secondary: rgba(19, 21, 54, 0.8)
+      token-color-text-disabled: rgba(19, 21, 54, 0.38)
+      token-color-text-sidebar-selected: var(--token-color-text-primary)
+      token-color-text-sidebar: var(--token-color-text-secondary)
+      token-color-text-label-badge: rgba(19, 21, 54, 0.7)
+      token-color-text-chip: var(--token-color-black)
+      token-color-background-base: rgb(234, 235, 238)
+      token-color-background-secondary: rgb(245, 245, 245)
+      token-color-background-sidebar: var(--token-color-background-base)
+      token-color-background-input-base: rgb(255, 255, 255)
+      token-color-background-input-disabled: rgb(245, 245, 245)
+      token-color-background-label-badge: rgb(230, 230, 230)
+      token-color-background-card: rgb(255, 255, 255)
+      token-color-background-skrim: rgba(0, 0, 0, 0.5)
+      token-color-background-divider: rgb(224, 224, 224)
+      token-color-background-scrollbar-thumb: rgb(200, 200, 200)
+      token-color-background-label-badge-red: var(--token-color-feedback-error)
+      token-color-background-label-badge-green: rgb(78, 183, 128)
+      token-color-background-label-badge-blue: var(--token-color-feedback-info)
+      token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
+      token-color-background-label-badge-grey: rgb(83, 90, 103)
+      token-color-background-popup-scrim: rgba(0, 0, 0, 0.5)
+      token-color-border-card: rgb(224, 224, 224)
+      token-color-switch-button-unchecked: rgba(0, 0, 0, 0.5)
+      token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
+      token-color-codemirror-string: rgb(0, 77, 153)
+      token-color-codemirror-keyword: rgb(70, 112, 216)
+      token-color-codemirror-number: rgb(204, 85, 0)
+      token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
+      # ..............................................................................
+      # Font Weight
+      token-weight-font-title-card: 500
+
+      # ------------------------------------------------------------------------------
+      # Size tokens
+      # ------------------------------------------------------------------------------
+      # Radius
+      token-size-radius-small: 12px
+      token-size-radius-medium: 16px
+      token-size-radius-large: 20px
+      token-size-radius-card: var(--token-size-radius-large)
+      # ..............................................................................
+      # Border
+      token-size-width-border-card: 0
+      # ..............................................................................
+      # Height
+      token-size-height-slider: 4px
+      token-size-height-navbar: 56px
+      # ..............................................................................
+      # Font
+      token-size-font-xs: calc(10px * var(--ha-font-size-scale))
+      token-size-font-s: calc(12px * var(--ha-font-size-scale))
+      token-size-font-m: calc(14px * var(--ha-font-size-scale))
+      token-size-font-l: calc(15px * var(--ha-font-size-scale))
+      token-size-font-xl: calc(20px * var(--ha-font-size-scale))
+      token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
+      token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
+      token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
+      token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
+      token-size-font-title: var(--token-size-font-l)
+      token-size-font-title-card: var(--token-size-font-l)
+      # ..............................................................................
+      # Spacing
+      token-size-spacing-medium: 16px
+      token-size-section-min-width: 320px
+      # ------------------------------------------------------------------------------
+      # Color tokens
+      # ------------------------------------------------------------------------------
+      # Base
+      token-color-transparent: rgba(0, 0, 0, 0)
+      token-color-black: rgb(0, 0, 0)
+      token-color-white: rgb(255, 255, 255)
+      # ------------------------------------------------------------------------------
+      # Other tokens
+      # ------------------------------------------------------------------------------
+      # Opacity
+      token-opacity-ripple-hover: 0.14
+      # ..............................................................................
+      # Font
+      token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+
+      # ------------------------------------------------------------------------------
+      # Definitions
+      # ------------------------------------------------------------------------------
+      # ..............................................................................
+      # Sizes
+      header-height: var(--token-size-height-navbar)
+      paper-slider-height: var(--token-size-height-slider)
+      # ..............................................................................
+      # Typography
+      ## Font Family Tokens
+      primary-font-family: var(--token-font-family-primary)
+      ha-font-family-body: var(--token-font-family-primary)
+      ha-font-family-heading: var(--token-font-family-primary)
+      ha-font-family-code: var(--token-font-family-primary)
+      ha-font-family-longform: var(--token-font-family-primary)
+      ## ::Legacy:: Font Family Tokens
+      ha-card-header-font-family: var(--token-font-family-primary)
+      mdc-typography-font-family: var(--token-font-family-primary)
+      mdc-typography-button-font-family: var(--token-font-family-primary)
+      mdc-typography-body1-font-family: var(--token-font-family-primary)
+      md-list-item-label-text-font: var(--token-font-family-primary)
+      paper-font-common-base_-_font-family: var(--token-font-family-primary)
+      paper-font-common-code_-_font-family: var(--token-font-family-primary)
+      paper-font-body1_-_font-family: var(--token-font-family-primary)
+      paper-font-subhead_-_font-family: var(--token-font-family-primary)
+      paper-font-headline_-_font-family: var(--token-font-family-primary)
+      paper-font-caption_-_font-family: var(--token-font-family-primary)
+      paper-font-title_-_font-family: var(--token-font-family-primary)
+      ## Font Weight Tokens
+      ha-font-weight-normal: var(--token-weight-font-body)
+      ha-font-weight-medium: var(--token-weight-font-title)
+      ha-font-weight-bold: var(--token-weight-font-title)
+      ha-font-weight-body: var(--token-weight-font-body)
+      ha-font-weight-heading: var(--token-weight-font-title)
+      ha-font-weight-action: var(--token-weight-font-title)
+      ## ::Legacy:: Font Weight
+      mdc-typography-button-font-weight: var(--token-weight-font-title)
+      title-font-weight: var(--token-weight-font-title)
+      ## Font Size Tokens
+      ha-font-size-xs: var(--token-size-font-xs)
+      ha-font-size-s: var(--token-size-font-s)
+      ha-font-size-m: var(--token-size-font-m)
+      ha-font-size-l: var(--token-size-font-l)
+      ha-font-size-xl: var(--token-size-font-xl)
+      ha-font-size-2xl: var(--token-size-font-2xl)
+      ha-font-size-3xl: var(--token-size-font-3xl)
+      ha-font-size-4xl: var(--token-size-font-4xl)
+      ha-font-size-5xl: var(--token-size-font-5xl)
+      ## ::Legacy:: Size
+      title-font-size: var(--token-size-font-title)
+      ha-heading-card-title-font-size: var(--token-size-font-title-card)
+      ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
+      ## Font Smoothing
+      ha-font-smoothing: antialiased
+      # ..............................................................................
+      # Text colors
+      primary-text-color: var(--token-color-text-primary)
+      secondary-text-color: var(--token-color-text-secondary)
+      text-primary-color: var(--token-color-text-primary)
+      disabled-text-color: var(--token-color-text-disabled)
+      app-header-edit-text-color: var(--token-color-text-primary)
+      text-light-primary-color: rgb(28, 29, 33)
+      # ..............................................................................
+      # Icon colors
+      paper-item-icon-color: var(--token-color-text-primary)
+      state-inactive-color: var(--token-color-text-secondary)
+      # ..............................................................................
+      # Main interface colors
+      primary-color: var(--token-color-primary)
+      dark-primary-color: var(--primary-color)
+      light-primary-color: var(--token-color-primary-light)
+      accent-color: var(--token-color-accent)
+      divider-color: var(--token-color-background-divider)
+      scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
+      disabled-color: var(--token-color-disabled)
+      # ..............................................................................
+      # Feedback colors
+      info-color: var(--token-color-feedback-info)
+      success-color: var(--token-color-feedback-success)
+      warning-color: var(--token-color-feedback-warning)
+      error-color: var(--token-color-feedback-error)
+      # ..............................................................................
+      # Background colors
+      lovelace-background: var(--token-color-background-base)
+      primary-background-color: var(--token-color-background-base)
+      secondary-background-color: var(--token-color-background-secondary)
+      clear-background-color: var(--token-color-background-input-base)
+      # ..............................................................................
+      # Navbar colors
+      app-header-background-color: var(--primary-background-color)
+      app-header-text-color: var(--token-color-icon-primary)
+      app-header-edit-background-color: var(--token-color-background-card)
+      # ..............................................................................
+      # Sidebar colors
+      sidebar-icon-color: var(--token-color-icon-sidebar)
+      sidebar-text-color: var(--sidebar-icon-color)
+      sidebar-background-color: var(--token-color-background-sidebar)
+      sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
+      sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+      # ..............................................................................
+      # Cards
+      border-radius: var(--token-size-radius-card)
+      card-background-color: var(--token-color-background-card)
+      ha-card-background: var(--token-color-background-card)
+      ha-card-border-radius: var(--token-size-radius-card)
+      ha-card-border-color: var(--token-color-border-card)
+      ha-card-border-width: var(--token-size-width-border-card)
+      ha-card-border-style: none
+      ha-card-border: none
+      ha-card-box-shadow: var(--token-shadow-card-medium)
+      # ..............................................................................
+      # Sections
+      ha-view-sections-column-gap: var(--token-size-spacing-medium)
+      ha-view-sections-column-min-width: var(--token-size-section-min-width)
+      # ..............................................................................
+      # States
+      state-icon-color: var(--token-color-icon-primary)
+      state-on-color: var(--token-color-feedback-success)
+      state-off-color: var(--token-color-feedback-error)
+      # ..............................................................................
+      # Label-badge
+      label-badge-text-color: var(--token-color-text-primary)
+      label-badge-red: var(--token-color-background-label-badge-red)
+      label-badge-blue: var(--token-color-background-label-badge-blue)
+      label-badge-green: var(--token-color-background-label-badge-green)
+      label-badge-yellow: var(--token-color-background-label-badge-yellow)
+      label-badge-grey: var(--token-color-background-label-badge-grey)
+      # ..............................................................................
+      # Chip
+      ha-chip-text-color: var(--token-color-text-chip)
+      # ..............................................................................
+      # Dialog
+      mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
+      # ..............................................................................
+      # Slider
+      paper-slider-knob-color: var(--token-color-primary)
+      paper-slider-knob-start-color: var(--paper-slider-knob-color)
+      paper-slider-pin-color: var(--paper-slider-knob-color)
+      paper-slider-active-color: var(--paper-slider-knob-color)
+      paper-slider-secondary-color: var(--light-primary-color)
+      # ..............................................................................
+      # Switch
+      switch-checked-button-color: var(--primary-color)
+      switch-checked-track-color: var(--switch-checked-button-color)
+      switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
+      switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
+      # ..............................................................................
+      # Toggles
+      paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+      paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+      paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+      paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+      mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
+      mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
+      # ..............................................................................
+      # List items
+      mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
+      # ..............................................................................
+      # Text Fields an Dropdown
+      input-background-color: var(--token-color-background-input-base)
+      input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
+      input-fill-color: var(--input-background-color)
+      input-ink-color: var(--token-color-text-primary)
+      input-label-ink-color: var(--token-color-text-primary)
+      input-disabled-fill-color: var(--input-background-token-color-disabled)
+      input-disabled-ink-color: var(--disabled-text-color)
+      input-disabled-label-ink-color: var(--disabled-text-color)
+      input-idle-line-color: var(--background-color)
+      input-dropdown-icon-color: var(--secondary-text-color)
+      input-hover-line-color: var(--primary-color)
+      mdc-select-idle-line-color: var(--color-background-base)
+      mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+      # ..............................................................................
+      # Editor
+      code-editor-background-color: var(--token-color-background-base)
+      codemirror-meta: var(--token-color-text-primary)
+      codemirror-property: var(--accent-color)
+      codemirror-atom: var(--codemirror-property)
+      codemirror-string: var(--token-color-codemirror-string)
+      codemirror-keyword: var(--token-color-codemirror-keyword)
+      codemirror-number: var(--token-color-codemirror-number)
+      # ------------------------------------------------------------------------------
+      # Extentions
+      # ------------------------------------------------------------------------------
+      # Mini graph card
+      mcg-title-font-weight: 400
+      # ..............................................................................
+      # Mushroom
+      mush-title-font-weight: var(--title-font-weight)
+      mush-title-font-size: var(--title-font-size)
+      # ------------------------------------------------
+      # HA Indicator Colors
+      # ------------------------------------------------
+      # Note: Amber is not safe to be modified, causes history-graph rendering issues.
+      # Potentially other color definitions could cause issues too.
+      # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+      # ------------------------------------------------
+      # RGB Indicator Color Definitions
+      # ------------------------------------------------
+      # Grey
+      light-grey-color: rgb(var(--token-rgb-grey))
+      mush-rgb-grey: var(--token-rgb-grey)
+    dark:
+
+      # Graphite is a contemporary theme that offers both a calm dark color scheme and a
+      # clean light theme, featuring native device fonts and a cohesive design
+      # language. Carefully crafted to be visually appealing and easy on the eyes,
+      # Graphite ensures a consistent user experience throughout the entire Home
+      # Assistant interface, including the administration panel and code editors.
+      # https://github.com/TilmanGriesel/graphite
+
+      #------------------------------------------------------
+      # This file was generated at 2025-08-04 21:21:17
+      #------------------------------------------------------
+
+
+      # ------------------------------------------------------------------------------
+      # Dark theme color tokens
+      # ------------------------------------------------------------------------------
+      token-rgb-primary: 224, 138, 0
+      token-rgb-black: 0, 0, 0
+      token-rgb-white: 240, 243, 255
+      token-rgb-purple: 189, 157, 255
+      token-rgb-pink: 255, 98, 192
+      token-rgb-red: 255, 97, 116
+      token-rgb-deep-purple: 166, 77, 255
+      token-rgb-indigo: 84, 132, 255
+      token-rgb-blue: 33, 150, 243
+      token-rgb-light-blue: 3, 169, 244
+      token-rgb-cyan: 0, 188, 212
+      token-rgb-teal: 107, 255, 237
+      token-rgb-green: 141, 253, 166
+      token-rgb-light-green: 156, 255, 166
+      token-rgb-lime: 205, 220, 57
+      token-rgb-yellow: 255, 235, 59
+      token-rgb-amber: 255, 211, 99
+      token-rgb-orange: 224, 138, 0
+      token-rgb-deep-orange: 255, 87, 34
+      token-rgb-brown: 121, 85, 72
+      token-rgb-grey: 158, 158, 158
+      token-rgb-blue-grey: 96, 125, 139
+      token-rgb-disabled: 61, 65, 85
+      token-rgb-state-inactive: 123, 126, 139
+      token-color-primary: rgb(var(--token-rgb-primary))
+      token-color-primary-light: rgb(105 124 144)
+      token-color-accent: var(--token-color-primary)
+      token-color-disabled: rgb(0, 0, 0)
+      token-color-feedback-info: rgb(39, 209, 246)
+      token-color-feedback-warning: rgb(255, 219, 117)
+      token-color-feedback-error: rgb(234, 114, 135)
+      token-color-feedback-success: rgb(118, 214, 152)
+      token-color-icon-primary: rgb(228, 228, 231)
+      token-color-icon-secondary: rgb(138, 140, 153)
+      token-color-icon-sidebar: rgb(147, 149, 159)
+      token-color-icon-sidebar-selected: rgb(174, 176, 183)
+      token-color-text-primary: rgb(228, 228, 231)
+      token-color-text-secondary: rgb(138, 140, 153)
+      token-color-text-disabled: rgba(255, 255, 255, 0.5)
+      token-color-text-sidebar-selected: rgb(214, 215, 219)
+      token-color-text-sidebar: var(--token-color-text-secondary)
+      token-color-text-label-badge: rgb(198, 203, 210)
+      token-color-text-chip: var(--token-color-white)
+      token-color-background-base: rgb(16, 18, 21)
+      token-color-background-secondary: rgb(28, 29, 33)
+      token-color-background-sidebar: var(--token-color-background-base)
+      token-color-background-input-base: rgb(46, 48, 56)
+      token-color-background-input-disabled: rgba(37, 37, 40, 0.5)
+      token-color-background-label-badge: rgb(54, 55, 67)
+      token-color-background-card: rgb(35, 36, 43)
+      token-color-background-skrim: rgba(0, 0, 3, 0.9)
+      token-color-background-divider: var(--token-color-background-sidebar)
+      token-color-background-scrollbar-thumb: rgb(46, 48, 56)
+      token-color-background-label-badge-red: var(--token-color-feedback-error)
+      token-color-background-label-badge-green: rgb(78, 183, 128)
+      token-color-background-label-badge-blue: var(--token-color-feedback-info)
+      token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
+      token-color-background-label-badge-grey: rgb(83, 90, 103)
+      token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
+      token-color-border-card: rgba(0, 0, 0, 0)
+      token-color-switch-button-unchecked: rgba(255, 255, 255, 0.7)
+      token-color-switch-track-unchecked: rgba(125, 128, 132, 0.4)
+      token-color-codemirror-string: rgb(119, 196, 229)
+      token-color-codemirror-keyword: rgb(140, 169, 255)
+      token-color-codemirror-number: rgb(255, 91, 29)
+      token-shadow-card-medium: 0 3px 8px 0 rgba(0, 0, 0, 0.12)
+      # ..............................................................................
+      # Font Weight
+      token-weight-font-title-card: 500
+
+      # ------------------------------------------------------------------------------
+      # Size tokens
+      # ------------------------------------------------------------------------------
+      # Radius
+      token-size-radius-small: 12px
+      token-size-radius-medium: 16px
+      token-size-radius-large: 20px
+      token-size-radius-card: var(--token-size-radius-large)
+      # ..............................................................................
+      # Border
+      token-size-width-border-card: 0
+      # ..............................................................................
+      # Height
+      token-size-height-slider: 4px
+      token-size-height-navbar: 56px
+      # ..............................................................................
+      # Font
+      token-size-font-xs: calc(10px * var(--ha-font-size-scale))
+      token-size-font-s: calc(12px * var(--ha-font-size-scale))
+      token-size-font-m: calc(14px * var(--ha-font-size-scale))
+      token-size-font-l: calc(15px * var(--ha-font-size-scale))
+      token-size-font-xl: calc(20px * var(--ha-font-size-scale))
+      token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
+      token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
+      token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
+      token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
+      token-size-font-title: var(--token-size-font-l)
+      token-size-font-title-card: var(--token-size-font-l)
+      # ..............................................................................
+      # Spacing
+      token-size-spacing-medium: 16px
+      token-size-section-min-width: 320px
+      # ------------------------------------------------------------------------------
+      # Color tokens
+      # ------------------------------------------------------------------------------
+      # Base
+      token-color-transparent: rgba(0, 0, 0, 0)
+      token-color-black: rgb(0, 0, 0)
+      token-color-white: rgb(255, 255, 255)
+      # ------------------------------------------------------------------------------
+      # Other tokens
+      # ------------------------------------------------------------------------------
+      # Opacity
+      token-opacity-ripple-hover: 0.14
+      # ..............................................................................
+      # Font
+      token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+
+      # ------------------------------------------------------------------------------
+      # Definitions
+      # ------------------------------------------------------------------------------
+      # ..............................................................................
+      # Sizes
+      header-height: var(--token-size-height-navbar)
+      paper-slider-height: var(--token-size-height-slider)
+      # ..............................................................................
+      # Typography
+      ## Font Family Tokens
+      primary-font-family: var(--token-font-family-primary)
+      ha-font-family-body: var(--token-font-family-primary)
+      ha-font-family-heading: var(--token-font-family-primary)
+      ha-font-family-code: var(--token-font-family-primary)
+      ha-font-family-longform: var(--token-font-family-primary)
+      ## ::Legacy:: Font Family Tokens
+      ha-card-header-font-family: var(--token-font-family-primary)
+      mdc-typography-font-family: var(--token-font-family-primary)
+      mdc-typography-button-font-family: var(--token-font-family-primary)
+      mdc-typography-body1-font-family: var(--token-font-family-primary)
+      md-list-item-label-text-font: var(--token-font-family-primary)
+      paper-font-common-base_-_font-family: var(--token-font-family-primary)
+      paper-font-common-code_-_font-family: var(--token-font-family-primary)
+      paper-font-body1_-_font-family: var(--token-font-family-primary)
+      paper-font-subhead_-_font-family: var(--token-font-family-primary)
+      paper-font-headline_-_font-family: var(--token-font-family-primary)
+      paper-font-caption_-_font-family: var(--token-font-family-primary)
+      paper-font-title_-_font-family: var(--token-font-family-primary)
+      ## Font Weight Tokens
+      ha-font-weight-normal: var(--token-weight-font-body)
+      ha-font-weight-medium: var(--token-weight-font-title)
+      ha-font-weight-bold: var(--token-weight-font-title)
+      ha-font-weight-body: var(--token-weight-font-body)
+      ha-font-weight-heading: var(--token-weight-font-title)
+      ha-font-weight-action: var(--token-weight-font-title)
+      ## ::Legacy:: Font Weight
+      mdc-typography-button-font-weight: var(--token-weight-font-title)
+      title-font-weight: var(--token-weight-font-title)
+      ## Font Size Tokens
+      ha-font-size-xs: var(--token-size-font-xs)
+      ha-font-size-s: var(--token-size-font-s)
+      ha-font-size-m: var(--token-size-font-m)
+      ha-font-size-l: var(--token-size-font-l)
+      ha-font-size-xl: var(--token-size-font-xl)
+      ha-font-size-2xl: var(--token-size-font-2xl)
+      ha-font-size-3xl: var(--token-size-font-3xl)
+      ha-font-size-4xl: var(--token-size-font-4xl)
+      ha-font-size-5xl: var(--token-size-font-5xl)
+      ## ::Legacy:: Size
+      title-font-size: var(--token-size-font-title)
+      ha-heading-card-title-font-size: var(--token-size-font-title-card)
+      ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
+      ## Font Smoothing
+      ha-font-smoothing: antialiased
+      # ..............................................................................
+      # Text colors
+      primary-text-color: var(--token-color-text-primary)
+      secondary-text-color: var(--token-color-text-secondary)
+      text-primary-color: var(--token-color-text-primary)
+      disabled-text-color: var(--token-color-text-disabled)
+      app-header-edit-text-color: var(--token-color-text-primary)
+      text-light-primary-color: rgb(28, 29, 33)
+      # ..............................................................................
+      # Icon colors
+      paper-item-icon-color: var(--token-color-text-primary)
+      state-inactive-color: var(--token-color-text-secondary)
+      # ..............................................................................
+      # Main interface colors
+      primary-color: var(--token-color-primary)
+      dark-primary-color: var(--primary-color)
+      light-primary-color: var(--token-color-primary-light)
+      accent-color: var(--token-color-accent)
+      divider-color: var(--token-color-background-divider)
+      scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
+      disabled-color: var(--token-color-disabled)
+      # ..............................................................................
+      # Feedback colors
+      info-color: var(--token-color-feedback-info)
+      success-color: var(--token-color-feedback-success)
+      warning-color: var(--token-color-feedback-warning)
+      error-color: var(--token-color-feedback-error)
+      # ..............................................................................
+      # Background colors
+      lovelace-background: var(--token-color-background-base)
+      primary-background-color: var(--token-color-background-base)
+      secondary-background-color: var(--token-color-background-secondary)
+      clear-background-color: var(--token-color-background-input-base)
+      # ..............................................................................
+      # Navbar colors
+      app-header-background-color: var(--primary-background-color)
+      app-header-text-color: var(--token-color-icon-primary)
+      app-header-edit-background-color: var(--token-color-background-card)
+      # ..............................................................................
+      # Sidebar colors
+      sidebar-icon-color: var(--token-color-icon-sidebar)
+      sidebar-text-color: var(--sidebar-icon-color)
+      sidebar-background-color: var(--token-color-background-sidebar)
+      sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
+      sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+      # ..............................................................................
+      # Cards
+      border-radius: var(--token-size-radius-card)
+      card-background-color: var(--token-color-background-card)
+      ha-card-background: var(--token-color-background-card)
+      ha-card-border-radius: var(--token-size-radius-card)
+      ha-card-border-color: var(--token-color-border-card)
+      ha-card-border-width: var(--token-size-width-border-card)
+      ha-card-border-style: none
+      ha-card-border: none
+      ha-card-box-shadow: var(--token-shadow-card-medium)
+      # ..............................................................................
+      # Sections
+      ha-view-sections-column-gap: var(--token-size-spacing-medium)
+      ha-view-sections-column-min-width: var(--token-size-section-min-width)
+      # ..............................................................................
+      # States
+      state-icon-color: var(--token-color-icon-primary)
+      state-on-color: var(--token-color-feedback-success)
+      state-off-color: var(--token-color-feedback-error)
+      # ..............................................................................
+      # Label-badge
+      label-badge-text-color: var(--token-color-text-primary)
+      label-badge-red: var(--token-color-background-label-badge-red)
+      label-badge-blue: var(--token-color-background-label-badge-blue)
+      label-badge-green: var(--token-color-background-label-badge-green)
+      label-badge-yellow: var(--token-color-background-label-badge-yellow)
+      label-badge-grey: var(--token-color-background-label-badge-grey)
+      # ..............................................................................
+      # Chip
+      ha-chip-text-color: var(--token-color-text-chip)
+      # ..............................................................................
+      # Dialog
+      mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
+      # ..............................................................................
+      # Slider
+      paper-slider-knob-color: var(--token-color-primary)
+      paper-slider-knob-start-color: var(--paper-slider-knob-color)
+      paper-slider-pin-color: var(--paper-slider-knob-color)
+      paper-slider-active-color: var(--paper-slider-knob-color)
+      paper-slider-secondary-color: var(--light-primary-color)
+      # ..............................................................................
+      # Switch
+      switch-checked-button-color: var(--primary-color)
+      switch-checked-track-color: var(--switch-checked-button-color)
+      switch-unchecked-button-color: var(--token-color-switch-button-unchecked)
+      switch-unchecked-track-color: var(--token-color-switch-track-unchecked)
+      # ..............................................................................
+      # Toggles
+      paper-toggle-button-checked-button-color: var(--switch-checked-button-color)
+      paper-toggle-button-checked-bar-color: var(--switch-checked-track-color)
+      paper-toggle-button-unchecked-button-color: var(--switch-unchecked-button-color)
+      paper-toggle-button-unchecked-bar-color: var(--switch-unchecked-track-color)
+      mdc-checkbox-unchecked-color: var(--token-color-icon-secondary)
+      mdc-radio-unchecked-color: var(--mdc-checkbox-unchecked-color)
+      # ..............................................................................
+      # List items
+      mdc-ripple-hover-opacity: var(--token-opacity-ripple-hover)
+      # ..............................................................................
+      # Text Fields an Dropdown
+      input-background-color: var(--token-color-background-input-base)
+      input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
+      input-fill-color: var(--input-background-color)
+      input-ink-color: var(--token-color-text-primary)
+      input-label-ink-color: var(--token-color-text-primary)
+      input-disabled-fill-color: var(--input-background-token-color-disabled)
+      input-disabled-ink-color: var(--disabled-text-color)
+      input-disabled-label-ink-color: var(--disabled-text-color)
+      input-idle-line-color: var(--background-color)
+      input-dropdown-icon-color: var(--secondary-text-color)
+      input-hover-line-color: var(--primary-color)
+      mdc-select-idle-line-color: var(--color-background-base)
+      mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+      # ..............................................................................
+      # Editor
+      code-editor-background-color: var(--token-color-background-base)
+      codemirror-meta: var(--token-color-text-primary)
+      codemirror-property: var(--accent-color)
+      codemirror-atom: var(--codemirror-property)
+      codemirror-string: var(--token-color-codemirror-string)
+      codemirror-keyword: var(--token-color-codemirror-keyword)
+      codemirror-number: var(--token-color-codemirror-number)
+      # ------------------------------------------------------------------------------
+      # Extentions
+      # ------------------------------------------------------------------------------
+      # Mini graph card
+      mcg-title-font-weight: 400
+      # ..............................................................................
+      # Mushroom
+      mush-title-font-weight: var(--title-font-weight)
+      mush-title-font-size: var(--title-font-size)
+      # ------------------------------------------------
+      # HA Indicator Colors
+      # ------------------------------------------------
+      # Note: Amber is not safe to be modified, causes history-graph rendering issues.
+      # Potentially other color definitions could cause issues too.
+      # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+      # ------------------------------------------------
+      # RGB Indicator Color Definitions
+      # ------------------------------------------------
+      # Grey
+      light-grey-color: rgb(var(--token-rgb-grey))
+      mush-rgb-grey: var(--token-rgb-grey)

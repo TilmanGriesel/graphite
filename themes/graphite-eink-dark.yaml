@@ -8,7 +8,7 @@ Graphite E-ink Dark:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-08-03 16:53:50
+  # This file was generated at 2025-08-04 21:21:17
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Dark
@@ -146,7 +146,6 @@ Graphite E-ink Dark:
   # ..............................................................................
   # Font
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
-  token-weight-font-title-card: 500
 
   # ------------------------------------------------------------------------------
   # Definitions
