@@ -182,7 +182,12 @@ def generate_auto_theme(
                         if f"*{anchor}" in line:
                             line = line.replace(f"*{anchor}", f"*{anchor}_dark")
                 
-                content.append(f"{indent_level}{line}")
+                # Remove existing indentation and apply the correct indent level
+                stripped_line = line.lstrip()
+                if stripped_line:  # Don't add extra indentation to empty lines
+                    content.append(f"{indent_level}{stripped_line}")
+                else:
+                    content.append(line)  # Keep empty lines as-is
             
             return "".join(content)
     
@@ -193,13 +198,13 @@ def generate_auto_theme(
     content.append(f"{sanitized_name}:\n")
     content.append(f"  card-mod-theme: {card_mod_theme}\n")
     content.append("  modes:\n")
-    content.append("    light:")
+    content.append("    light:\n")
     content.append(process_theme_content(light_theme_path, "      ", True))
-    content.append("    dark:")
+    content.append("    dark:\n")
     content.append(process_theme_content(dark_theme_path, "      ", False))
-    content.append("\n")
 
-    final_content = "".join(content)
+    # Join content and clean up extra whitespace at the end
+    final_content = "".join(content).rstrip() + "\n"
     validate_final_yaml(final_content, output_path)
 
     with output_path.open("w") as f:

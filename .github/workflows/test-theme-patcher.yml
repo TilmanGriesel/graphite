@@ -1,0 +1,132 @@
+name: Test Theme Patcher
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'extras/theme-patcher/**'
+      - 'themes/**'
+      - '.github/workflows/test-theme-patcher.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'extras/theme-patcher/**'
+      - 'themes/**'
+      - '.github/workflows/test-theme-patcher.yml'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Create test directories
+        run: |
+          mkdir -p test_output
+          chmod 755 test_output
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yamllint black
+      - name: Test theme patcher help
+        run: |
+          python extras/theme-patcher/graphite-theme-patcher.py --help
+      - name: Test theme patcher version
+        run: |
+          python extras/theme-patcher/graphite-theme-patcher.py --version
+      - name: Run theme patcher test suite
+        run: |
+          python extras/theme-patcher/test_theme_patcher.py
+      - name: Test basic functionality with real themes
+        run: |
+          # Test with e-ink light theme
+          python extras/theme-patcher/graphite-theme-patcher.py \
+            --token test-ci-token \
+            --type rgb \
+            --value "100, 150, 200" \
+            --theme graphite-eink-light \
+            --path themes \
+            --create
+
+          # Verify token was created
+          grep -q "test-ci-token: rgb(100, 150, 200)" themes/graphite-eink-light.yaml
+      - name: Test generic type for CSS backgrounds
+        run: |
+          # Test generic type with CSS background
+          python extras/theme-patcher/graphite-theme-patcher.py \
+            --token test-background-ci \
+            --type generic \
+            --value 'url("https://example.com/test.jpg")' \
+            --theme graphite-eink-light \
+            --path themes \
+            --create
+
+          # Verify background token was created
+          grep -q 'test-background-ci: url("https://example.com/test.jpg")' themes/graphite-eink-light.yaml
+      - name: Test error handling
+        run: |
+          # Test invalid theme (should fail)
+          if python extras/theme-patcher/graphite-theme-patcher.py \
+            --token test-token \
+            --value "1, 2, 3" \
+            --theme nonexistent-theme \
+            --path themes; then
+            echo "ERROR: Should have failed with invalid theme"
+            exit 1
+          else
+            echo "SUCCESS: Correctly rejected invalid theme"
+          fi
+      - name: Clean up test artifacts
+        run: |
+          # Remove test tokens from theme files
+          sed -i '/test-ci-token:/d' themes/graphite-eink-light.yaml || true
+          sed -i '/test-background-ci:/d' themes/graphite-eink-light.yaml || true
+          rm -rf test_output || true
+      - name: Run make to rebuild themes
+        run: |
+          # Run the build process to regenerate all theme files (skip formatting in CI)
+          make theme validate-yaml
+      - name: Verify rebuilt theme files are valid YAML
+        run: |
+          # Validate all regenerated theme files using yamllint
+          yamllint -d relaxed themes/*.yaml
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install linting tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black
+      - name: Check Python formatting with black
+        run: |
+          # Check if Python files are properly formatted
+          black --check --diff extras/theme-patcher/graphite-theme-patcher.py extras/theme-patcher/test_theme_patcher.py
+      - name: Lint theme patcher with flake8
+        run: |
+          # Lint the main theme patcher script
+          flake8 extras/theme-patcher/graphite-theme-patcher.py \
+            --max-line-length=120 \
+            --ignore=E501,W503,E203 \
+            --show-source \
+            --statistics
+      - name: Lint test file with flake8
+        run: |-
+          # Lint the test file
+          flake8 extras/theme-patcher/test_theme_patcher.py \
+            --max-line-length=120 \
+            --ignore=E501,W503,E203 \
+            --show-source \
+            --statistics

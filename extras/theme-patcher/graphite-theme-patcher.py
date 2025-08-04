@@ -19,18 +19,20 @@ from datetime import datetime
 from pathlib import Path
 from contextlib import contextmanager
 import fcntl
-from typing import Optional, List, Union, Dict, Tuple
+from typing import Optional, List, Tuple
 from enum import Enum, auto
 
-__version__ = "1.6.0"
+__version__ = "2.0.0"
 
 # Security and performance constraints
-MAX_FILES_TO_PROCESS = 50       # Maximum number of YAML files to process per operation
-MAX_FILE_SIZE_MB = 10          # Maximum file size in megabytes to prevent memory issues
-MAX_LINES_PER_FILE = 10000     # Maximum lines per file to prevent DoS attacks
+MAX_FILES_TO_PROCESS = 50  # Maximum number of YAML files to process per operation
+MAX_FILE_SIZE_MB = 10  # Maximum file size in megabytes to prevent memory issues
+MAX_LINES_PER_FILE = 10000  # Maximum lines per file to prevent DoS attacks
 
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "2.0.0": "Complete rewrite with simplified logic - proper user-defined entries grouping and auto theme support",
+    "1.6.1": "Fixed indentation and missing comment headers for user defined entries in auto themes",
     "1.6.0": "Major robustness improvements with auto-detection, rollback, and validation",
     "1.5.0": "Fixed comment handling to ignore commented tokens",
     "1.4.2": "Allow none value",
@@ -50,13 +52,13 @@ log_dir.mkdir(exist_ok=True)
 def detect_homeassistant_config_path() -> str:
     """
     Automatically detect the Home Assistant configuration directory.
-    
+
     Searches common installation locations to find a valid Home Assistant
     configuration directory containing a themes folder.
-    
+
     Returns:
         str: Path to the themes directory within the HA configuration
-        
+
     Search order:
         1. /config (Home Assistant OS/Supervised)
         2. /root/.homeassistant (HA Core default)
@@ -65,25 +67,28 @@ def detect_homeassistant_config_path() -> str:
         5. Fallback to /config/themes
     """
     candidate_paths = [
-        "/config",                              # Home Assistant OS/Supervised
-        "/root/.homeassistant",                 # HA Core default installation
-        str(Path.home() / ".homeassistant"),   # HA Core user installation
-        str(script_dir.parent),                 # Script parent directory
+        "/config",  # Home Assistant OS/Supervised
+        "/root/.homeassistant",  # HA Core default installation
+        str(Path.home() / ".homeassistant"),  # HA Core user installation
+        str(script_dir.parent),  # Script parent directory
     ]
-    
+
     for path in candidate_paths:
         config_path = Path(path)
         themes_path = config_path / "themes"
-        
+
         # Validate that this appears to be a valid HA configuration directory
-        if (config_path.exists() and 
-            config_path.is_dir() and 
-            themes_path.exists() and 
-            themes_path.is_dir()):
+        if (
+            config_path.exists()
+            and config_path.is_dir()
+            and themes_path.exists()
+            and themes_path.is_dir()
+        ):
             return str(themes_path)
-    
+
     # Fallback to standard HA OS path if no valid directory found
     return "/config/themes"
+
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -100,7 +105,7 @@ logger.version = __version__
 
 class VersionFilter(logging.Filter):
     """Custom logging filter to inject version information into log records."""
-    
+
     def filter(self, record):
         """Add version information to log record."""
         record.version = __version__
@@ -112,6 +117,7 @@ logger.addFilter(VersionFilter())
 
 class ValidationError(Exception):
     """Custom exception raised when input validation fails."""
+
     pass
 
 
@@ -119,16 +125,16 @@ class ValidationError(Exception):
 def file_lock(lock_file: Path):
     """
     Provide an exclusive file lock for atomic YAML file operations.
-    
+
     Creates a lock file to prevent concurrent modifications of the same
     theme file, ensuring data integrity during updates.
-    
+
     Args:
         lock_file: Path to the file being locked
-        
+
     Yields:
         None: Context manager for use in with statement
-        
+
     Note:
         Uses POSIX file locking (fcntl) which is not available on Windows.
         Lock files are automatically cleaned up on exit.
@@ -154,22 +160,22 @@ def file_lock(lock_file: Path):
 
 class TokenType(Enum):
     """Enumeration of supported token types with their validation rules."""
-    
-    RGB = auto()        # Color tokens expecting RGB/RGBA values
-    SIZE = auto()       # Size tokens expecting pixel values
-    OPACITY = auto()    # Opacity tokens expecting 0-1 decimal values
-    RADIUS = auto()     # Border radius tokens expecting pixel values
-    GENERIC = auto()    # Generic tokens with minimal validation
-    CARD_MOD = auto()   # Card-mod specific tokens requiring quotes
+
+    RGB = auto()  # Color tokens expecting RGB/RGBA values
+    SIZE = auto()  # Size tokens expecting pixel values
+    OPACITY = auto()  # Opacity tokens expecting 0-1 decimal values
+    RADIUS = auto()  # Border radius tokens expecting pixel values
+    GENERIC = auto()  # Generic tokens with minimal validation
+    CARD_MOD = auto()  # Card-mod specific tokens requiring quotes
 
     @classmethod
     def from_string(cls, value: str) -> "TokenType":
         """
         Convert string token type to enum value.
-        
+
         Args:
             value: String representation of token type
-            
+
         Returns:
             TokenType: Corresponding enum value, defaults to GENERIC
         """
@@ -187,11 +193,11 @@ class TokenType(Enum):
 class ThemePatcher:
     """
     Core class for updating token values in Home Assistant theme files.
-    
+
     Provides comprehensive token management with support for both standard
     themes and auto themes with mode-specific targeting capabilities.
     """
-    
+
     def __init__(
         self,
         token: str = "token-rgb-primary",
@@ -202,7 +208,7 @@ class ThemePatcher:
     ):
         """
         Initialize the theme patcher with specified parameters.
-        
+
         Args:
             token: Name of the token to update
             token_type: Type of token (rgb, size, opacity, radius, generic, card-mod)
@@ -212,25 +218,25 @@ class ThemePatcher:
         """
         self.theme = theme
         self.target_mode = target_mode
-        
+
         # Auto-detect base path if not provided
         if base_path is None:
             base_path = detect_homeassistant_config_path()
         self.theme_path = Path(base_path) / theme
-        
+
         self.token = token
         self.token_type = TokenType.from_string(token_type)
-        
+
         # Validate configuration before proceeding
         self._validate_paths()
         self._validate_token()
 
     def _validate_paths(self) -> None:
         """
-        Validate that theme directories exist and are accessible.
-        
+        Validate that theme directories or files exist and are accessible.
+
         Raises:
-            ValidationError: If directories are missing, invalid, or not writable
+            ValidationError: If directories/files are missing, invalid, or not writable
         """
         base_path = self.theme_path.parent
         if not base_path.exists():
@@ -238,55 +244,69 @@ class ThemePatcher:
         if not base_path.is_dir():
             raise ValidationError(f"Not a directory: {base_path}")
 
-        if not self.theme_path.exists():
-            raise ValidationError(f"Theme not found: {self.theme_path}")
-        if not self.theme_path.is_dir():
-            raise ValidationError(f"Not a directory: {self.theme_path}")
-        if not os.access(self.theme_path, os.W_OK):
-            raise ValidationError(f"Cannot write to theme: {self.theme_path}")
+        # Check if theme exists as directory or as single YAML file
+        theme_yaml_file = base_path / f"{self.theme}.yaml"
+
+        if self.theme_path.exists() and self.theme_path.is_dir():
+            # Theme is a directory (traditional approach)
+            if not os.access(self.theme_path, os.W_OK):
+                raise ValidationError(f"Cannot write to theme: {self.theme_path}")
+        elif theme_yaml_file.exists() and theme_yaml_file.is_file():
+            # Theme is a single YAML file (e-ink themes approach)
+            self.theme_path = theme_yaml_file
+            if not os.access(self.theme_path, os.W_OK):
+                raise ValidationError(f"Cannot write to theme file: {self.theme_path}")
+        else:
+            raise ValidationError(
+                f"Theme not found: neither {self.theme_path} nor {theme_yaml_file} exists"
+            )
 
     def _validate_token(self) -> None:
         """
         Validate token name for security and YAML compatibility.
-        
+
         Ensures the token name is safe to use in YAML files and prevents
         injection attacks through malicious token names.
-        
+
         Raises:
             ValidationError: If token name is invalid or potentially dangerous
         """
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
-            
+
         token = self.token.strip()
-        
+
         # Validate against potentially dangerous characters
-        dangerous_chars = ['\n', '\r', '\t', '#', ':', '"', "'", '\\', '`']
+        dangerous_chars = ["\n", "\r", "\t", "#", ":", '"', "'", "\\", "`"]
         if any(char in token for char in dangerous_chars):
             raise ValidationError(f"Token contains invalid characters: {token}")
-            
+
         # Prevent tokens starting with YAML special characters
-        if token.startswith(('-', '!', '&', '*', '|', '>', '%', '@')):
-            raise ValidationError(f"Token cannot start with YAML special character: {token}")
-            
+        if token.startswith(("-", "!", "&", "*", "|", ">", "%", "@")):
+            raise ValidationError(
+                f"Token cannot start with YAML special character: {token}"
+            )
+
         # Enforce reasonable length constraints
         if len(token) > 100:
             raise ValidationError(f"Token name too long (max 100 chars): {token}")
-            
+
         # Require valid identifier format
-        if not re.match(r'^[a-zA-Z][a-zA-Z0-9_-]*$', token):
-            raise ValidationError(f"Token must be alphanumeric with hyphens/underscores: {token}")
+        if not re.match(r"^[a-zA-Z][a-zA-Z0-9_-]*$", token):
+            raise ValidationError(
+                f"Token must be alphanumeric with hyphens/underscores: {token}"
+            )
 
     def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
         """
         Parse and validate color values in RGB or RGBA format.
-        
+
         Args:
             value: Comma-separated color values (e.g., "255, 128, 0" or "255, 128, 0, 0.8")
-            
+
         Returns:
             Tuple containing RGB values list and optional alpha value
-            
+
         Raises:
             ValidationError: If color format is invalid or values are out of range
         """
@@ -309,13 +329,13 @@ class ThemePatcher:
     def _validate_value(self, value: Optional[str]) -> Optional[str]:
         """
         Validate and format token value according to its type.
-        
+
         Args:
             value: Raw token value to validate
-            
+
         Returns:
             Formatted and validated token value, or None if input is None
-            
+
         Raises:
             ValidationError: If value is invalid for the token type
         """
@@ -374,315 +394,57 @@ class ThemePatcher:
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
     ) -> bool:
-        """Update or create the token in a YAML file with mode-specific handling."""
+        """Update or create the token in a YAML file with simplified logic."""
         if value is None:
             return True
 
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
-                
+
             # Check line count limit
             if len(lines) > MAX_LINES_PER_FILE:
-                logger.error(f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})")
+                logger.error(
+                    f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})"
+                )
                 return False
-                
+
             logger.debug(f"Processing file: {file_path} ({len(lines)} lines)")
-            logger.debug(f"Looking for token: '{self.token}' of type: {self.token_type.name}")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # Analyze file structure to locate tokens in both standard and auto themes
-            token_instances = []  # Track found tokens: (line_index, is_in_modes_section, mode_type)
-            in_modes_section = False
-            in_light_or_dark = False
-            current_mode_type = None
-            current_indent_level = 0
-            
-            for i, line in enumerate(lines):
-                line_stripped = line.lstrip()
-                # Process only non-empty, non-comment lines
-                if not line_stripped or line_stripped.startswith('#'):
-                    continue
-                
-                # Determine current indentation depth for structure tracking
-                indent_level = len(line) - len(line_stripped)
-                
-                # Detect entry into auto theme modes section
-                if line_stripped.startswith("modes:"):
-                    in_modes_section = True
-                    current_indent_level = indent_level
-                    logger.debug(f"Line {i+1}: Entering modes section (indent: {indent_level})")
-                    continue
-                elif in_modes_section and indent_level <= current_indent_level:
-                    # Exit modes section when indentation returns to original level
-                    in_modes_section = False
-                    in_light_or_dark = False
-                    logger.debug(f"Line {i+1}: Exiting modes section")
-                
-                # Detect specific mode subsections (extensible for future theme modes)
-                if in_modes_section and (line_stripped.startswith("light:") or line_stripped.startswith("dark:")):
-                    current_mode_type = "light" if line_stripped.startswith("light:") else "dark"
-                    in_light_or_dark = True
-                    logger.debug(f"Line {i+1}: Entering {current_mode_type} mode section")
-                    continue
-                elif in_modes_section and in_light_or_dark and indent_level <= current_indent_level + 2:
-                    # Exit mode subsection when indentation decreases
-                    in_light_or_dark = False
-                    current_mode_type = None
-                    logger.debug(f"Line {i+1}: Exiting light/dark mode section")
-                
-                # Evaluate token matches against targeting criteria
-                if line_stripped.startswith(f"{self.token}:"):
-                    if not in_modes_section:
-                        # Standard theme: include tokens when targeting all modes
-                        if self.target_mode == "all":
-                            token_instances.append((i, False, None))
-                            logger.debug(f"Line {i+1}: Found token at root level: {line_stripped}")
-                    elif in_light_or_dark:
-                        # Auto theme: include tokens matching target mode criteria
-                        should_include = (
-                            self.target_mode == "all" or 
-                            self.target_mode == current_mode_type
-                        )
-                        if should_include:
-                            token_instances.append((i, True, current_mode_type))
-                            logger.debug(f"Line {i+1}: Found token in {current_mode_type} mode section: {line_stripped}")
-                        else:
-                            logger.debug(f"Line {i+1}: Skipping token in {current_mode_type} mode (target: {self.target_mode})")
-                    else:
-                        logger.debug(f"Line {i+1}: Found token but not in valid context: {line_stripped}")
-            
-            token_exists = len(token_instances) > 0
-            
-            logger.debug(f"Token detection summary: found {len(token_instances)} instances")
-            for idx, (line_num, in_modes, mode_type) in enumerate(token_instances):
-                if in_modes:
-                    context = f"{mode_type} mode section"
-                else:
-                    context = "root level"
-                logger.debug(f"  Instance {idx+1}: Line {line_num+1} ({context})")
+            # Step 1: Analyze file structure
+            file_structure = self._analyze_file_structure(lines)
 
-            if not token_exists and not create_token:
+            # Step 2: Find existing token instances
+            existing_tokens = self._find_existing_tokens(lines, file_structure)
+
+            # Step 3: Update existing tokens or create new ones
+            if existing_tokens:
+                self._update_existing_tokens(lines, existing_tokens, value, timestamp)
+                logger.info(
+                    f"Updated {len(existing_tokens)} instances of token '{self.token}'"
+                )
+            elif create_token or self.token_type == TokenType.CARD_MOD:
+                self._create_new_tokens(lines, file_structure, value, timestamp)
+                logger.info(f"Created new token '{self.token}'")
+            else:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            logger.debug(f"Using timestamp: {timestamp}")
-            logger.debug(f"Target value: '{value}'")
+            # Step 4: Write file atomically
+            updated_content = "".join(lines)
+            if not updated_content.endswith("\n"):
+                updated_content += "\n"
 
-            # Determine indentation
-            if self.token_type == TokenType.CARD_MOD:
-                card_mod_theme_index = -1
-                for i, line in enumerate(lines):
-                    line_stripped = line.lstrip()
-                    if line_stripped.startswith("card-mod-theme:") and not line_stripped.startswith('#'):
-                        card_mod_theme_index = i
-                        break
-                        
-                if card_mod_theme_index == -1:
-                    if create_token:
-                        # Create card-mod-theme section if it doesn't exist
-                        logger.info("Creating card-mod-theme section")
-                        # Find a good place to insert it (after existing sections)
-                        insert_index = len(lines)
-                        for i, line in enumerate(lines):
-                            line_stripped = line.lstrip()
-                            if line_stripped and not line_stripped.startswith('#'):
-                                # Found first non-comment line, use its indentation
-                                base_indent = len(line) - len(line_stripped)
-                                break
-                        else:
-                            base_indent = 0
-                            
-                        # Insert card-mod-theme section
-                        indent_str = " " * base_indent
-                        lines.append(f"\n{indent_str}card-mod-theme:\n")
-                        card_mod_theme_index = len(lines) - 1
-                    else:
-                        logger.error("No card-mod-theme key found and create_token=False")
-                        return False
-                    
-                base_indent = len(lines[card_mod_theme_index]) - len(
-                    lines[card_mod_theme_index].lstrip()
-                )
-            else:
-                # Find indentation from last non-comment line
-                base_indent = 0
-                for line in reversed(lines):
-                    line_stripped = line.lstrip()
-                    if line_stripped and not line_stripped.startswith('#'):
-                        base_indent = len(line) - len(line_stripped)
-                        break
-
-            token_indent = " " * base_indent
-            # newline character \n added at the end after timestamp on 2025-05-01
-            new_line = (
-                f"{token_indent}{self.token}: {value}  "
-                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
-            )
-
-            if token_exists:
-                # Update existing token instances
-                logger.debug(f"Updating {len(token_instances)} existing token instances")
-                for idx, (line_index, is_in_modes, mode_type) in enumerate(reversed(token_instances)):
-                    original_line = lines[line_index].rstrip()
-                    
-                    # Use the same value for all targeted modes
-                    target_value = value
-                    if is_in_modes:
-                        logger.debug(f"Applying value to {mode_type} mode: '{target_value}'")
-                    
-                    # Use appropriate indentation for each instance
-                    if is_in_modes:
-                        # For modes section, use the existing line's indentation
-                        existing_line = lines[line_index]
-                        existing_indent = len(existing_line) - len(existing_line.lstrip())
-                        instance_indent = " " * existing_indent
-                        context = f"{mode_type} mode section"
-                    else:
-                        # For root level, use base indentation
-                        instance_indent = token_indent
-                        context = "root level"
-                    
-                    instance_line = (
-                        f"{instance_indent}{self.token}: {target_value}  "
-                        f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
-                    )
-                    
-                    logger.debug(f"  Modification {idx+1} at line {line_index+1} ({context}):")
-                    logger.debug(f"    Before: {original_line}")
-                    logger.debug(f"    After:  {instance_line.rstrip()}")
-                    
-                    lines[line_index] = instance_line
-                    
-                logger.info(f"Updated {len(token_instances)} instances of token '{self.token}'")
-            else:
-                # Create new token - handle modes structure if needed
-                logger.debug("Creating new token instance(s)")
-                if self.token_type == TokenType.CARD_MOD:
-                    logger.debug(f"Inserting card-mod token after line {card_mod_theme_index+1}")
-                    logger.debug(f"New line: {new_line.rstrip()}")
-                    lines.insert(card_mod_theme_index + 1, new_line)
-                else:
-                    # Check if this file has a modes structure for auto themes
-                    has_modes_structure = any("modes:" in line for line in lines)
-                    logger.debug(f"Theme has modes structure: {has_modes_structure}")
-                    
-                    if has_modes_structure:
-                        # Insert token in both light and dark modes if they exist
-                        light_section_end = -1
-                        dark_section_end = -1
-                        in_modes = False
-                        in_light = False
-                        in_dark = False
-                        modes_indent = 0
-                        
-                        for i, line in enumerate(lines):
-                            line_stripped = line.lstrip()
-                            if line_stripped.startswith("modes:"):
-                                in_modes = True
-                                modes_indent = len(line) - len(line_stripped)
-                                continue
-                            elif in_modes and line_stripped.startswith("light:"):
-                                in_light = True
-                                in_dark = False
-                            elif in_modes and line_stripped.startswith("dark:"):
-                                in_dark = True
-                                in_light = False
-                                if light_section_end > -1:
-                                    light_section_end = i - 1
-                            elif in_modes and len(line) - len(line_stripped) <= modes_indent and line_stripped:
-                                # End of modes section
-                                if in_dark:
-                                    dark_section_end = i
-                                elif in_light:
-                                    light_section_end = i
-                                break
-                        
-                        # If we didn't find explicit end, use end of file
-                        if in_light and light_section_end == -1:
-                            light_section_end = len(lines)
-                        if in_dark and dark_section_end == -1:
-                            dark_section_end = len(lines)
-                        
-                        # Insert in both sections with proper indentation
-                        mode_token_indent = " " * (modes_indent + 8)  # modes + light/dark + token level
-                        mode_new_line = (
-                            f"{mode_token_indent}{self.token}: {value}  "
-                            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
-                        )
-                        
-                        insertions_made = 0
-                        
-                        # Insert in dark section if targeted
-                        if dark_section_end > -1 and (self.target_mode == "all" or self.target_mode == "dark"):
-                            dark_new_line = (
-                                f"{mode_token_indent}{self.token}: {value}  "
-                                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
-                            )
-                            logger.debug(f"Inserting token in dark section at line {dark_section_end}")
-                            logger.debug(f"Dark section line: {dark_new_line.rstrip()}")
-                            lines.insert(dark_section_end, dark_new_line)
-                            insertions_made += 1
-                            
-                        # Insert in light section if targeted  
-                        if light_section_end > -1 and (self.target_mode == "all" or self.target_mode == "light"):
-                            light_new_line = (
-                                f"{mode_token_indent}{self.token}: {value}  "
-                                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
-                            )
-                            # Adjust index if we already inserted in dark section
-                            insert_at = light_section_end + insertions_made
-                            logger.debug(f"Inserting token in light section at line {insert_at}")
-                            logger.debug(f"Light section line: {light_new_line.rstrip()}")
-                            lines.insert(insert_at, light_new_line)
-                            insertions_made += 1
-                            
-                        if insertions_made > 0:
-                            logger.info(f"Created token '{self.token}' in {insertions_made} mode section(s)")
-                        else:
-                            logger.warning("Could not find appropriate location in modes structure")
-                    else:
-                        # Standard theme - add to user section
-                        logger.debug("Processing standard theme structure")
-                        user_section_exists = False
-                        for line in lines:
-                            if "# User defined entries" in line:
-                                user_section_exists = True
-                                break
-                        
-                        if not user_section_exists:
-                            logger.debug("Creating user defined entries section")
-                            lines.append(f"\n{token_indent}##############################################################################\n")
-                            lines.append(f"{token_indent}# User defined entries\n")
-                        else:
-                            logger.debug("User defined entries section already exists")
-                            
-                        logger.debug(f"Appending new token line: {new_line.rstrip()}")
-                        lines.append(new_line)
-
-            # Join lines and ensure file ends with newline
-            updated_content = ''.join(lines)
-            if not updated_content.endswith('\n'):
-                updated_content += '\n'
-                logger.debug("Added missing newline at end of file")
-
-            logger.debug(f"Writing {len(updated_content)} characters to file")
-            
-            # Write changes atomically
             with tempfile.NamedTemporaryFile(
                 mode="w", dir=file_path.parent, delete=False, encoding="utf-8"
             ) as tmp:
-                logger.debug(f"Created temporary file: {tmp.name}")
                 tmp.write(updated_content)
                 tmp.flush()
                 os.fsync(tmp.fileno())
-                logger.debug("Flushed and synced temporary file")
 
-            logger.debug(f"Replacing original file with temporary file")
             os.replace(tmp.name, file_path)
-            action = "Created" if not token_exists else "Updated"
-            logger.info(f"{action} token in {file_path}")
-            logger.debug(f"File operation completed successfully")
+            logger.info(f"Successfully processed {file_path}")
             return True
 
         except Exception as e:
@@ -694,12 +456,286 @@ class ThemePatcher:
                     pass
             return False
 
+    def _analyze_file_structure(self, lines):
+        """Analyze YAML file structure to determine theme type and sections."""
+        structure = {
+            "is_auto_theme": False,
+            "light_section": None,
+            "dark_section": None,
+            "base_indent": 2,
+        }
+
+        # Check if this is an auto theme with modes
+        for i, line in enumerate(lines):
+            if line.strip().startswith("modes:"):
+                structure["is_auto_theme"] = True
+                break
+
+        if structure["is_auto_theme"]:
+            # Find light and dark sections
+            in_modes = False
+            modes_indent = 0
+
+            for i, line in enumerate(lines):
+                line_stripped = line.lstrip()
+                indent = len(line) - len(line_stripped)
+
+                if line_stripped.startswith("modes:"):
+                    in_modes = True
+                    modes_indent = indent
+                elif in_modes and line_stripped.startswith("light:"):
+                    structure["light_section"] = {"start": i, "indent": indent}
+                elif in_modes and line_stripped.startswith("dark:"):
+                    # Close light section if it exists
+                    if (
+                        structure["light_section"]
+                        and "end" not in structure["light_section"]
+                    ):
+                        structure["light_section"]["end"] = i
+                    structure["dark_section"] = {"start": i, "indent": indent}
+                elif in_modes and indent <= modes_indent and line_stripped:
+                    # End of modes section
+                    if (
+                        structure["dark_section"]
+                        and "end" not in structure["dark_section"]
+                    ):
+                        structure["dark_section"]["end"] = i
+                    elif (
+                        structure["light_section"]
+                        and "end" not in structure["light_section"]
+                    ):
+                        structure["light_section"]["end"] = i
+                    break
+
+            # Set end to file end if not found
+            if structure["light_section"] and "end" not in structure["light_section"]:
+                structure["light_section"]["end"] = len(lines)
+            if structure["dark_section"] and "end" not in structure["dark_section"]:
+                structure["dark_section"]["end"] = len(lines)
+
+        return structure
+
+    def _find_existing_tokens(self, lines, structure):
+        """Find all instances of the target token in the file."""
+        token_instances = []
+
+        for i, line in enumerate(lines):
+            line_stripped = line.lstrip()
+            if not line_stripped or line_stripped.startswith("#"):
+                continue
+
+            if line_stripped.startswith(f"{self.token}:"):
+                # Determine context
+                context = "root"
+                if structure["is_auto_theme"]:
+                    if (
+                        structure["light_section"]
+                        and structure["light_section"]["start"]
+                        < i
+                        < structure["light_section"]["end"]
+                    ):
+                        context = "light"
+                    elif (
+                        structure["dark_section"]
+                        and structure["dark_section"]["start"]
+                        < i
+                        < structure["dark_section"]["end"]
+                    ):
+                        context = "dark"
+
+                # Check if this token should be included based on target mode
+                include_token = False
+                if context == "root":
+                    include_token = True
+                elif self.target_mode == "all":
+                    include_token = True
+                elif self.target_mode == context:
+                    include_token = True
+
+                if include_token:
+                    token_instances.append(
+                        {
+                            "line_index": i,
+                            "context": context,
+                            "indent": len(line) - len(line_stripped),
+                        }
+                    )
+
+        return token_instances
+
+    def _update_existing_tokens(self, lines, token_instances, value, timestamp):
+        """Update existing token instances in place."""
+        for token_info in token_instances:
+            line_index = token_info["line_index"]
+            indent = token_info["indent"]
+
+            new_line = (
+                f"{' ' * indent}{self.token}: {value}  "
+                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+            )
+
+            lines[line_index] = new_line
+
+    def _create_new_tokens(self, lines, structure, value, timestamp):
+        """Create new token instances in appropriate locations."""
+        if self.token_type == TokenType.CARD_MOD:
+            self._create_card_mod_token(lines, value, timestamp)
+        elif structure["is_auto_theme"]:
+            self._create_auto_theme_tokens(lines, structure, value, timestamp)
+        else:
+            self._create_standard_theme_token(lines, value, timestamp)
+
+    def _create_card_mod_token(self, lines, value, timestamp):
+        """Create card-mod token at theme property level."""
+        # Find card-mod-theme line or create it
+        card_mod_line = -1
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("card-mod-theme:"):
+                card_mod_line = i
+                break
+
+        if card_mod_line == -1:
+            # Insert card-mod-theme section after theme name
+            for i, line in enumerate(lines):
+                if line.strip() and not line.strip().startswith("#"):
+                    lines.insert(i + 1, "  card-mod-theme:\n")
+                    card_mod_line = i + 1
+                    break
+
+        # Insert token after card-mod-theme line
+        indent = "  "  # 2 spaces for theme properties
+        new_line = (
+            f"{indent}{self.token}: {value}  "
+            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+        )
+        lines.insert(card_mod_line + 1, new_line)
+
+    def _create_auto_theme_tokens(self, lines, structure, value, timestamp):
+        """Create tokens in auto theme mode sections."""
+        sections_to_update = []
+
+        if self.target_mode == "all":
+            if structure["light_section"]:
+                sections_to_update.append(("light", structure["light_section"]))
+            if structure["dark_section"]:
+                sections_to_update.append(("dark", structure["dark_section"]))
+        elif self.target_mode == "light" and structure["light_section"]:
+            sections_to_update.append(("light", structure["light_section"]))
+        elif self.target_mode == "dark" and structure["dark_section"]:
+            sections_to_update.append(("dark", structure["dark_section"]))
+
+        # Process sections in reverse order to maintain line indices
+        for mode, section_info in reversed(sections_to_update):
+            self._add_token_to_mode_section(lines, section_info, value, timestamp)
+
+    def _add_token_to_mode_section(self, lines, section_info, value, timestamp):
+        """Add token to a specific mode section with user-defined entries grouping."""
+        section_start = section_info["start"]
+        section_end = section_info["end"]
+
+        # Look for existing user-defined entries section
+        user_section_line = -1
+        last_user_token_line = -1
+
+        for i in range(section_start, section_end):
+            if i < len(lines) and "# User defined entries" in lines[i]:
+                user_section_line = i
+                # Find last token in user section
+                for j in range(i + 1, section_end):
+                    if j < len(lines):
+                        line_stripped = lines[j].lstrip()
+                        if (
+                            line_stripped
+                            and not line_stripped.startswith("#")
+                            and ":" in line_stripped
+                        ):
+                            last_user_token_line = j
+                        elif (
+                            line_stripped.startswith("#")
+                            and "User defined entries" not in line_stripped
+                        ):
+                            break
+                break
+
+        indent = "        "  # 8 spaces for mode content
+
+        if user_section_line == -1:
+            # Create user-defined entries section
+            insert_line = section_end
+            lines.insert(insert_line, "\n")
+            lines.insert(
+                insert_line + 1,
+                f"{indent}##############################################################################\n",
+            )
+            lines.insert(insert_line + 2, f"{indent}# User defined entries\n")
+            insert_line += 3
+        else:
+            # Append to existing user section
+            insert_line = (
+                last_user_token_line + 1
+                if last_user_token_line != -1
+                else user_section_line + 1
+            )
+
+        # Insert the new token
+        new_line = (
+            f"{indent}{self.token}: {value}  "
+            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+        )
+        lines.insert(insert_line, new_line)
+
+    def _create_standard_theme_token(self, lines, value, timestamp):
+        """Create token in standard theme with user-defined entries grouping."""
+        # Look for existing user-defined entries section
+        user_section_line = -1
+        last_user_token_line = -1
+
+        for i, line in enumerate(lines):
+            if "# User defined entries" in line:
+                user_section_line = i
+                # Find last token in user section
+                for j in range(i + 1, len(lines)):
+                    line_stripped = lines[j].lstrip()
+                    if (
+                        line_stripped
+                        and not line_stripped.startswith("#")
+                        and ":" in line_stripped
+                    ):
+                        last_user_token_line = j
+                    elif (
+                        line_stripped.startswith("#")
+                        and "User defined entries" not in line_stripped
+                    ):
+                        break
+                break
+
+        indent = "  "  # 2 spaces for standard theme
+
+        if user_section_line == -1:
+            # Create user-defined entries section at end
+            lines.append("\n")
+            lines.append(
+                f"{indent}##############################################################################\n"
+            )
+            lines.append(f"{indent}# User defined entries\n")
+
+        # Insert the new token
+        new_line = (
+            f"{indent}{self.token}: {value}  "
+            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+        )
+
+        if last_user_token_line != -1:
+            lines.insert(last_user_token_line + 1, new_line)
+        else:
+            lines.append(new_line)
+
     def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
         """Set token value across all relevant YAML files with mode targeting."""
         if value is None:
             logger.info("Skipping update: value is None")
             return True
-            
+
         logger.debug(f"Target mode: {self.target_mode}")
         logger.debug(f"Value to apply: '{value}'")
 
@@ -709,43 +745,56 @@ class ThemePatcher:
             if validated_value is None:
                 raise ValidationError(f"Invalid value: {value}")
             logger.debug(f"Validated value: '{validated_value}'")
-            
 
             yaml_files = []
             try:
                 # Resolve theme path to prevent symlink traversal attacks
                 theme_path_resolved = self.theme_path.resolve()
-                for path in self.theme_path.rglob("*.yaml"):
-                    try:
-                        path_resolved = path.resolve()
-                        # Ensure the file is within the theme directory
-                        if (path_resolved.parent == theme_path_resolved or 
-                            theme_path_resolved in path_resolved.parents):
-                            # Additional check: ensure no upward traversal in relative path
-                            try:
-                                path_resolved.relative_to(theme_path_resolved)
-                                yaml_files.append(path)
-                            except ValueError:
-                                # Path is outside theme directory
-                                logger.warning(f"Skipping file outside theme directory: {path}")
-                    except (OSError, RuntimeError) as e:
-                        # Handle broken symlinks or circular references
-                        logger.warning(f"Skipping problematic path {path}: {e}")
+
+                if self.theme_path.is_file():
+                    # Single YAML file theme (e-ink themes)
+                    yaml_files.append(self.theme_path)
+                else:
+                    # Directory-based theme (traditional approach)
+                    for path in self.theme_path.rglob("*.yaml"):
+                        try:
+                            path_resolved = path.resolve()
+                            # Ensure the file is within the theme directory
+                            if (
+                                path_resolved.parent == theme_path_resolved
+                                or theme_path_resolved in path_resolved.parents
+                            ):
+                                # Additional check: ensure no upward traversal in relative path
+                                try:
+                                    path_resolved.relative_to(theme_path_resolved)
+                                    yaml_files.append(path)
+                                except ValueError:
+                                    # Path is outside theme directory
+                                    logger.warning(
+                                        f"Skipping file outside theme directory: {path}"
+                                    )
+                        except (OSError, RuntimeError) as e:
+                            # Handle broken symlinks or circular references
+                            logger.warning(f"Skipping problematic path {path}: {e}")
             except (OSError, RuntimeError) as e:
                 raise ValidationError(f"Error scanning theme directory: {e}")
             if not yaml_files:
                 raise ValidationError(f"No YAML files found in {self.theme_path}")
-                
+
             # Check resource limits
             if len(yaml_files) > MAX_FILES_TO_PROCESS:
-                raise ValidationError(f"Too many YAML files ({len(yaml_files)} > {MAX_FILES_TO_PROCESS})")
-                
+                raise ValidationError(
+                    f"Too many YAML files ({len(yaml_files)} > {MAX_FILES_TO_PROCESS})"
+                )
+
             # Validate file sizes
             for yaml_file in yaml_files:
                 try:
                     file_size = yaml_file.stat().st_size
                     if file_size > MAX_FILE_SIZE_MB * 1024 * 1024:
-                        raise ValidationError(f"File too large: {yaml_file} ({file_size / 1024 / 1024:.1f}MB > {MAX_FILE_SIZE_MB}MB)")
+                        raise ValidationError(
+                            f"File too large: {yaml_file} ({file_size / 1024 / 1024:.1f}MB > {MAX_FILE_SIZE_MB}MB)"
+                        )
                 except OSError as e:
                     raise ValidationError(f"Cannot access file {yaml_file}: {e}")
 
@@ -771,17 +820,19 @@ class ThemePatcher:
             # Process files with rollback capability
             processed_files = []
             success = True
-            
+
             try:
                 for yaml_file in yaml_files:
                     logger.info(f"Processing: {yaml_file}")
                     with file_lock(yaml_file):
-                        if self._process_yaml_file(yaml_file, validated_value, create_token):
+                        if self._process_yaml_file(
+                            yaml_file, validated_value, create_token
+                        ):
                             processed_files.append(yaml_file)
                         else:
                             success = False
                             break
-                            
+
                 if success:
                     # All files processed successfully, clean up backups
                     logger.debug(f"Cleaning up {len(backups)} backup files")
@@ -801,19 +852,23 @@ class ThemePatcher:
                             backup_size = backup_path.stat().st_size
                             yaml_file.write_bytes(backup_path.read_bytes())
                             logger.info(f"Restored: {yaml_file}")
-                            logger.debug(f"Restored {backup_size} bytes from {backup_path}")
+                            logger.debug(
+                                f"Restored {backup_size} bytes from {backup_path}"
+                            )
                         except Exception as e:
                             logger.error(f"Failed to restore {yaml_file}: {e}")
-                    
+
                     # Clean up backups after rollback
                     logger.debug("Cleaning up backups after rollback")
                     for backup_path in backups.values():
                         try:
                             backup_path.unlink()
-                            logger.debug(f"Removed backup after rollback: {backup_path}")
+                            logger.debug(
+                                f"Removed backup after rollback: {backup_path}"
+                            )
                         except OSError:
                             pass
-                            
+
             except Exception as e:
                 # Emergency rollback on unexpected errors
                 logger.error(f"Emergency rollback due to: {e}")
@@ -823,14 +878,17 @@ class ThemePatcher:
                             yaml_file.write_bytes(backup_path.read_bytes())
                             backup_path.unlink()
                     except Exception as rollback_error:
-                        logger.error(f"Emergency rollback failed for {yaml_file}: {rollback_error}")
+                        logger.error(
+                            f"Emergency rollback failed for {yaml_file}: {rollback_error}"
+                        )
                 raise
-                
+
             return success
 
         except Exception as e:
             logger.error(f"Update failed: {str(e)}")
             return False
+
 
 def print_version():
     """Print version info and changelog."""
@@ -867,7 +925,7 @@ def validate_args(args: argparse.Namespace) -> bool:
 
     # Path validation will be handled by ThemePatcher._validate_paths()
     # since we now support auto-detection when args.path is None
-    
+
     # Mode validation (future-proofed for additional modes)
     if args.mode not in ["light", "dark", "all"]:
         logger.error(f"Invalid mode: {args.mode}")
@@ -953,11 +1011,13 @@ def main():
         token = args.token if args.type != "card-mod" else "card-mod-root"
 
         # Determine the actual base path for logging
-        actual_base_path = args.path if args.path else detect_homeassistant_config_path()
-        
+        actual_base_path = (
+            args.path if args.path else detect_homeassistant_config_path()
+        )
+
         # Enhanced logging for mode-specific operations
         mode_info = f"mode: {args.mode}"
-            
+
         logger.info(
             f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
             f"with value: '{args.value}' ({mode_info}) (base path: '{actual_base_path}')"
