@@ -1,0 +1,53 @@
+# Theme Patcher Recipe: Warm Sunset
+# A warm, cozy color scheme with sunset-inspired colors
+
+recipe:
+  name: "Warm Sunset Demo"
+  author: "Tilman Griesel"
+  author_url: "https://github.com/TilmanGriesel/graphite"
+  description: "Example of warm oranges and reds reminiscent of a beautiful sunset"
+  version: "1.2.0"
+  patcher_version: ">=2.0.0"
+  screenshot_url: ""
+
+  # Only apply to dark themes for best effect
+  variants:
+    - "graphite"
+    - "graphite-auto"
+  
+  # For auto themes, only modify dark mode
+  mode: "dark"
+
+patches:
+  # Warm primary colors
+  - token: "token-rgb-primary"
+    type: "rgb"
+    value: "255, 107, 53"
+    description: "Warm sunset orange"
+  
+  - token: "token-rgb-orange"
+    type: "rgb"
+    value: "255, 140, 0"
+    description: "Bright sunset orange"
+  
+  - token: "token-rgb-red"
+    type: "rgb"
+    value: "255, 99, 71"
+    description: "Sunset red accent"
+  
+  # Warm feedback colors
+  - token: "token-color-feedback-warning"
+    type: "generic"
+    value: "rgb(255, 193, 7)"
+    description: "Golden warning color"
+  
+  - token: "token-color-feedback-error"
+    type: "generic"
+    value: "rgb(255, 107, 53)"
+    description: "Warm error color"
+  
+  # Font weights for better readability with warm colors
+  - token: "token-weight-font-title"
+    type: "generic"
+    value: "600"
+    description: "Slightly bolder titles for warm theme"

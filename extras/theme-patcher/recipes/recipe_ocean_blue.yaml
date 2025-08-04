@@ -1,0 +1,51 @@
+# Theme Patcher Recipe: Ocean Blue
+# A calming ocean-inspired color scheme for Graphite themes
+
+recipe:
+  name: "Ocean Blue Theme Demo"
+  author: "Tilman Griesel"
+  author_url: "https://github.com/TilmanGriesel/graphite"
+  description: "Example of calming ocean blues and teals"
+  version: "1.0.0"
+  patcher_version: ">=2.0.0"
+  screenshot_url: ""
+  
+  # Target variants (which theme files this recipe applies to)
+  variants:
+    - "graphite"        # Dark theme
+    - "graphite-light"  # Light theme
+    - "graphite-auto"   # Auto theme (both modes)
+  
+  # Optional: Target specific modes for auto themes
+  mode: "all"  # Options: "light", "dark", "all"
+
+# Patch definitions - each line defines a token modification
+patches:
+  # Primary colors
+  - token: "token-rgb-primary"
+    type: "rgb"
+    value: "52, 152, 219"
+    description: "Ocean blue primary color"
+  
+  # Accent colors
+  - token: "token-color-accent"
+    type: "generic"
+    value: "rgb(46, 204, 113)"
+    description: "Complementary teal accent"
+  
+  # Feedback colors
+  - token: "token-color-feedback-info"
+    type: "generic"
+    value: "rgb(52, 152, 219)"
+    description: "Info messages in ocean blue"
+  
+  - token: "token-color-feedback-success"
+    type: "generic"
+    value: "rgb(46, 204, 113)"
+    description: "Success messages in teal"
+  
+  # Custom card-mod styling
+  - token: "card-mod-root"
+    type: "card-mod"
+    value: "--ha-card-border-radius: 16px; --primary-color: rgb(52, 152, 219);"
+    description: "Rounded cards with ocean theme"

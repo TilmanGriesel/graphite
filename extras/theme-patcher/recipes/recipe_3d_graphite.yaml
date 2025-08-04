@@ -1,0 +1,28 @@
+# Theme Patcher Recipe: 3D Graphite
+# Inspired by rgnyldz's feature request for realistic 3D graphite cards
+# Creates depth and dimension with gradients and subtle highlights
+
+recipe:
+  name: "3D Graphite Cards"
+  author: "rgnyldz"
+  author_url: "https://github.com/TilmanGriesel/graphite/issues/109"
+  description: "Transform cards with realistic 3D graphite effects using gradients and subtle top borders for depth"
+  version: "1.0.0"
+  patcher_version: ">=2.0.0"
+  
+  # Apply to all theme variants for consistency
+  variants:
+    - "graphite" # Dark theme
+
+patches:
+  - token: "card-mod-card"
+    type: "card-mod"
+    value: |
+      ha-card {
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+        background: linear-gradient(196deg, #25262D 9.8%, #1B1C24 91.72%);
+        box-shadow: 
+          0 2px 8px rgba(0, 0, 0, 0.15),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+    description: "3D graphite card effect with gradient background and highlight border"

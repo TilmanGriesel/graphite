@@ -31,6 +31,12 @@ python graphite-theme-patcher.py [OPTIONS] [VALUE]
 # Update primary color in default theme
 python graphite-theme-patcher.py "120, 130, 140"
 
+# Apply a recipe (recommended for beginners)
+python graphite-theme-patcher.py --recipe recipes/recipe_hello_world.yaml --theme graphite-light
+
+# Apply recipe from URL
+python graphite-theme-patcher.py --recipe https://example.com/my-theme.yaml
+
 # Update e-ink light theme
 python graphite-theme-patcher.py --theme graphite-eink-light --value "100, 100, 100"
 
@@ -66,6 +72,7 @@ python graphite-theme-patcher.py --mode light --value "100, 110, 120"
 | `--mode` | `-M` | Target mode (auto themes only) | `all` | `light`, `dark`, `all` |
 | `--create` | `-c` | Create token if missing | `false` | Flag |
 | `--value` | `-V` | Token value (named parameter) | - | Any valid value |
+| `--recipe` | `-r` | Apply recipe from file path or URL | - | File path or URL |
 | `--version` | `-v` | Show version info | - | Flag |
 | `--help` | `-h` | Show help message | - | Flag |
 
@@ -130,9 +137,6 @@ python graphite-theme-patcher.py --type card-mod --value "custom CSS value"
 Pass-through values with minimal validation, perfect for CSS properties and custom values.
 
 ```bash
-# Custom CSS property
-python graphite-theme-patcher.py --token custom-property --type generic --value "center"
-
 # CSS background image
 python graphite-theme-patcher.py --token custom-background --type generic --value 'url("https://example.com/image.jpg")'
 
@@ -231,6 +235,29 @@ python graphite-theme-patcher.py --theme graphite-eink-dark --token token-rgb-gr
 python graphite-theme-patcher.py --theme graphite-eink-dark --token token-rgb-grey-4 --value "80, 80, 80"
 ```
 
+## Recipe Usage
+
+Recipes allow you to apply complete theme transformations with a single command. See [README_RECIPES.md](README_RECIPES.md) for full documentation.
+
+### Apply Recipe Examples
+
+```bash
+# Beginner-friendly starter recipe
+python graphite-theme-patcher.py --recipe recipes/recipe_hello_world.yaml --theme graphite-light
+
+# Retro 70s theme with warm earth tones
+python graphite-theme-patcher.py --recipe recipes/recipe_retro_70s.yaml --theme graphite-light
+
+# Apply recipe from URL
+python graphite-theme-patcher.py --recipe https://raw.githubusercontent.com/user/repo/main/my-recipe.yaml
+
+# Override recipe settings
+python graphite-theme-patcher.py --recipe recipes/recipe_ocean_blue.yaml --theme graphite-auto --mode dark
+
+# Apply to custom path
+python graphite-theme-patcher.py --recipe recipes/recipe_warm_sunset.yaml --path /config/themes
+```
+
 ## Advanced Usage
 
 ### Creating Custom Tokens
@@ -282,24 +309,6 @@ python graphite-theme-patcher.py \
   --token sidebar-background-color \
   --type generic \
   --value "url('./pattern.png') repeat, linear-gradient(to right, #f0f0f0, #e0e0e0)"
-
-# Responsive background with size and position
-python graphite-theme-patcher.py \
-  --token custom-hero-background \
-  --type generic \
-  --value "url('hero.jpg') center/cover no-repeat fixed" \
-  --create
-```
-
-### Batch Operations
-
-```bash
-# Update multiple tokens (use a script)
-#!/bin/bash
-THEME="graphite-eink-light"
-python graphite-theme-patcher.py --theme $THEME --token token-rgb-primary --value "100, 100, 100"
-python graphite-theme-patcher.py --theme $THEME --token token-rgb-grey-1 --value "40, 40, 40" 
-python graphite-theme-patcher.py --theme $THEME --token token-rgb-grey-2 --value "80, 80, 80"
 ```
 
 ### Custom Installation Paths
@@ -325,25 +334,6 @@ The patcher automatically searches for Home Assistant configurations in this ord
 3. `~/.homeassistant` (HA Core user installation)  
 4. Script parent directory
 5. Fallback: `/config/themes`
-
-## Safety Features
-
-### Automatic Backups
-Every operation creates backups before making changes:
-```
-themes/graphite-eink-light.yaml.backup
-```
-Backups are automatically cleaned up on successful operations or used for rollback on failures.
-
-### Input Validation
-- **File paths**: Prevents directory traversal attacks
-- **Token names**: Alphanumeric with hyphens/underscores only
-- **File sizes**: Limited to 10MB per file
-- **File counts**: Maximum 50 YAML files per operation
-- **Line counts**: Maximum 10,000 lines per file
-
-### Atomic Operations
-All changes are applied atomically - either all files are updated successfully, or all changes are rolled back.
 
 ## Troubleshooting
 
@@ -381,30 +371,15 @@ ERROR: Cannot write to theme: /config/themes/graphite
 - Ensure Home Assistant is not actively using files
 - Run with appropriate user permissions
 
-### Debug Mode
-
-View detailed logging by examining the log file:
-```bash
-tail -f extras/theme-patcher/logs/graphite_theme_patcher.log
-```
-
 ## Version Information
 
 ```bash
 python graphite-theme-patcher.py --version
 ```
 
-## Security Considerations
-
-- Always backup your themes before running the patcher
-- The tool includes built-in security measures for path traversal prevention
-- Input validation prevents injection attacks
-- File size and count limits prevent DoS attacks
-- Atomic operations ensure consistency
-
 ## Testing
 
-Run the comprehensive test suite:
+Run the test suite:
 
 ```bash
 # From theme-patcher directory

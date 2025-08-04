@@ -15,22 +15,29 @@ import logging
 import tempfile
 import re
 import argparse
+import yaml
+import urllib.request
+import urllib.parse
 from datetime import datetime
 from pathlib import Path
 from contextlib import contextmanager
 import fcntl
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Dict, Any
 from enum import Enum, auto
+from packaging import version
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 # Security and performance constraints
 MAX_FILES_TO_PROCESS = 50  # Maximum number of YAML files to process per operation
 MAX_FILE_SIZE_MB = 10  # Maximum file size in megabytes to prevent memory issues
 MAX_LINES_PER_FILE = 10000  # Maximum lines per file to prevent DoS attacks
+MAX_DOWNLOAD_SIZE_MB = 5  # Maximum recipe download size
+DOWNLOAD_TIMEOUT_SECONDS = 30  # Timeout for recipe downloads
 
 __author__ = "Tilman Griesel"
 __changelog__ = {
+    "2.1.0": "Added recipe system and dry-run functionality",
     "2.0.0": "Complete rewrite with simplified logic",
     "1.6.1": "Fixed indentation and missing comment headers for user defined entries in auto themes",
     "1.6.0": "Major robustness improvements with auto-detection, rollback, and validation",
@@ -121,6 +128,12 @@ class ValidationError(Exception):
     pass
 
 
+class RecipeError(Exception):
+    """Custom exception raised when recipe processing fails."""
+
+    pass
+
+
 @contextmanager
 def file_lock(lock_file: Path):
     """
@@ -190,6 +203,259 @@ class TokenType(Enum):
         return mapping.get(value.lower(), cls.GENERIC)
 
 
+class Recipe:
+    """Handles recipe loading, validation, and processing."""
+
+    def __init__(self, recipe_data: Dict[str, Any]):
+        """Initialize recipe with data dictionary."""
+        self.data = recipe_data
+        self.metadata = recipe_data.get("recipe", {})
+        self.patches = recipe_data.get("patches", [])
+
+        # Validate required fields
+        self._validate_recipe()
+
+    def _validate_recipe(self) -> None:
+        """Validate recipe structure and metadata."""
+        # Check required metadata fields
+        required_fields = ["name", "author", "version", "patcher_version"]
+        for field in required_fields:
+            if field not in self.metadata:
+                raise RecipeError(f"Missing required metadata field: {field}")
+
+        # Validate patcher version compatibility
+        try:
+            required_version = self.metadata["patcher_version"].replace(">=", "")
+            current_version = __version__
+            if version.parse(current_version) < version.parse(required_version):
+                raise RecipeError(
+                    f"Recipe requires patcher version {self.metadata['patcher_version']}, "
+                    f"but current version is {current_version}"
+                )
+        except Exception as e:
+            raise RecipeError(f"Invalid patcher version format: {e}")
+
+        # Validate patches structure
+        if not isinstance(self.patches, list):
+            raise RecipeError("Patches must be a list")
+
+        for i, patch in enumerate(self.patches):
+            if not isinstance(patch, dict):
+                raise RecipeError(f"Patch {i} must be a dictionary")
+
+            required_patch_fields = ["token", "type", "value"]
+            for field in required_patch_fields:
+                if field not in patch:
+                    raise RecipeError(f"Patch {i} missing required field: {field}")
+
+    @classmethod
+    def from_file(cls, file_path: str) -> "Recipe":
+        """Load recipe from file path."""
+        try:
+            path = Path(file_path)
+            if not path.exists():
+                raise RecipeError(f"Recipe file not found: {file_path}")
+
+            if path.stat().st_size > MAX_DOWNLOAD_SIZE_MB * 1024 * 1024:
+                raise RecipeError(f"Recipe file too large: {file_path}")
+
+            with open(path, "r", encoding="utf-8") as f:
+                recipe_data = yaml.safe_load(f)
+
+            if not isinstance(recipe_data, dict):
+                raise RecipeError("Recipe must be a YAML dictionary")
+
+            return cls(recipe_data)
+
+        except yaml.YAMLError as e:
+            raise RecipeError(f"Invalid YAML in recipe file: {e}")
+        except Exception as e:
+            raise RecipeError(f"Error loading recipe file: {e}")
+
+    @classmethod
+    def from_url(cls, url: str) -> "Recipe":
+        """Load recipe from URL."""
+        try:
+            # Validate URL
+            parsed = urllib.parse.urlparse(url)
+            if parsed.scheme not in ("http", "https"):
+                raise RecipeError("Recipe URL must use HTTP or HTTPS")
+
+            # Create request with security headers
+            request = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": f"Graphite-Theme-Patcher/{__version__}",
+                    "Accept": "text/plain, application/x-yaml, text/yaml",
+                },
+            )
+
+            # Download with timeout and size limit
+            with urllib.request.urlopen(
+                request, timeout=DOWNLOAD_TIMEOUT_SECONDS
+            ) as response:
+                # Check content length
+                content_length = response.headers.get("content-length")
+                if (
+                    content_length
+                    and int(content_length) > MAX_DOWNLOAD_SIZE_MB * 1024 * 1024
+                ):
+                    raise RecipeError(f"Recipe file too large: {content_length} bytes")
+
+                # Read with size limit
+                content = response.read(MAX_DOWNLOAD_SIZE_MB * 1024 * 1024 + 1)
+                if len(content) > MAX_DOWNLOAD_SIZE_MB * 1024 * 1024:
+                    raise RecipeError(f"Recipe file too large: {len(content)} bytes")
+
+                recipe_data = yaml.safe_load(content.decode("utf-8"))
+
+            if not isinstance(recipe_data, dict):
+                raise RecipeError("Recipe must be a YAML dictionary")
+
+            return cls(recipe_data)
+
+        except urllib.error.URLError as e:
+            raise RecipeError(f"Failed to download recipe: {e}")
+        except yaml.YAMLError as e:
+            raise RecipeError(f"Invalid YAML in recipe: {e}")
+        except Exception as e:
+            raise RecipeError(f"Error loading recipe from URL: {e}")
+
+    def get_variants(self) -> List[str]:
+        """Get target variants from recipe, defaulting to graphite."""
+        return self.metadata.get("variants", ["graphite"])
+
+    def get_mode(self) -> str:
+        """Get target mode from recipe, defaulting to all."""
+        return self.metadata.get("mode", "all")
+
+    def get_patches_for_mode(self, target_mode: str) -> List[Dict[str, Any]]:
+        """Get patches applicable to the specified mode."""
+        applicable_patches = []
+
+        for patch in self.patches:
+            patch_mode = patch.get("mode", "all")
+
+            # Include patch if:
+            # 1. Target mode is 'all' (apply to all modes)
+            # 2. Patch mode is 'all' (patch applies to all modes)
+            # 3. Target mode matches patch mode exactly
+            if target_mode == "all" or patch_mode == "all" or target_mode == patch_mode:
+                applicable_patches.append(patch)
+
+        return applicable_patches
+
+
+class IndentationManager:
+    """
+    Professional indentation management for YAML theme files.
+
+    Handles proper YAML indentation with validation and consistency checks.
+    Supports both standard themes and auto themes with mode-specific targeting.
+    """
+
+    # Standard YAML indentation constants
+    YAML_BASE_INDENT = 2
+    YAML_NESTED_INDENT = 2
+
+    def __init__(self, lines: List[str]):
+        """Initialize with YAML file lines for analysis."""
+        self.lines = lines
+        self._indent_cache = {}
+
+    def detect_base_indentation(self) -> int:
+        """
+        Detect the base indentation used in the YAML file.
+
+        Returns:
+            int: Base indentation (typically 2 spaces for YAML)
+        """
+        if hasattr(self, "_base_indent"):
+            return self._base_indent
+
+        indent_counts = {}
+        for line in self.lines:
+            if line.strip() and not line.strip().startswith("#"):
+                indent = len(line) - len(line.lstrip())
+                if indent > 0:
+                    indent_counts[indent] = indent_counts.get(indent, 0) + 1
+
+        if indent_counts:
+            # Most common indentation level
+            self._base_indent = min(indent_counts.keys())
+        else:
+            self._base_indent = self.YAML_BASE_INDENT
+
+        return self._base_indent
+
+    def get_line_indentation(self, line_index: int) -> int:
+        """Get indentation level for a specific line."""
+        if line_index >= len(self.lines):
+            return 0
+        line = self.lines[line_index]
+        return len(line) - len(line.lstrip())
+
+    def get_section_indentation(self, section_info: Dict[str, Any]) -> int:
+        """Get proper indentation for a theme section."""
+        return section_info.get("indent", self.YAML_BASE_INDENT)
+
+    def get_content_indentation(self, parent_indent: int) -> int:
+        """Get indentation for content within a parent section."""
+        base_indent = self.detect_base_indentation()
+        return parent_indent + base_indent
+
+    def get_theme_property_indentation(self) -> int:
+        """Get indentation for theme-level properties."""
+        return self.detect_base_indentation()
+
+    def get_mode_content_indentation(self, mode_section_indent: int) -> int:
+        """Get indentation for content within a mode section."""
+        return self.get_content_indentation(mode_section_indent)
+
+    def format_indented_line(self, indent_level: int, content: str) -> str:
+        """Format a line with proper indentation."""
+        return " " * indent_level + content
+
+    def validate_indentation_consistency(
+        self, line_index: int, expected_indent: int
+    ) -> bool:
+        """Validate that a line has consistent indentation."""
+        if line_index >= len(self.lines):
+            return True
+        actual_indent = self.get_line_indentation(line_index)
+        return actual_indent == expected_indent
+
+    def find_insertion_point_with_proper_indent(
+        self,
+        start_line: int,
+        end_line: int,
+        target_indent: int,
+        after_pattern: str = None,
+    ) -> Tuple[int, int]:
+        """
+        Find the best insertion point maintaining proper indentation.
+
+        Returns:
+            Tuple[int, int]: (insertion_line_index, recommended_indent)
+        """
+        best_line = end_line
+        best_indent = target_indent
+
+        # Look for existing content at the same indentation level
+        for i in range(start_line, min(end_line, len(self.lines))):
+            line = self.lines[i]
+            if line.strip() and not line.strip().startswith("#"):
+                line_indent = self.get_line_indentation(i)
+                if line_indent == target_indent:
+                    best_line = i + 1
+                    best_indent = target_indent
+                elif after_pattern and after_pattern in line:
+                    best_line = i + 1
+                    best_indent = target_indent
+
+        return best_line, best_indent
+
+
 class ThemePatcher:
     """
     Core class for updating token values in Home Assistant theme files.
@@ -205,6 +471,7 @@ class ThemePatcher:
         theme: str = "graphite",
         base_path: Optional[str] = None,
         target_mode: str = "all",
+        dry_run: bool = False,
     ):
         """
         Initialize the theme patcher with specified parameters.
@@ -215,9 +482,11 @@ class ThemePatcher:
             theme: Name of the theme directory
             base_path: Base themes directory path (auto-detected if None)
             target_mode: Target mode for auto themes (light, dark, all)
+            dry_run: If True, only simulate changes without writing to files
         """
         self.theme = theme
         self.target_mode = target_mode
+        self.dry_run = dry_run
 
         # Auto-detect base path if not provided
         if base_path is None:
@@ -350,7 +619,25 @@ class ThemePatcher:
 
         try:
             if self.token_type == TokenType.CARD_MOD:
-                return f'"{value}"'
+                # Support both single-line and YAML scalar blocks
+                if (
+                    "\n" in value
+                    or value.strip().startswith("|")
+                    or value.strip().startswith(">")
+                ):
+                    # Multi-line value - use YAML scalar block syntax
+                    if not (
+                        value.strip().startswith("|") or value.strip().startswith(">")
+                    ):
+                        # Add block scalar indicator if not present
+                        # Use 4 spaces for proper indentation (2 base + 2 for scalar content)
+                        value = "|\n" + "\n".join(
+                            f"    {line}" for line in value.split("\n")
+                        )
+                    return value
+                else:
+                    # Single-line value - quote it
+                    return f'"{value}"'
 
             elif self.token_type == TokenType.SIZE:
                 num_value = int(value)
@@ -394,7 +681,7 @@ class ThemePatcher:
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
     ) -> bool:
-        """Update or create the token in a YAML file with simplified logic."""
+        """Update or create the token in a YAML file with professional indentation handling."""
         if value is None:
             return True
 
@@ -412,6 +699,9 @@ class ThemePatcher:
             logger.debug(f"Processing file: {file_path} ({len(lines)} lines)")
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+            # Initialize indentation manager for professional YAML handling
+            indent_manager = IndentationManager(lines)
+
             # Step 1: Analyze file structure
             file_structure = self._analyze_file_structure(lines)
 
@@ -420,31 +710,52 @@ class ThemePatcher:
 
             # Step 3: Update existing tokens or create new ones
             if existing_tokens:
-                self._update_existing_tokens(lines, existing_tokens, value, timestamp)
+                self._update_existing_tokens(
+                    lines, existing_tokens, value, timestamp, indent_manager
+                )
                 logger.info(
                     f"Updated {len(existing_tokens)} instances of token '{self.token}'"
                 )
             elif create_token or self.token_type == TokenType.CARD_MOD:
-                self._create_new_tokens(lines, file_structure, value, timestamp)
+                self._create_new_tokens(
+                    lines, file_structure, value, timestamp, indent_manager
+                )
                 logger.info(f"Created new token '{self.token}'")
             else:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
-            # Step 4: Write file atomically
+            # Step 4: Validate YAML structure integrity
+            if not self._validate_yaml_structure(lines, indent_manager):
+                logger.error(f"YAML structure validation failed for {file_path}")
+                return False
+
+            # Step 5: Write file atomically (or simulate in dry-run mode)
             updated_content = "".join(lines)
             if not updated_content.endswith("\n"):
                 updated_content += "\n"
 
-            with tempfile.NamedTemporaryFile(
-                mode="w", dir=file_path.parent, delete=False, encoding="utf-8"
-            ) as tmp:
-                tmp.write(updated_content)
-                tmp.flush()
-                os.fsync(tmp.fileno())
+            if self.dry_run:
+                logger.info(f"[DRY RUN] Would update {file_path}")
+                # In dry-run mode, log what would be changed
+                if existing_tokens:
+                    for token_info in existing_tokens:
+                        line_num = token_info["line_index"] + 1
+                        logger.info(f"[DRY RUN] Line {line_num}: {self.token}: {value}")
+                else:
+                    logger.info(
+                        f"[DRY RUN] Would create new token: {self.token}: {value}"
+                    )
+            else:
+                with tempfile.NamedTemporaryFile(
+                    mode="w", dir=file_path.parent, delete=False, encoding="utf-8"
+                ) as tmp:
+                    tmp.write(updated_content)
+                    tmp.flush()
+                    os.fsync(tmp.fileno())
 
-            os.replace(tmp.name, file_path)
-            logger.info(f"Successfully processed {file_path}")
+                os.replace(tmp.name, file_path)
+                logger.info(f"Successfully processed {file_path}")
             return True
 
         except Exception as e:
@@ -563,30 +874,42 @@ class ThemePatcher:
 
         return token_instances
 
-    def _update_existing_tokens(self, lines, token_instances, value, timestamp):
-        """Update existing token instances in place."""
+    def _update_existing_tokens(
+        self, lines, token_instances, value, timestamp, indent_manager
+    ):
+        """Update existing token instances in place with proper indentation."""
         for token_info in token_instances:
             line_index = token_info["line_index"]
             indent = token_info["indent"]
 
-            new_line = (
-                f"{' ' * indent}{self.token}: {value}  "
-                f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+            # Validate and ensure consistent indentation
+            if not indent_manager.validate_indentation_consistency(line_index, indent):
+                logger.warning(
+                    f"Inconsistent indentation detected at line {line_index + 1}, correcting..."
+                )
+                # Use the original indentation from the existing token
+                indent = indent_manager.get_line_indentation(line_index)
+
+            new_line = indent_manager.format_indented_line(
+                indent,
+                f"{self.token}: {value}  # Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n",
             )
 
             lines[line_index] = new_line
 
-    def _create_new_tokens(self, lines, structure, value, timestamp):
-        """Create new token instances in appropriate locations."""
+    def _create_new_tokens(self, lines, structure, value, timestamp, indent_manager):
+        """Create new token instances in appropriate locations with proper indentation."""
         if self.token_type == TokenType.CARD_MOD:
-            self._create_card_mod_token(lines, value, timestamp)
+            self._create_card_mod_token(lines, value, timestamp, indent_manager)
         elif structure["is_auto_theme"]:
-            self._create_auto_theme_tokens(lines, structure, value, timestamp)
+            self._create_auto_theme_tokens(
+                lines, structure, value, timestamp, indent_manager
+            )
         else:
-            self._create_standard_theme_token(lines, value, timestamp)
+            self._create_standard_theme_token(lines, value, timestamp, indent_manager)
 
-    def _create_card_mod_token(self, lines, value, timestamp):
-        """Create card-mod token at theme property level."""
+    def _create_card_mod_token(self, lines, value, timestamp, indent_manager):
+        """Create card-mod token at theme property level with proper indentation."""
         # Find card-mod-theme line or create it
         card_mod_line = -1
         for i, line in enumerate(lines):
@@ -596,22 +919,28 @@ class ThemePatcher:
 
         if card_mod_line == -1:
             # Insert card-mod-theme section after theme name
+            theme_indent = indent_manager.get_theme_property_indentation()
             for i, line in enumerate(lines):
                 if line.strip() and not line.strip().startswith("#"):
-                    lines.insert(i + 1, "  card-mod-theme:\n")
+                    card_mod_line_content = indent_manager.format_indented_line(
+                        theme_indent, "card-mod-theme:\n"
+                    )
+                    lines.insert(i + 1, card_mod_line_content)
                     card_mod_line = i + 1
                     break
 
-        # Insert token after card-mod-theme line
-        indent = "  "  # 2 spaces for theme properties
-        new_line = (
-            f"{indent}{self.token}: {value}  "
-            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+        # Insert token after card-mod-theme line with proper indentation
+        theme_indent = indent_manager.get_theme_property_indentation()
+        new_line = indent_manager.format_indented_line(
+            theme_indent,
+            f"{self.token}: {value}  # Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n",
         )
         lines.insert(card_mod_line + 1, new_line)
 
-    def _create_auto_theme_tokens(self, lines, structure, value, timestamp):
-        """Create tokens in auto theme mode sections."""
+    def _create_auto_theme_tokens(
+        self, lines, structure, value, timestamp, indent_manager
+    ):
+        """Create tokens in auto theme mode sections with proper indentation."""
         sections_to_update = []
 
         if self.target_mode == "all":
@@ -626,10 +955,14 @@ class ThemePatcher:
 
         # Process sections in reverse order to maintain line indices
         for mode, section_info in reversed(sections_to_update):
-            self._add_token_to_mode_section(lines, section_info, value, timestamp)
+            self._add_token_to_mode_section(
+                lines, section_info, value, timestamp, indent_manager
+            )
 
-    def _add_token_to_mode_section(self, lines, section_info, value, timestamp):
-        """Add token to a specific mode section with user-defined entries grouping."""
+    def _add_token_to_mode_section(
+        self, lines, section_info, value, timestamp, indent_manager
+    ):
+        """Add token to a specific mode section with professional indentation handling."""
         section_start = section_info["start"]
         section_end = section_info["end"]
 
@@ -657,17 +990,27 @@ class ThemePatcher:
                             break
                 break
 
-        indent = "        "  # 8 spaces for mode content
+        # Use professional indentation management
+        mode_indent = indent_manager.get_section_indentation(section_info)
+        content_indent = indent_manager.get_mode_content_indentation(mode_indent)
 
         if user_section_line == -1:
-            # Create user-defined entries section
+            # Create user-defined entries section with proper indentation
             insert_line = section_end
             lines.insert(insert_line, "\n")
-            lines.insert(
-                insert_line + 1,
-                f"{indent}##############################################################################\n",
+
+            # Add header with consistent indentation
+            header_line = indent_manager.format_indented_line(
+                content_indent,
+                "##############################################################################\n",
             )
-            lines.insert(insert_line + 2, f"{indent}# User defined entries\n")
+            lines.insert(insert_line + 1, header_line)
+
+            # Add comment with consistent indentation
+            comment_line = indent_manager.format_indented_line(
+                content_indent, "# User defined entries\n"
+            )
+            lines.insert(insert_line + 2, comment_line)
             insert_line += 3
         else:
             # Append to existing user section
@@ -677,15 +1020,15 @@ class ThemePatcher:
                 else user_section_line + 1
             )
 
-        # Insert the new token
-        new_line = (
-            f"{indent}{self.token}: {value}  "
-            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+        # Insert the new token with professional indentation
+        new_line = indent_manager.format_indented_line(
+            content_indent,
+            f"{self.token}: {value}  # Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n",
         )
         lines.insert(insert_line, new_line)
 
-    def _create_standard_theme_token(self, lines, value, timestamp):
-        """Create token in standard theme with user-defined entries grouping."""
+    def _create_standard_theme_token(self, lines, value, timestamp, indent_manager):
+        """Create token in standard theme with professional indentation handling."""
         # Look for existing user-defined entries section
         user_section_line = -1
         last_user_token_line = -1
@@ -709,26 +1052,110 @@ class ThemePatcher:
                         break
                 break
 
-        indent = "  "  # 2 spaces for standard theme
+        # Use professional indentation management
+        theme_indent = indent_manager.get_theme_property_indentation()
 
         if user_section_line == -1:
-            # Create user-defined entries section at end
+            # Create user-defined entries section at end with proper indentation
             lines.append("\n")
-            lines.append(
-                f"{indent}##############################################################################\n"
-            )
-            lines.append(f"{indent}# User defined entries\n")
 
-        # Insert the new token
-        new_line = (
-            f"{indent}{self.token}: {value}  "
-            f"# Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n"
+            header_line = indent_manager.format_indented_line(
+                theme_indent,
+                "##############################################################################\n",
+            )
+            lines.append(header_line)
+
+            comment_line = indent_manager.format_indented_line(
+                theme_indent, "# User defined entries\n"
+            )
+            lines.append(comment_line)
+
+        # Insert the new token with professional indentation
+        new_line = indent_manager.format_indented_line(
+            theme_indent,
+            f"{self.token}: {value}  # Modified by Graphite Theme Patcher v{__version__} - {timestamp}\n",
         )
 
         if last_user_token_line != -1:
             lines.insert(last_user_token_line + 1, new_line)
         else:
             lines.append(new_line)
+
+    def _validate_yaml_structure(
+        self, lines: List[str], indent_manager: IndentationManager
+    ) -> bool:
+        """
+        Validate YAML structure integrity after modifications.
+
+        Args:
+            lines: Modified YAML file lines
+            indent_manager: Indentation manager for validation
+
+        Returns:
+            bool: True if YAML structure is valid, False otherwise
+        """
+        try:
+            # Basic YAML structure validation
+            content = "".join(lines)
+
+            # Try to parse as YAML to catch structural issues
+            import yaml
+
+            try:
+                yaml.safe_load(content)
+            except yaml.YAMLError as e:
+                logger.error(f"YAML syntax validation failed: {e}")
+                return False
+
+            # Validate indentation consistency
+            base_indent = indent_manager.detect_base_indentation()
+            for i, line in enumerate(lines):
+                if line.strip() and not line.strip().startswith("#"):
+                    line_indent = indent_manager.get_line_indentation(i)
+                    if line_indent % base_indent != 0:
+                        logger.warning(
+                            f"Inconsistent indentation at line {i + 1}: {line_indent} spaces"
+                        )
+                        # Don't fail for this, just warn
+
+            # Validate user-defined entries sections have proper structure
+            in_user_section = False
+            for i, line in enumerate(lines):
+                if "# User defined entries" in line:
+                    in_user_section = True
+
+                    # Check that the comment line has proper indentation
+                    if not line.strip().startswith("#"):
+                        logger.error(
+                            f"User defined entries comment malformed at line {i + 1}"
+                        )
+                        return False
+
+                elif (
+                    in_user_section
+                    and line.strip()
+                    and not line.strip().startswith("#")
+                ):
+                    # This should be a token line in user section
+                    if ":" not in line:
+                        logger.error(
+                            f"Invalid token format in user section at line {i + 1}"
+                        )
+                        return False
+                elif (
+                    in_user_section
+                    and line.strip().startswith("#")
+                    and "User defined entries" not in line
+                ):
+                    # End of user section
+                    in_user_section = False
+
+            logger.debug("YAML structure validation passed")
+            return True
+
+        except Exception as e:
+            logger.error(f"YAML structure validation error: {e}")
+            return False
 
     def set_token_value(self, value: Optional[str], create_token: bool = False) -> bool:
         """Set token value across all relevant YAML files with mode targeting."""
@@ -798,24 +1225,31 @@ class ThemePatcher:
                 except OSError as e:
                     raise ValidationError(f"Cannot access file {yaml_file}: {e}")
 
-            # Create backups before modifying any files
+            # Create backups before modifying any files (skip in dry-run mode)
             backups = {}
-            logger.debug(f"Creating backups for {len(yaml_files)} files")
-            try:
-                for yaml_file in yaml_files:
-                    backup_path = yaml_file.with_suffix(".yaml.backup")
-                    file_size = yaml_file.stat().st_size
-                    backup_path.write_bytes(yaml_file.read_bytes())
-                    backups[yaml_file] = backup_path
-                    logger.debug(f"Created backup: {backup_path} ({file_size} bytes)")
-            except Exception as e:
-                # Clean up any partial backups
-                for backup_path in backups.values():
-                    try:
-                        backup_path.unlink()
-                    except OSError:
-                        pass
-                raise ValidationError(f"Failed to create backups: {e}")
+            if not self.dry_run:
+                logger.debug(f"Creating backups for {len(yaml_files)} files")
+                try:
+                    for yaml_file in yaml_files:
+                        backup_path = yaml_file.with_suffix(".yaml.backup")
+                        file_size = yaml_file.stat().st_size
+                        backup_path.write_bytes(yaml_file.read_bytes())
+                        backups[yaml_file] = backup_path
+                        logger.debug(
+                            f"Created backup: {backup_path} ({file_size} bytes)"
+                        )
+                except Exception as e:
+                    # Clean up any partial backups
+                    for backup_path in backups.values():
+                        try:
+                            backup_path.unlink()
+                        except OSError:
+                            pass
+                    raise ValidationError(f"Failed to create backups: {e}")
+            else:
+                logger.info(
+                    f"[DRY RUN] Would create backups for {len(yaml_files)} files"
+                )
 
             # Process files with rollback capability
             processed_files = []
@@ -834,40 +1268,50 @@ class ThemePatcher:
                             break
 
                 if success:
-                    # All files processed successfully, clean up backups
-                    logger.debug(f"Cleaning up {len(backups)} backup files")
-                    for backup_path in backups.values():
-                        try:
-                            backup_path.unlink()
-                            logger.debug(f"Removed backup: {backup_path}")
-                        except OSError:
-                            logger.warning(f"Could not remove backup: {backup_path}")
+                    # All files processed successfully, clean up backups (or log in dry-run)
+                    if self.dry_run:
+                        logger.info(
+                            f"[DRY RUN] All {len(yaml_files)} files would be processed successfully"
+                        )
+                    else:
+                        logger.debug(f"Cleaning up {len(backups)} backup files")
+                        for backup_path in backups.values():
+                            try:
+                                backup_path.unlink()
+                                logger.debug(f"Removed backup: {backup_path}")
+                            except OSError:
+                                logger.warning(
+                                    f"Could not remove backup: {backup_path}"
+                                )
                 else:
-                    # Rollback all changes
-                    logger.error("Rolling back changes due to processing failure")
-                    logger.debug(f"Rolling back {len(processed_files)} files")
-                    for yaml_file in processed_files:
-                        try:
-                            backup_path = backups[yaml_file]
-                            backup_size = backup_path.stat().st_size
-                            yaml_file.write_bytes(backup_path.read_bytes())
-                            logger.info(f"Restored: {yaml_file}")
-                            logger.debug(
-                                f"Restored {backup_size} bytes from {backup_path}"
-                            )
-                        except Exception as e:
-                            logger.error(f"Failed to restore {yaml_file}: {e}")
+                    # Rollback all changes (or log in dry-run)
+                    if self.dry_run:
+                        logger.error("[DRY RUN] Processing would have failed")
+                    else:
+                        logger.error("Rolling back changes due to processing failure")
+                        logger.debug(f"Rolling back {len(processed_files)} files")
+                        for yaml_file in processed_files:
+                            try:
+                                backup_path = backups[yaml_file]
+                                backup_size = backup_path.stat().st_size
+                                yaml_file.write_bytes(backup_path.read_bytes())
+                                logger.info(f"Restored: {yaml_file}")
+                                logger.debug(
+                                    f"Restored {backup_size} bytes from {backup_path}"
+                                )
+                            except Exception as e:
+                                logger.error(f"Failed to restore {yaml_file}: {e}")
 
-                    # Clean up backups after rollback
-                    logger.debug("Cleaning up backups after rollback")
-                    for backup_path in backups.values():
-                        try:
-                            backup_path.unlink()
-                            logger.debug(
-                                f"Removed backup after rollback: {backup_path}"
-                            )
-                        except OSError:
-                            pass
+                        # Clean up backups after rollback
+                        logger.debug("Cleaning up backups after rollback")
+                        for backup_path in backups.values():
+                            try:
+                                backup_path.unlink()
+                                logger.debug(
+                                    f"Removed backup after rollback: {backup_path}"
+                                )
+                            except OSError:
+                                pass
 
             except Exception as e:
                 # Emergency rollback on unexpected errors
@@ -889,20 +1333,102 @@ class ThemePatcher:
             logger.error(f"Update failed: {str(e)}")
             return False
 
+    def apply_recipe(
+        self,
+        recipe: Recipe,
+        override_theme: Optional[str] = None,
+        override_mode: Optional[str] = None,
+    ) -> bool:
+        """Apply a recipe to themes with optional overrides."""
+        try:
+            # Determine target variants and mode
+            variants = recipe.get_variants()
+            if override_theme:
+                variants = [override_theme]
+
+            target_mode = override_mode if override_mode else recipe.get_mode()
+
+            logger.info(
+                f"Applying recipe '{recipe.metadata['name']}' v{recipe.metadata['version']}"
+            )
+            logger.info(f"Author: {recipe.metadata['author']}")
+            if recipe.metadata.get("description"):
+                logger.info(f"Description: {recipe.metadata['description']}")
+
+            success = True
+
+            # Process each variant
+            for variant in variants:
+                logger.info(f"Processing variant: {variant}")
+
+                # Get patches applicable to the target mode
+                patches = recipe.get_patches_for_mode(target_mode)
+                logger.info(f"Applying {len(patches)} patches for mode '{target_mode}'")
+
+                # Apply each patch
+                for i, patch in enumerate(patches, 1):
+                    try:
+                        # Create a new patcher instance for this specific patch
+                        patcher = ThemePatcher(
+                            token=patch["token"],
+                            token_type=patch["type"],
+                            theme=variant,
+                            base_path=self.theme_path.parent,
+                            target_mode=patch.get("mode", target_mode),
+                            dry_run=self.dry_run,
+                        )
+
+                        # Log patch details
+                        patch_desc = patch.get("description", "No description")
+                        logger.info(
+                            f"Patch {i}/{len(patches)}: {patch['token']} = {patch['value']} ({patch_desc})"
+                        )
+
+                        # Apply the patch
+                        if not patcher.set_token_value(
+                            patch["value"], create_token=True
+                        ):
+                            logger.error(f"Failed to apply patch {i}: {patch['token']}")
+                            success = False
+
+                    except Exception as e:
+                        logger.error(
+                            f"Error applying patch {i} ({patch['token']}): {e}"
+                        )
+                        success = False
+
+                if success:
+                    logger.info(f"Successfully processed variant: {variant}")
+                else:
+                    logger.error(f"Failed to process variant: {variant}")
+
+            return success
+
+        except Exception as e:
+            logger.error(f"Recipe application failed: {str(e)}")
+            return False
+
 
 def print_version():
     """Print version info and changelog."""
     print(f"\nGraphite Theme Patcher v{__version__}")
     print(f"Author: {__author__}\n")
     print("Changelog:")
-    for version, changes in sorted(__changelog__.items(), reverse=True):
-        print(f"v{version}:")
+    for version_key, changes in sorted(__changelog__.items(), reverse=True):
+        print(f"v{version_key}:")
         print(f"  - {changes}")
     print()
 
 
 def validate_args(args: argparse.Namespace) -> bool:
     """Check command-line arguments for validity."""
+    # Recipe mode validation
+    if args.recipe:
+        # Recipe mode - value is not required
+        args.value = None
+        return True
+
+    # Standard mode validation
     final_value = args.named_value if args.named_value else args.positional_value
     if final_value is None:
         logger.error("Missing token value. Provide as positional argument or --value.")
@@ -996,6 +1522,17 @@ def main():
             choices=["light", "dark", "all"],
             help="For auto themes: target light mode, dark mode, or all (default: all)",
         )
+        parser.add_argument(
+            "-r",
+            "--recipe",
+            help="Apply recipe from file path or URL instead of single token",
+        )
+        parser.add_argument(
+            "-d",
+            "--dry-run",
+            action="store_true",
+            help="Show what would be changed without modifying files",
+        )
 
         args = parser.parse_args()
 
@@ -1007,41 +1544,87 @@ def main():
         if not validate_args(args):
             sys.exit(1)
 
-        # Override token name for card-mod
-        token = args.token if args.type != "card-mod" else "card-mod-root"
-
-        # Determine the actual base path for logging
+        # Determine the actual base path
         actual_base_path = (
             args.path if args.path else detect_homeassistant_config_path()
         )
 
-        # Enhanced logging for mode-specific operations
-        mode_info = f"mode: {args.mode}"
+        # Recipe mode
+        if args.recipe:
+            logger.info(f"Loading recipe from: {args.recipe}")
+            try:
+                # Load recipe from file or URL
+                if args.recipe.startswith(("http://", "https://")):
+                    recipe = Recipe.from_url(args.recipe)
+                else:
+                    recipe = Recipe.from_file(args.recipe)
 
-        logger.info(
-            f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
-            f"with value: '{args.value}' ({mode_info}) (base path: '{actual_base_path}')"
-        )
+                # Create a patcher instance for recipe processing
+                patcher = ThemePatcher(
+                    token="placeholder",  # Will be overridden by recipe patches
+                    token_type="generic",
+                    theme=args.theme,
+                    base_path=args.path,
+                    target_mode=args.mode,
+                    dry_run=args.dry_run,
+                )
 
-        patcher = ThemePatcher(
-            token=token,
-            token_type=args.type,
-            theme=args.theme,
-            base_path=args.path,
-            target_mode=args.mode,
-        )
+                # Apply the recipe
+                if not patcher.apply_recipe(
+                    recipe, override_theme=args.theme, override_mode=args.mode
+                ):
+                    logger.error("Recipe application failed.")
+                    sys.exit(1)
 
-        # card-mod tokens must be created if missing
-        create_token = args.create or (patcher.token_type == TokenType.CARD_MOD)
+                if args.dry_run:
+                    logger.info("[DRY RUN] Recipe processing completed successfully")
+                else:
+                    logger.info("Recipe applied successfully")
 
-        if not patcher.set_token_value(args.value, create_token):
-            logger.error("Update failed.")
-            sys.exit(1)
+            except RecipeError as e:
+                logger.error(f"Recipe error: {e}")
+                sys.exit(1)
 
-        logger.info("Update completed.")
+        # Standard token mode
+        else:
+            # Override token name for card-mod
+            token = args.token if args.type != "card-mod" else "card-mod-root"
 
-    except Exception as e:
+            # Enhanced logging for mode-specific operations
+            mode_info = f"mode: {args.mode}"
+            dry_run_info = " [DRY RUN]" if args.dry_run else ""
+
+            logger.info(
+                f"Patching '{token}' (type: '{args.type}') in theme '{args.theme}' "
+                f"with value: '{args.value}' ({mode_info}) (base path: '{actual_base_path}'){dry_run_info}"
+            )
+
+            patcher = ThemePatcher(
+                token=token,
+                token_type=args.type,
+                theme=args.theme,
+                base_path=args.path,
+                target_mode=args.mode,
+                dry_run=args.dry_run,
+            )
+
+            # card-mod tokens must be created if missing
+            create_token = args.create or (patcher.token_type == TokenType.CARD_MOD)
+
+            if not patcher.set_token_value(args.value, create_token):
+                logger.error("Update failed.")
+                sys.exit(1)
+
+            if args.dry_run:
+                logger.info("[DRY RUN] Update completed successfully")
+            else:
+                logger.info("Update completed.")
+
+    except (RecipeError, ValidationError) as e:
         logger.error(f"Error: {str(e)}")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"Unexpected error: {str(e)}")
         sys.exit(1)
 
 
