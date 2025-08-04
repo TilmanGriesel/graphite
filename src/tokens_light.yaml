@@ -69,4 +69,7 @@ token-color-codemirror-number: rgb(204, 85, 0)
 token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
 # ..............................................................................
 # Font Weight
-token-weight-font-title-card: 500
+token-weight-font-body: 400
+token-weight-font-title: 600
+token-weight-font-title-card: var(--token-weight-font-title)
+

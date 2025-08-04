@@ -31,7 +31,7 @@ MAX_LINES_PER_FILE = 10000  # Maximum lines per file to prevent DoS attacks
 
 __author__ = "Tilman Griesel"
 __changelog__ = {
-    "2.0.0": "Complete rewrite with simplified logic - proper user-defined entries grouping and auto theme support",
+    "2.0.0": "Complete rewrite with simplified logic",
     "1.6.1": "Fixed indentation and missing comment headers for user defined entries in auto themes",
     "1.6.0": "Major robustness improvements with auto-detection, rollback, and validation",
     "1.5.0": "Fixed comment handling to ignore commented tokens",
