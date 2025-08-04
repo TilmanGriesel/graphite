@@ -11,7 +11,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2025-08-04 21:21:17
+      # This file was generated at 2025-08-04 21:36:48
       #------------------------------------------------------
 
 
@@ -86,7 +86,10 @@ Graphite Auto:
       token-shadow-card-medium: 1px 1px 1px 0px rgba(0, 0, 30, 0.18)
       # ..............................................................................
       # Font Weight
-      token-weight-font-title-card: 500
+      token-weight-font-body: 400
+      token-weight-font-title: 600
+      token-weight-font-title-card: var(--token-weight-font-title)
+
 
       # ------------------------------------------------------------------------------
       # Size tokens
@@ -348,7 +351,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2025-08-04 21:21:17
+      # This file was generated at 2025-08-04 21:36:48
       #------------------------------------------------------
 
 
@@ -423,7 +426,9 @@ Graphite Auto:
       token-shadow-card-medium: 0 3px 8px 0 rgba(0, 0, 0, 0.12)
       # ..............................................................................
       # Font Weight
-      token-weight-font-title-card: 500
+      token-weight-font-body: 400
+      token-weight-font-title: 600
+      token-weight-font-title-card: var(--token-weight-font-title)
 
       # ------------------------------------------------------------------------------
       # Size tokens
