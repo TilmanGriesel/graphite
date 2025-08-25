@@ -28,12 +28,11 @@ from packaging import version
 
 __version__ = "2.1.0"
 
-# Security and performance constraints
-MAX_FILES_TO_PROCESS = 50  # Maximum number of YAML files to process per operation
-MAX_FILE_SIZE_MB = 10  # Maximum file size in megabytes to prevent memory issues
-MAX_LINES_PER_FILE = 10000  # Maximum lines per file to prevent DoS attacks
-MAX_DOWNLOAD_SIZE_MB = 5  # Maximum recipe download size
-DOWNLOAD_TIMEOUT_SECONDS = 30  # Timeout for recipe downloads
+MAX_FILES_TO_PROCESS = 50
+MAX_FILE_SIZE_MB = 10
+MAX_LINES_PER_FILE = 10000
+MAX_DOWNLOAD_SIZE_MB = 5
+DOWNLOAD_TIMEOUT_SECONDS = 30
 
 __author__ = "Tilman Griesel"
 __changelog__ = {
@@ -84,7 +83,6 @@ def detect_homeassistant_config_path() -> str:
         config_path = Path(path)
         themes_path = config_path / "themes"
 
-        # Validate that this appears to be a valid HA configuration directory
         if (
             config_path.exists()
             and config_path.is_dir()
@@ -93,7 +91,6 @@ def detect_homeassistant_config_path() -> str:
         ):
             return str(themes_path)
 
-    # Fallback to standard HA OS path if no valid directory found
     return "/config/themes"
 
 
@@ -111,10 +108,7 @@ logger.version = __version__
 
 
 class VersionFilter(logging.Filter):
-    """Custom logging filter to inject version information into log records."""
-
     def filter(self, record):
-        """Add version information to log record."""
         record.version = __version__
         return True
 
@@ -123,35 +117,16 @@ logger.addFilter(VersionFilter())
 
 
 class ValidationError(Exception):
-    """Custom exception raised when input validation fails."""
-
     pass
 
 
 class RecipeError(Exception):
-    """Custom exception raised when recipe processing fails."""
-
     pass
 
 
 @contextmanager
 def file_lock(lock_file: Path):
-    """
-    Provide an exclusive file lock for atomic YAML file operations.
-
-    Creates a lock file to prevent concurrent modifications of the same
-    theme file, ensuring data integrity during updates.
-
-    Args:
-        lock_file: Path to the file being locked
-
-    Yields:
-        None: Context manager for use in with statement
-
-    Note:
-        Uses POSIX file locking (fcntl) which is not available on Windows.
-        Lock files are automatically cleaned up on exit.
-    """
+    """Exclusive file lock for atomic operations."""
     lock_path = lock_file.with_suffix(".lock")
     lock_fd = None
     try:
@@ -172,26 +147,15 @@ def file_lock(lock_file: Path):
 
 
 class TokenType(Enum):
-    """Enumeration of supported token types with their validation rules."""
-
-    RGB = auto()  # Color tokens expecting RGB/RGBA values
-    SIZE = auto()  # Size tokens expecting pixel values
-    OPACITY = auto()  # Opacity tokens expecting 0-1 decimal values
-    RADIUS = auto()  # Border radius tokens expecting pixel values
-    GENERIC = auto()  # Generic tokens with minimal validation
-    CARD_MOD = auto()  # Card-mod specific tokens requiring quotes
+    RGB = auto()
+    SIZE = auto()
+    OPACITY = auto()
+    RADIUS = auto()
+    GENERIC = auto()
+    CARD_MOD = auto()
 
     @classmethod
     def from_string(cls, value: str) -> "TokenType":
-        """
-        Convert string token type to enum value.
-
-        Args:
-            value: String representation of token type
-
-        Returns:
-            TokenType: Corresponding enum value, defaults to GENERIC
-        """
         mapping = {
             "rgb": cls.RGB,
             "size": cls.SIZE,
@@ -204,26 +168,20 @@ class TokenType(Enum):
 
 
 class Recipe:
-    """Handles recipe loading, validation, and processing."""
 
     def __init__(self, recipe_data: Dict[str, Any]):
-        """Initialize recipe with data dictionary."""
         self.data = recipe_data
         self.metadata = recipe_data.get("recipe", {})
         self.patches = recipe_data.get("patches", [])
 
-        # Validate required fields
         self._validate_recipe()
 
     def _validate_recipe(self) -> None:
-        """Validate recipe structure and metadata."""
-        # Check required metadata fields
         required_fields = ["name", "author", "version", "patcher_version"]
         for field in required_fields:
             if field not in self.metadata:
                 raise RecipeError(f"Missing required metadata field: {field}")
 
-        # Validate patcher version compatibility
         try:
             required_version = self.metadata["patcher_version"].replace(">=", "")
             current_version = __version__
@@ -235,7 +193,6 @@ class Recipe:
         except Exception as e:
             raise RecipeError(f"Invalid patcher version format: {e}")
 
-        # Validate patches structure
         if not isinstance(self.patches, list):
             raise RecipeError("Patches must be a list")
 
@@ -250,7 +207,6 @@ class Recipe:
 
     @classmethod
     def from_file(cls, file_path: str) -> "Recipe":
-        """Load recipe from file path."""
         try:
             path = Path(file_path)
             if not path.exists():
@@ -274,14 +230,11 @@ class Recipe:
 
     @classmethod
     def from_url(cls, url: str) -> "Recipe":
-        """Load recipe from URL."""
         try:
-            # Validate URL
             parsed = urllib.parse.urlparse(url)
             if parsed.scheme not in ("http", "https"):
                 raise RecipeError("Recipe URL must use HTTP or HTTPS")
 
-            # Create request with security headers
             request = urllib.request.Request(
                 url,
                 headers={
@@ -290,11 +243,9 @@ class Recipe:
                 },
             )
 
-            # Download with timeout and size limit
             with urllib.request.urlopen(
                 request, timeout=DOWNLOAD_TIMEOUT_SECONDS
             ) as response:
-                # Check content length
                 content_length = response.headers.get("content-length")
                 if (
                     content_length
@@ -302,7 +253,6 @@ class Recipe:
                 ):
                     raise RecipeError(f"Recipe file too large: {content_length} bytes")
 
-                # Read with size limit
                 content = response.read(MAX_DOWNLOAD_SIZE_MB * 1024 * 1024 + 1)
                 if len(content) > MAX_DOWNLOAD_SIZE_MB * 1024 * 1024:
                     raise RecipeError(f"Recipe file too large: {len(content)} bytes")
@@ -322,24 +272,17 @@ class Recipe:
             raise RecipeError(f"Error loading recipe from URL: {e}")
 
     def get_variants(self) -> List[str]:
-        """Get target variants from recipe, defaulting to graphite."""
         return self.metadata.get("variants", ["graphite"])
 
     def get_mode(self) -> str:
-        """Get target mode from recipe, defaulting to all."""
         return self.metadata.get("mode", "all")
 
     def get_patches_for_mode(self, target_mode: str) -> List[Dict[str, Any]]:
-        """Get patches applicable to the specified mode."""
         applicable_patches = []
 
         for patch in self.patches:
             patch_mode = patch.get("mode", "all")
 
-            # Include patch if:
-            # 1. Target mode is 'all' (apply to all modes)
-            # 2. Patch mode is 'all' (patch applies to all modes)
-            # 3. Target mode matches patch mode exactly
             if target_mode == "all" or patch_mode == "all" or target_mode == patch_mode:
                 applicable_patches.append(patch)
 
@@ -347,29 +290,15 @@ class Recipe:
 
 
 class IndentationManager:
-    """
-    Professional indentation management for YAML theme files.
 
-    Handles proper YAML indentation with validation and consistency checks.
-    Supports both standard themes and auto themes with mode-specific targeting.
-    """
-
-    # Standard YAML indentation constants
     YAML_BASE_INDENT = 2
     YAML_NESTED_INDENT = 2
 
     def __init__(self, lines: List[str]):
-        """Initialize with YAML file lines for analysis."""
         self.lines = lines
         self._indent_cache = {}
 
     def detect_base_indentation(self) -> int:
-        """
-        Detect the base indentation used in the YAML file.
-
-        Returns:
-            int: Base indentation (typically 2 spaces for YAML)
-        """
         if hasattr(self, "_base_indent"):
             return self._base_indent
 
@@ -381,7 +310,6 @@ class IndentationManager:
                     indent_counts[indent] = indent_counts.get(indent, 0) + 1
 
         if indent_counts:
-            # Most common indentation level
             self._base_indent = min(indent_counts.keys())
         else:
             self._base_indent = self.YAML_BASE_INDENT
@@ -389,37 +317,30 @@ class IndentationManager:
         return self._base_indent
 
     def get_line_indentation(self, line_index: int) -> int:
-        """Get indentation level for a specific line."""
         if line_index >= len(self.lines):
             return 0
         line = self.lines[line_index]
         return len(line) - len(line.lstrip())
 
     def get_section_indentation(self, section_info: Dict[str, Any]) -> int:
-        """Get proper indentation for a theme section."""
         return section_info.get("indent", self.YAML_BASE_INDENT)
 
     def get_content_indentation(self, parent_indent: int) -> int:
-        """Get indentation for content within a parent section."""
         base_indent = self.detect_base_indentation()
         return parent_indent + base_indent
 
     def get_theme_property_indentation(self) -> int:
-        """Get indentation for theme-level properties."""
         return self.detect_base_indentation()
 
     def get_mode_content_indentation(self, mode_section_indent: int) -> int:
-        """Get indentation for content within a mode section."""
         return self.get_content_indentation(mode_section_indent)
 
     def format_indented_line(self, indent_level: int, content: str) -> str:
-        """Format a line with proper indentation."""
         return " " * indent_level + content
 
     def validate_indentation_consistency(
         self, line_index: int, expected_indent: int
     ) -> bool:
-        """Validate that a line has consistent indentation."""
         if line_index >= len(self.lines):
             return True
         actual_indent = self.get_line_indentation(line_index)
@@ -432,16 +353,9 @@ class IndentationManager:
         target_indent: int,
         after_pattern: str = None,
     ) -> Tuple[int, int]:
-        """
-        Find the best insertion point maintaining proper indentation.
-
-        Returns:
-            Tuple[int, int]: (insertion_line_index, recommended_indent)
-        """
         best_line = end_line
         best_indent = target_indent
 
-        # Look for existing content at the same indentation level
         for i in range(start_line, min(end_line, len(self.lines))):
             line = self.lines[i]
             if line.strip() and not line.strip().startswith("#"):
@@ -457,12 +371,6 @@ class IndentationManager:
 
 
 class ThemePatcher:
-    """
-    Core class for updating token values in Home Assistant theme files.
-
-    Provides comprehensive token management with support for both standard
-    themes and auto themes with mode-specific targeting capabilities.
-    """
 
     def __init__(
         self,
@@ -473,22 +381,10 @@ class ThemePatcher:
         target_mode: str = "all",
         dry_run: bool = False,
     ):
-        """
-        Initialize the theme patcher with specified parameters.
-
-        Args:
-            token: Name of the token to update
-            token_type: Type of token (rgb, size, opacity, radius, generic, card-mod)
-            theme: Name of the theme directory
-            base_path: Base themes directory path (auto-detected if None)
-            target_mode: Target mode for auto themes (light, dark, all)
-            dry_run: If True, only simulate changes without writing to files
-        """
         self.theme = theme
         self.target_mode = target_mode
         self.dry_run = dry_run
 
-        # Auto-detect base path if not provided
         if base_path is None:
             base_path = detect_homeassistant_config_path()
         self.theme_path = Path(base_path) / theme
@@ -496,32 +392,22 @@ class ThemePatcher:
         self.token = token
         self.token_type = TokenType.from_string(token_type)
 
-        # Validate configuration before proceeding
         self._validate_paths()
         self._validate_token()
 
     def _validate_paths(self) -> None:
-        """
-        Validate that theme directories or files exist and are accessible.
-
-        Raises:
-            ValidationError: If directories/files are missing, invalid, or not writable
-        """
         base_path = self.theme_path.parent
         if not base_path.exists():
             raise ValidationError(f"Directory not found: {base_path}")
         if not base_path.is_dir():
             raise ValidationError(f"Not a directory: {base_path}")
 
-        # Check if theme exists as directory or as single YAML file
         theme_yaml_file = base_path / f"{self.theme}.yaml"
 
         if self.theme_path.exists() and self.theme_path.is_dir():
-            # Theme is a directory (traditional approach)
             if not os.access(self.theme_path, os.W_OK):
                 raise ValidationError(f"Cannot write to theme: {self.theme_path}")
         elif theme_yaml_file.exists() and theme_yaml_file.is_file():
-            # Theme is a single YAML file (e-ink themes approach)
             self.theme_path = theme_yaml_file
             if not os.access(self.theme_path, os.W_OK):
                 raise ValidationError(f"Cannot write to theme file: {self.theme_path}")
@@ -531,54 +417,29 @@ class ThemePatcher:
             )
 
     def _validate_token(self) -> None:
-        """
-        Validate token name for security and YAML compatibility.
-
-        Ensures the token name is safe to use in YAML files and prevents
-        injection attacks through malicious token names.
-
-        Raises:
-            ValidationError: If token name is invalid or potentially dangerous
-        """
         if not isinstance(self.token, str) or not self.token.strip():
             raise ValidationError("Token must be a non-empty string")
 
         token = self.token.strip()
 
-        # Validate against potentially dangerous characters
         dangerous_chars = ["\n", "\r", "\t", "#", ":", '"', "'", "\\", "`"]
         if any(char in token for char in dangerous_chars):
             raise ValidationError(f"Token contains invalid characters: {token}")
 
-        # Prevent tokens starting with YAML special characters
         if token.startswith(("-", "!", "&", "*", "|", ">", "%", "@")):
             raise ValidationError(
                 f"Token cannot start with YAML special character: {token}"
             )
 
-        # Enforce reasonable length constraints
         if len(token) > 100:
             raise ValidationError(f"Token name too long (max 100 chars): {token}")
 
-        # Require valid identifier format
         if not re.match(r"^[a-zA-Z][a-zA-Z0-9_-]*$", token):
             raise ValidationError(
                 f"Token must be alphanumeric with hyphens/underscores: {token}"
             )
 
     def _parse_color_value(self, value: str) -> Tuple[List[int], Optional[float]]:
-        """
-        Parse and validate color values in RGB or RGBA format.
-
-        Args:
-            value: Comma-separated color values (e.g., "255, 128, 0" or "255, 128, 0, 0.8")
-
-        Returns:
-            Tuple containing RGB values list and optional alpha value
-
-        Raises:
-            ValidationError: If color format is invalid or values are out of range
-        """
         try:
             components = [x.strip() for x in value.split(",")]
             if len(components) not in (3, 4):
@@ -596,47 +457,29 @@ class ThemePatcher:
             raise ValidationError("Invalid color values")
 
     def _validate_value(self, value: Optional[str]) -> Optional[str]:
-        """
-        Validate and format token value according to its type.
-
-        Args:
-            value: Raw token value to validate
-
-        Returns:
-            Formatted and validated token value, or None if input is None
-
-        Raises:
-            ValidationError: If value is invalid for the token type
-        """
         if value is None:
             return None
 
         if self.token_type == TokenType.GENERIC:
             return value
 
-        # Remove surrounding quotes for processing
         value = value.strip().strip("\"'")
 
         try:
             if self.token_type == TokenType.CARD_MOD:
-                # Support both single-line and YAML scalar blocks
                 if (
                     "\n" in value
                     or value.strip().startswith("|")
                     or value.strip().startswith(">")
                 ):
-                    # Multi-line value - use YAML scalar block syntax
                     if not (
                         value.strip().startswith("|") or value.strip().startswith(">")
                     ):
-                        # Add block scalar indicator if not present
-                        # Use 4 spaces for proper indentation (2 base + 2 for scalar content)
                         value = "|\n" + "\n".join(
                             f"    {line}" for line in value.split("\n")
                         )
                     return value
                 else:
-                    # Single-line value - quote it
                     return f'"{value}"'
 
             elif self.token_type == TokenType.SIZE:
@@ -663,11 +506,9 @@ class ThemePatcher:
             elif self.token_type == TokenType.RGB:
                 rgb, alpha = self._parse_color_value(value)
                 if "rgb" in self.token.lower():
-                    # RGB tokens use comma-separated format without function wrapper
                     if alpha is not None:
                         raise ValidationError("RGB tokens cannot have alpha")
                     return f"{rgb[0]}, {rgb[1]}, {rgb[2]}"
-                # Use CSS function format for other color tokens
                 if alpha is not None:
                     return f"rgba({rgb[0]}, {rgb[1]}, {rgb[2]}, {alpha})"
                 return f"rgb({rgb[0]}, {rgb[1]}, {rgb[2]})"
@@ -681,7 +522,6 @@ class ThemePatcher:
     def _process_yaml_file(
         self, file_path: Path, value: Optional[str], create_token: bool = False
     ) -> bool:
-        """Update or create the token in a YAML file with professional indentation handling."""
         if value is None:
             return True
 
@@ -689,7 +529,6 @@ class ThemePatcher:
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
 
-            # Check line count limit
             if len(lines) > MAX_LINES_PER_FILE:
                 logger.error(
                     f"File has too many lines: {file_path} ({len(lines)} > {MAX_LINES_PER_FILE})"
@@ -699,16 +538,12 @@ class ThemePatcher:
             logger.debug(f"Processing file: {file_path} ({len(lines)} lines)")
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            # Initialize indentation manager for professional YAML handling
             indent_manager = IndentationManager(lines)
 
-            # Step 1: Analyze file structure
             file_structure = self._analyze_file_structure(lines)
 
-            # Step 2: Find existing token instances
             existing_tokens = self._find_existing_tokens(lines, file_structure)
 
-            # Step 3: Update existing tokens or create new ones
             if existing_tokens:
                 self._update_existing_tokens(
                     lines, existing_tokens, value, timestamp, indent_manager
@@ -725,19 +560,16 @@ class ThemePatcher:
                 logger.error(f"Token '{self.token}' not found in {file_path}")
                 return False
 
-            # Step 4: Validate YAML structure integrity
             if not self._validate_yaml_structure(lines, indent_manager):
                 logger.error(f"YAML structure validation failed for {file_path}")
                 return False
 
-            # Step 5: Write file atomically (or simulate in dry-run mode)
             updated_content = "".join(lines)
             if not updated_content.endswith("\n"):
                 updated_content += "\n"
 
             if self.dry_run:
                 logger.info(f"[DRY RUN] Would update {file_path}")
-                # In dry-run mode, log what would be changed
                 if existing_tokens:
                     for token_info in existing_tokens:
                         line_num = token_info["line_index"] + 1
@@ -768,7 +600,6 @@ class ThemePatcher:
             return False
 
     def _analyze_file_structure(self, lines):
-        """Analyze YAML file structure to determine theme type and sections."""
         structure = {
             "is_auto_theme": False,
             "light_section": None,
@@ -776,14 +607,12 @@ class ThemePatcher:
             "base_indent": 2,
         }
 
-        # Check if this is an auto theme with modes
         for i, line in enumerate(lines):
             if line.strip().startswith("modes:"):
                 structure["is_auto_theme"] = True
                 break
 
         if structure["is_auto_theme"]:
-            # Find light and dark sections
             in_modes = False
             modes_indent = 0
 
@@ -797,7 +626,6 @@ class ThemePatcher:
                 elif in_modes and line_stripped.startswith("light:"):
                     structure["light_section"] = {"start": i, "indent": indent}
                 elif in_modes and line_stripped.startswith("dark:"):
-                    # Close light section if it exists
                     if (
                         structure["light_section"]
                         and "end" not in structure["light_section"]
@@ -805,7 +633,6 @@ class ThemePatcher:
                         structure["light_section"]["end"] = i
                     structure["dark_section"] = {"start": i, "indent": indent}
                 elif in_modes and indent <= modes_indent and line_stripped:
-                    # End of modes section
                     if (
                         structure["dark_section"]
                         and "end" not in structure["dark_section"]
@@ -818,7 +645,6 @@ class ThemePatcher:
                         structure["light_section"]["end"] = i
                     break
 
-            # Set end to file end if not found
             if structure["light_section"] and "end" not in structure["light_section"]:
                 structure["light_section"]["end"] = len(lines)
             if structure["dark_section"] and "end" not in structure["dark_section"]:
@@ -827,7 +653,6 @@ class ThemePatcher:
         return structure
 
     def _find_existing_tokens(self, lines, structure):
-        """Find all instances of the target token in the file."""
         token_instances = []
 
         for i, line in enumerate(lines):
@@ -836,7 +661,6 @@ class ThemePatcher:
                 continue
 
             if line_stripped.startswith(f"{self.token}:"):
-                # Determine context
                 context = "root"
                 if structure["is_auto_theme"]:
                     if (
@@ -854,7 +678,6 @@ class ThemePatcher:
                     ):
                         context = "dark"
 
-                # Check if this token should be included based on target mode
                 include_token = False
                 if context == "root":
                     include_token = True
@@ -877,17 +700,14 @@ class ThemePatcher:
     def _update_existing_tokens(
         self, lines, token_instances, value, timestamp, indent_manager
     ):
-        """Update existing token instances in place with proper indentation."""
         for token_info in token_instances:
             line_index = token_info["line_index"]
             indent = token_info["indent"]
 
-            # Validate and ensure consistent indentation
             if not indent_manager.validate_indentation_consistency(line_index, indent):
                 logger.warning(
                     f"Inconsistent indentation detected at line {line_index + 1}, correcting..."
                 )
-                # Use the original indentation from the existing token
                 indent = indent_manager.get_line_indentation(line_index)
 
             new_line = indent_manager.format_indented_line(
@@ -898,7 +718,6 @@ class ThemePatcher:
             lines[line_index] = new_line
 
     def _create_new_tokens(self, lines, structure, value, timestamp, indent_manager):
-        """Create new token instances in appropriate locations with proper indentation."""
         if self.token_type == TokenType.CARD_MOD:
             self._create_card_mod_token(lines, value, timestamp, indent_manager)
         elif structure["is_auto_theme"]:
@@ -909,8 +728,6 @@ class ThemePatcher:
             self._create_standard_theme_token(lines, value, timestamp, indent_manager)
 
     def _create_card_mod_token(self, lines, value, timestamp, indent_manager):
-        """Create card-mod token at theme property level with proper indentation."""
-        # Find card-mod-theme line or create it
         card_mod_line = -1
         for i, line in enumerate(lines):
             if line.lstrip().startswith("card-mod-theme:"):
@@ -918,7 +735,6 @@ class ThemePatcher:
                 break
 
         if card_mod_line == -1:
-            # Insert card-mod-theme section after theme name
             theme_indent = indent_manager.get_theme_property_indentation()
             for i, line in enumerate(lines):
                 if line.strip() and not line.strip().startswith("#"):
@@ -929,7 +745,6 @@ class ThemePatcher:
                     card_mod_line = i + 1
                     break
 
-        # Insert token after card-mod-theme line with proper indentation
         theme_indent = indent_manager.get_theme_property_indentation()
         new_line = indent_manager.format_indented_line(
             theme_indent,
@@ -940,7 +755,6 @@ class ThemePatcher:
     def _create_auto_theme_tokens(
         self, lines, structure, value, timestamp, indent_manager
     ):
-        """Create tokens in auto theme mode sections with proper indentation."""
         sections_to_update = []
 
         if self.target_mode == "all":
@@ -953,7 +767,6 @@ class ThemePatcher:
         elif self.target_mode == "dark" and structure["dark_section"]:
             sections_to_update.append(("dark", structure["dark_section"]))
 
-        # Process sections in reverse order to maintain line indices
         for mode, section_info in reversed(sections_to_update):
             self._add_token_to_mode_section(
                 lines, section_info, value, timestamp, indent_manager
