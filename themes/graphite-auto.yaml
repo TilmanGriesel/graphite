@@ -11,7 +11,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2025-08-05 09:22:08
+      # This file was generated at 2025-08-25 19:42:57
       #------------------------------------------------------
 
 
@@ -335,6 +335,20 @@ Graphite Auto:
       # Potentially other color definitions could cause issues too.
       # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
       # ------------------------------------------------
+      # HA Primary Color Scale
+      # ------------------------------------------------
+      ha-color-primary-05: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.15))
+      ha-color-primary-10: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.25))
+      ha-color-primary-20: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.40))
+      ha-color-primary-30: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.70))
+      ha-color-primary-40: rgb(var(--token-rgb-primary))
+      ha-color-primary-50: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.15))
+      ha-color-primary-60: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.30))
+      ha-color-primary-70: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.45))
+      ha-color-primary-80: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.60))
+      ha-color-primary-90: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.75))
+      ha-color-primary-95: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.90))
+      # ------------------------------------------------
       # RGB Indicator Color Definitions
       # ------------------------------------------------
       # Grey
@@ -350,7 +364,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2025-08-05 09:22:08
+      # This file was generated at 2025-08-25 19:42:57
       #------------------------------------------------------
 
 
@@ -673,6 +687,20 @@ Graphite Auto:
       # Note: Amber is not safe to be modified, causes history-graph rendering issues.
       # Potentially other color definitions could cause issues too.
       # Full list: https://github.com/TilmanGriesel/graphite/blob/77ac1271aaeca8775bb999c32e0921a6bdb47620/src/template.yaml#L191
+      # ------------------------------------------------
+      # HA Primary Color Scale
+      # ------------------------------------------------
+      ha-color-primary-05: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.15))
+      ha-color-primary-10: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.25))
+      ha-color-primary-20: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.40))
+      ha-color-primary-30: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 0.70))
+      ha-color-primary-40: rgb(var(--token-rgb-primary))
+      ha-color-primary-50: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.15))
+      ha-color-primary-60: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.30))
+      ha-color-primary-70: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.45))
+      ha-color-primary-80: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.60))
+      ha-color-primary-90: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.75))
+      ha-color-primary-95: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.90))
       # ------------------------------------------------
       # RGB Indicator Color Definitions
       # ------------------------------------------------
