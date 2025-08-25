@@ -24,7 +24,7 @@ token-size-font-2xl: calc(24px * var(--ha-font-size-scale))
 token-size-font-3xl: calc(28px * var(--ha-font-size-scale))
 token-size-font-4xl: calc(32px * var(--ha-font-size-scale))
 token-size-font-5xl: calc(40px * var(--ha-font-size-scale))
-token-size-font-title: var(--token-size-font-l)
+token-size-font-title: var(--token-size-font-3xl)
 token-size-font-title-card: var(--token-size-font-l)
 # ..............................................................................
 # Spacing
