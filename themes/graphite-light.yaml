@@ -8,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 17:30:26
+  # This file was generated at 2026-02-07 17:53:11
   #------------------------------------------------------
 
   card-mod-theme: Graphite Light
@@ -67,7 +67,7 @@ Graphite Light:
   token-color-background-label-badge: rgb(230, 230, 230)
   token-color-background-card: rgb(255, 255, 255)
   token-color-background-skrim: rgba(0, 0, 0, 0.5)
-  token-color-background-divider: rgb(224, 224, 224)
+  token-color-background-divider: var(--token-color-background-sidebar)
   token-color-background-scrollbar-thumb: rgb(200, 200, 200)
   token-color-background-label-badge-red: var(--token-color-feedback-error)
   token-color-background-label-badge-green: rgb(78, 183, 128)
@@ -75,7 +75,7 @@ Graphite Light:
   token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
   token-color-background-label-badge-grey: rgb(83, 90, 103)
   token-color-background-popup-scrim: rgba(0, 0, 0, 0.5)
-  token-color-border-card: rgb(224, 224, 224)
+  token-color-border-card: rgba(0, 0, 0, 0)
   token-color-switch-button-unchecked: rgba(0, 0, 0, 0.5)
   token-color-switch-track-unchecked: rgba(0, 0, 0, 0.25)
   token-color-codemirror-string: rgb(0, 77, 153)
