@@ -11,3 +11,7 @@ cache
 node_modules
 TODOs.md
 *.pyc
+
+# Home Assistant test environment runtime data
+.ha/config/*
+!.ha/config/configuration.yaml
