@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2025-08-25 20:00:18
+  # This file was generated at 2026-02-07 17:14:33
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -82,6 +82,14 @@ Graphite:
   token-color-codemirror-keyword: rgb(140, 169, 255)
   token-color-codemirror-number: rgb(255, 91, 29)
   token-shadow-card-medium: 0 3px 8px 0 rgba(0, 0, 0, 0.12)
+  # ..............................................................................
+  # RGB Tokens
+  rgb-primary-text-color: 228, 228, 231
+  rgb-primary-color: 224, 138, 0
+  rgb-accent-color: 224, 138, 0
+  rgb-card-background-color: 35, 36, 43
+  rgb-secondary-text-color: 138, 140, 153
+  rgb-disabled-text-color: 189, 189, 189
   # ..............................................................................
   # Font Weight
   token-weight-font-body: 400
@@ -270,6 +278,19 @@ Graphite:
   # Dialog
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
   # ..............................................................................
+  # Material Design Components
+  mdc-theme-primary: var(--token-color-primary)
+  mdc-theme-secondary: var(--token-color-accent)
+  mdc-theme-surface: var(--token-color-background-card)
+  mdc-theme-background: var(--token-color-background-base)
+  mdc-theme-on-primary: var(--text-primary-color)
+  mdc-theme-on-secondary: var(--text-primary-color)
+  mdc-theme-on-surface: var(--token-color-text-primary)
+  mdc-theme-text-primary-on-background: var(--token-color-text-primary)
+  mdc-theme-text-secondary-on-background: var(--token-color-text-secondary)
+  mdc-theme-text-disabled-on-light: var(--token-color-text-disabled)
+  mdc-theme-error: var(--error-color)
+  # ..............................................................................
   # Slider
   paper-slider-knob-color: var(--token-color-primary)
   paper-slider-knob-start-color: var(--paper-slider-knob-color)
@@ -306,7 +327,7 @@ Graphite:
   input-idle-line-color: var(--background-color)
   input-dropdown-icon-color: var(--secondary-text-color)
   input-hover-line-color: var(--primary-color)
-  mdc-select-idle-line-color: var(--color-background-base)
+  mdc-select-idle-line-color: var(--token-color-background-base)
   mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
   # ..............................................................................
   # Editor
