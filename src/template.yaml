@@ -132,6 +132,19 @@ ha-chip-text-color: var(--token-color-text-chip)
 # Dialog
 mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
 # ..............................................................................
+# Material Design Components
+mdc-theme-primary: var(--token-color-primary)
+mdc-theme-secondary: var(--token-color-accent)
+mdc-theme-surface: var(--token-color-background-card)
+mdc-theme-background: var(--token-color-background-base)
+mdc-theme-on-primary: var(--text-primary-color)
+mdc-theme-on-secondary: var(--text-primary-color)
+mdc-theme-on-surface: var(--token-color-text-primary)
+mdc-theme-text-primary-on-background: var(--token-color-text-primary)
+mdc-theme-text-secondary-on-background: var(--token-color-text-secondary)
+mdc-theme-text-disabled-on-light: var(--token-color-text-disabled)
+mdc-theme-error: var(--error-color)
+# ..............................................................................
 # Slider
 paper-slider-knob-color: var(--token-color-primary)
 paper-slider-knob-start-color: var(--paper-slider-knob-color)
@@ -168,7 +181,7 @@ input-disabled-label-ink-color: var(--disabled-text-color)
 input-idle-line-color: var(--background-color)
 input-dropdown-icon-color: var(--secondary-text-color)
 input-hover-line-color: var(--primary-color)
-mdc-select-idle-line-color: var(--color-background-base)
+mdc-select-idle-line-color: var(--token-color-background-base)
 mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
 # ..............................................................................
 # Editor
