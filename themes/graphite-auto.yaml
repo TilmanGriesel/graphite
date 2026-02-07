@@ -11,7 +11,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2026-02-07 22:00:58
+      # This file was generated at 2026-02-07 22:28:27
       #------------------------------------------------------
 
 
@@ -209,7 +209,7 @@ Graphite Auto:
       primary-text-color: var(--token-color-text-primary)
       secondary-text-color: var(--token-color-text-secondary)
       text-primary-color: var(--token-color-text-primary)
-      text-accent-color: var(--accent-color)
+      text-accent-color: "#fff"
       disabled-text-color: var(--token-color-text-disabled)
       link-text-color: var(--primary-color)
       app-header-edit-text-color: var(--token-color-text-primary)
@@ -570,7 +570,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2026-02-07 22:00:58
+      # This file was generated at 2026-02-07 22:28:27
       #------------------------------------------------------
 
 
@@ -768,7 +768,7 @@ Graphite Auto:
       primary-text-color: var(--token-color-text-primary)
       secondary-text-color: var(--token-color-text-secondary)
       text-primary-color: var(--token-color-text-primary)
-      text-accent-color: var(--accent-color)
+      text-accent-color: "#fff"
       disabled-text-color: var(--token-color-text-disabled)
       link-text-color: var(--primary-color)
       app-header-edit-text-color: var(--token-color-text-primary)
