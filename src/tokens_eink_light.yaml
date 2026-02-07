@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # E-ink Light theme color tokens - Black text on white background
 # ------------------------------------------------------------------------------
-token-rgb-primary: 100, 100, 100
+token-rgb-primary: 40, 40, 40
 token-rgb-black: 40, 40, 40
 token-rgb-white: 180, 180, 180
 # Red family - darkest grays for warm colors
@@ -56,9 +56,9 @@ token-color-text-sidebar: var(--token-color-text-secondary)
 token-color-text-label-badge: rgb(var(--token-rgb-grey-1))
 token-color-text-chip: var(--token-color-black)
 token-color-background-base: rgb(255, 255, 255)
-token-color-background-secondary: rgb(240, 240, 240)
+token-color-background-secondary: rgb(225, 225, 225)
 token-color-background-sidebar: var(--token-color-background-base)
-token-color-background-input-base: rgb(250, 250, 250)
+token-color-background-input-base: rgb(240, 240, 240)
 token-color-background-input-disabled: rgb(var(--token-rgb-grey-4))
 token-color-background-label-badge: rgb(var(--token-rgb-grey-4))
 token-color-background-card: rgb(255, 255, 255)
@@ -71,13 +71,26 @@ token-color-background-label-badge-blue: rgb(var(--token-rgb-grey-4))
 token-color-background-label-badge-yellow: rgb(var(--token-rgb-grey-4))
 token-color-background-label-badge-grey: rgb(var(--token-rgb-grey-4))
 token-color-background-popup-scrim: rgba(0, 0, 0, 0.8)
-token-color-border-card: rgba(0, 0, 0, 0)
-token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-4))
-token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
+token-color-border-card: rgb(var(--token-rgb-grey-1))
+token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-3))
+token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-2))
 token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
 token-color-codemirror-keyword: rgb(var(--token-rgb-grey-1))
 token-color-codemirror-number: rgb(var(--token-rgb-grey-2))
 token-shadow-card-medium: none
+# ..............................................................................
+# RGB Tokens
+rgb-primary-text-color: 40, 40, 40
+rgb-primary-color: 100, 100, 100
+rgb-accent-color: 100, 100, 100
+rgb-card-background-color: 255, 255, 255
+rgb-secondary-text-color: 80, 80, 80
+rgb-disabled-text-color: 140, 140, 140
+rgb-text-primary-color: 40, 40, 40
+rgb-warning-color: 40, 40, 40
+rgb-error-color: 40, 40, 40
+rgb-success-color: 40, 40, 40
+rgb-info-color: 40, 40, 40
 # ..............................................................................
 # Font Weight
 token-weight-font-body: 900

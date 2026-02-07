@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 # E-ink Dark theme color tokens - White text on black background
 # ------------------------------------------------------------------------------
-token-rgb-primary: 150, 150, 150
+token-rgb-primary: 220, 220, 220
 token-rgb-black: 0, 0, 0
 token-rgb-white: 220, 220, 220
 # Red family - brightest grays for warm colors
@@ -58,7 +58,7 @@ token-color-text-chip: var(--token-color-white)
 token-color-background-base: rgb(0, 0, 0)
 token-color-background-secondary: rgb(0, 0, 0)
 token-color-background-sidebar: var(--token-color-background-base)
-token-color-background-input-base: rgb(0, 0, 0)
+token-color-background-input-base: rgb(20, 20, 20)
 token-color-background-input-disabled: rgb(0, 0, 0)
 token-color-background-label-badge: rgb(0, 0, 0)
 token-color-background-card: rgb(0, 0, 0)
@@ -71,13 +71,26 @@ token-color-background-label-badge-blue: rgb(0, 0, 0)
 token-color-background-label-badge-yellow: rgb(0, 0, 0)
 token-color-background-label-badge-grey: rgb(0, 0, 0)
 token-color-background-popup-scrim: rgba(255, 255, 255, 0.8)
-token-color-border-card: rgba(0, 0, 0, 0)
-token-color-switch-button-unchecked: rgb(0, 0, 0)
-token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
+token-color-border-card: rgb(var(--token-rgb-grey-1))
+token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-3))
+token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-2))
 token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
 token-color-codemirror-keyword: rgb(var(--token-rgb-grey-1))
 token-color-codemirror-number: rgb(var(--token-rgb-grey-2))
 token-shadow-card-medium: none
+# ..............................................................................
+# RGB Tokens
+rgb-primary-text-color: 220, 220, 220
+rgb-primary-color: 150, 150, 150
+rgb-accent-color: 150, 150, 150
+rgb-card-background-color: 0, 0, 0
+rgb-secondary-text-color: 180, 180, 180
+rgb-disabled-text-color: 120, 120, 120
+rgb-text-primary-color: 220, 220, 220
+rgb-warning-color: 220, 220, 220
+rgb-error-color: 220, 220, 220
+rgb-success-color: 220, 220, 220
+rgb-info-color: 220, 220, 220
 # ..............................................................................
 # Font Weight
 token-weight-font-body: 900

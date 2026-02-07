@@ -6,6 +6,13 @@
 header-height: var(--token-size-height-navbar)
 paper-slider-height: var(--token-size-height-slider)
 # ..............................................................................
+# E-ink overrides
+token-size-radius-small: 4px
+token-size-radius-medium: 6px
+token-size-radius-large: 8px
+token-size-radius-card: 8px
+token-opacity-ripple-hover: 0.25
+# ..............................................................................
 # Typography
 ## Font Family Tokens
 primary-font-family: var(--token-font-family-primary)
@@ -51,19 +58,23 @@ title-font-size: var(--token-size-font-title)
 ha-heading-card-title-font-size: var(--token-size-font-title-card)
 ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
 ## Font Smoothing
-ha-font-smoothing: antialiased
+ha-font-smoothing: auto
 # ..............................................................................
 # Text colors
 primary-text-color: var(--token-color-text-primary)
 secondary-text-color: var(--token-color-text-secondary)
 text-primary-color: var(--token-color-text-primary)
+text-accent-color: var(--accent-color)
 disabled-text-color: var(--token-color-text-disabled)
+link-text-color: var(--primary-color)
 app-header-edit-text-color: var(--token-color-text-primary)
 text-light-primary-color: rgb(28, 29, 33)
 # ..............................................................................
 # Icon colors
 paper-item-icon-color: var(--token-color-text-primary)
+paper-item-icon-active-color: var(--accent-color)
 state-inactive-color: var(--token-color-text-secondary)
+state-icon-unavailable-color: var(--disabled-color)
 # ..............................................................................
 # Main interface colors
 primary-color: var(--token-color-primary)
@@ -73,6 +84,8 @@ accent-color: var(--token-color-accent)
 divider-color: var(--token-color-background-divider)
 scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
 disabled-color: var(--token-color-disabled)
+outline-color: var(--divider-color)
+outline-hover-color: var(--primary-color)
 # ..............................................................................
 # Feedback colors
 info-color: var(--token-color-feedback-info)
@@ -85,6 +98,11 @@ lovelace-background: var(--token-color-background-base)
 primary-background-color: var(--token-color-background-base)
 secondary-background-color: var(--token-color-background-secondary)
 clear-background-color: var(--token-color-background-input-base)
+table-row-background-color: var(--primary-background-color)
+table-row-alternative-background-color: var(--secondary-background-color)
+material-background-color: var(--primary-background-color)
+material-secondary-background-color: var(--secondary-background-color)
+data-table-background-color: var(--card-background-color)
 # ..............................................................................
 # Navbar colors
 app-header-background-color: var(--primary-background-color)
@@ -97,17 +115,20 @@ sidebar-text-color: var(--sidebar-icon-color)
 sidebar-background-color: var(--token-color-background-sidebar)
 sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
 sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+sidebar-selected-background-color: rgba(var(--token-rgb-primary), 0.25)
 # ..............................................................................
 # Cards
-border-radius: var(--token-size-radius-card)
+border-radius: 8px
 card-background-color: var(--token-color-background-card)
 ha-card-background: var(--token-color-background-card)
-ha-card-border-radius: var(--token-size-radius-card)
+ha-card-border-radius: 8px
 ha-card-border-color: var(--token-color-border-card)
 ha-card-border-width: 2px
 ha-card-border-style: solid
 ha-card-border: 2px solid var(--token-color-border-card)
 ha-card-box-shadow: var(--token-shadow-card-medium)
+paper-card-background-color: var(--ha-card-background)
+ha-card-header-color: var(--primary-text-color)
 # ..............................................................................
 # Sections
 ha-view-sections-column-gap: var(--token-size-spacing-medium)
@@ -115,10 +136,12 @@ ha-view-sections-column-min-width: var(--token-size-section-min-width)
 # ..............................................................................
 # States
 state-icon-color: var(--token-color-icon-primary)
+state-active-color: var(--accent-color)
 state-on-color: var(--token-color-feedback-success)
 state-off-color: var(--token-color-feedback-error)
 # ..............................................................................
 # Label-badge
+label-badge-background-color: var(--token-color-background-label-badge)
 label-badge-text-color: var(--token-color-text-primary)
 label-badge-red: var(--token-color-background-label-badge-red)
 label-badge-blue: var(--token-color-background-label-badge-blue)
@@ -130,6 +153,10 @@ label-badge-grey: var(--token-color-background-label-badge-grey)
 ha-chip-text-color: var(--token-color-text-chip)
 # ..............................................................................
 # Dialog
+paper-dialog-background-color: var(--card-background-color)
+paper-listbox-background-color: var(--card-background-color)
+ha-dialog-border-radius: 8px
+more-info-header-background: var(--card-background-color)
 mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
 # ..............................................................................
 # Slider
@@ -138,6 +165,7 @@ paper-slider-knob-start-color: var(--paper-slider-knob-color)
 paper-slider-pin-color: var(--paper-slider-knob-color)
 paper-slider-active-color: var(--paper-slider-knob-color)
 paper-slider-secondary-color: var(--light-primary-color)
+md-slider-inactive-track-color: rgba(var(--token-rgb-primary), 0.3)
 # ..............................................................................
 # Switch
 switch-checked-button-color: var(--primary-color)
@@ -165,11 +193,28 @@ input-label-ink-color: var(--token-color-text-primary)
 input-disabled-fill-color: var(--input-background-token-color-disabled)
 input-disabled-ink-color: var(--disabled-text-color)
 input-disabled-label-ink-color: var(--disabled-text-color)
-input-idle-line-color: var(--background-color)
+input-idle-line-color: rgb(var(--token-rgb-grey-2))
 input-dropdown-icon-color: var(--secondary-text-color)
 input-hover-line-color: var(--primary-color)
-mdc-select-idle-line-color: var(--color-background-base)
+input-disabled-line-color: var(--disabled-color)
+mdc-select-fill-color: var(--input-fill-color)
+mdc-select-ink-color: var(--input-ink-color)
+mdc-select-label-ink-color: var(--input-label-ink-color)
+mdc-select-idle-line-color: rgb(var(--token-rgb-grey-2))
+mdc-select-dropdown-icon-color: var(--input-dropdown-icon-color)
+mdc-select-hover-line-color: var(--input-hover-line-color)
+mdc-text-field-fill-color: var(--input-fill-color)
+mdc-text-field-ink-color: var(--input-ink-color)
+mdc-text-field-label-ink-color: var(--input-label-ink-color)
 mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+mdc-text-field-hover-line-color: var(--input-hover-line-color)
+input-outlined-idle-border-color: var(--divider-color)
+input-outlined-hover-border-color: var(--primary-color)
+input-outlined-disabled-border-color: var(--disabled-color)
+paper-input-container-focus-color: var(--primary-color)
+# ..............................................................................
+# Markdown
+markdown-code-background-color: var(--code-editor-background-color)
 # ..............................................................................
 # Editor
 code-editor-background-color: var(--token-color-background-base)
@@ -179,6 +224,18 @@ codemirror-atom: var(--codemirror-property)
 codemirror-string: var(--token-color-codemirror-string)
 codemirror-keyword: var(--token-color-codemirror-keyword)
 codemirror-number: var(--token-color-codemirror-number)
+codemirror-comment: var(--token-color-text-secondary)
+codemirror-operator: var(--token-color-text-primary)
+codemirror-variable: var(--token-color-codemirror-keyword)
+codemirror-variable-2: var(--accent-color)
+codemirror-variable-3: var(--token-color-codemirror-number)
+codemirror-builtin: var(--token-color-codemirror-keyword)
+codemirror-def: var(--token-color-codemirror-string)
+codemirror-string-2: var(--codemirror-string)
+codemirror-tag: var(--token-color-codemirror-keyword)
+codemirror-attribute: var(--accent-color)
+codemirror-qualifier: var(--token-color-codemirror-string)
+codemirror-type: var(--token-color-codemirror-number)
 # ------------------------------------------------------------------------------
 # Extentions
 # ------------------------------------------------------------------------------
@@ -263,3 +320,187 @@ mdc-theme-surface: var(--token-color-background-card)
 mdc-theme-on-primary: var(--token-color-background-base)
 mdc-theme-on-secondary: var(--token-color-background-base)
 mdc-theme-on-surface: rgb(var(--token-rgb-grey-1))
+mdc-button-outline-color: var(--divider-color)
+mdc-ripple-color: var(--primary-color)
+mdc-linear-progress-buffer-color: var(--secondary-background-color)
+# ------------------------------------------------
+# Graph Colors - E-ink Gray Mapping
+# ------------------------------------------------
+graph-color-1: rgb(var(--token-rgb-grey-1))
+graph-color-2: rgb(var(--token-rgb-grey-2))
+graph-color-3: rgb(var(--token-rgb-grey-3))
+graph-color-4: rgb(var(--token-rgb-grey-1))
+graph-color-5: rgb(var(--token-rgb-grey-2))
+graph-color-6: rgb(var(--token-rgb-grey-3))
+graph-color-7: rgb(var(--token-rgb-grey-1))
+graph-color-8: rgb(var(--token-rgb-grey-2))
+graph-color-9: rgb(var(--token-rgb-grey-3))
+graph-color-10: rgb(var(--token-rgb-grey-1))
+graph-color-11: rgb(var(--token-rgb-grey-2))
+graph-color-12: rgb(var(--token-rgb-grey-3))
+graph-color-13: rgb(var(--token-rgb-grey-1))
+graph-color-14: rgb(var(--token-rgb-grey-2))
+# ------------------------------------------------
+# HA Primary Color Scale - E-ink Gray
+# ------------------------------------------------
+# Use explicit gray values instead of relative HSL calc which breaks
+# with near-white/near-black primaries (lightness overshoots 100%)
+ha-color-primary-05: rgb(var(--token-rgb-grey-4))
+ha-color-primary-10: rgb(var(--token-rgb-grey-4))
+ha-color-primary-20: rgb(var(--token-rgb-grey-3))
+ha-color-primary-30: rgb(var(--token-rgb-grey-3))
+ha-color-primary-40: rgb(var(--token-rgb-grey-2))
+ha-color-primary-50: rgb(var(--token-rgb-grey-2))
+ha-color-primary-60: rgb(var(--token-rgb-grey-1))
+ha-color-primary-70: rgb(var(--token-rgb-grey-1))
+ha-color-primary-80: rgb(var(--token-rgb-primary))
+ha-color-primary-90: rgb(var(--token-rgb-primary))
+ha-color-primary-95: rgb(var(--token-rgb-primary))
+# ------------------------------------------------
+# HA Primary Semantic Overrides - E-ink Contrast
+# ------------------------------------------------
+# HA uses on-normal for both filled AND plain button text,
+# so text must be visible on page bg. Fills use dark grays for contrast.
+# Normal variant (standard buttons)
+ha-color-fill-primary-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-fill-primary-normal-hover: rgb(var(--token-rgb-grey-3))
+ha-color-fill-primary-normal-active: rgb(var(--token-rgb-grey-3))
+ha-color-on-primary-normal: rgb(var(--token-rgb-grey-1))
+# Quiet variant (text/outlined buttons)
+ha-color-fill-primary-quiet-resting: transparent
+ha-color-fill-primary-quiet-hover: rgba(var(--token-rgb-primary), 0.15)
+ha-color-fill-primary-quiet-active: rgba(var(--token-rgb-primary), 0.25)
+ha-color-on-primary-quiet: rgb(var(--token-rgb-grey-1))
+# Loud variant (emphasized buttons)
+ha-color-fill-primary-loud-resting: rgb(var(--token-rgb-grey-3))
+ha-color-fill-primary-loud-hover: rgb(var(--token-rgb-grey-2))
+ha-color-fill-primary-loud-active: rgb(var(--token-rgb-grey-2))
+ha-color-on-primary-loud: rgb(var(--token-rgb-grey-1))
+# Border
+ha-color-border-primary-normal: rgb(var(--token-rgb-grey-2))
+# ------------------------------------------------
+# HA Neutral Color Scale - E-ink Gray
+# ------------------------------------------------
+ha-color-neutral-05: rgb(var(--token-rgb-grey-4))
+ha-color-neutral-10: rgb(var(--token-rgb-grey-4))
+ha-color-neutral-20: rgb(var(--token-rgb-grey-3))
+ha-color-neutral-30: rgb(var(--token-rgb-grey-3))
+ha-color-neutral-40: rgb(var(--token-rgb-grey-2))
+ha-color-neutral-50: rgb(var(--token-rgb-grey-2))
+ha-color-neutral-60: rgb(var(--token-rgb-grey-1))
+ha-color-neutral-70: rgb(var(--token-rgb-grey-1))
+ha-color-neutral-80: rgb(var(--token-rgb-primary))
+ha-color-neutral-90: rgb(var(--token-rgb-primary))
+ha-color-neutral-95: rgb(var(--token-rgb-primary))
+# ------------------------------------------------
+# HA Neutral Semantic Overrides - E-ink Contrast
+# ------------------------------------------------
+ha-color-fill-neutral-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-fill-neutral-normal-hover: rgb(var(--token-rgb-grey-3))
+ha-color-fill-neutral-normal-active: rgb(var(--token-rgb-grey-3))
+ha-color-on-neutral-normal: rgb(var(--token-rgb-grey-1))
+ha-color-fill-neutral-quiet-resting: transparent
+ha-color-fill-neutral-quiet-hover: rgba(var(--token-rgb-grey-2), 0.15)
+ha-color-fill-neutral-quiet-active: rgba(var(--token-rgb-grey-2), 0.25)
+ha-color-on-neutral-quiet: rgb(var(--token-rgb-grey-1))
+ha-color-fill-neutral-loud-resting: rgb(var(--token-rgb-grey-3))
+ha-color-fill-neutral-loud-hover: rgb(var(--token-rgb-grey-2))
+ha-color-fill-neutral-loud-active: rgb(var(--token-rgb-grey-2))
+ha-color-on-neutral-loud: rgb(var(--token-rgb-grey-1))
+ha-color-border-neutral-normal: rgb(var(--token-rgb-grey-3))
+# ------------------------------------------------
+# HA Danger Semantic Overrides - E-ink Contrast
+# ------------------------------------------------
+ha-color-fill-danger-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-fill-danger-normal-hover: rgb(var(--token-rgb-grey-3))
+ha-color-fill-danger-normal-active: rgb(var(--token-rgb-grey-3))
+ha-color-on-danger-normal: rgb(var(--token-rgb-grey-1))
+ha-color-fill-danger-quiet-resting: transparent
+ha-color-fill-danger-quiet-hover: rgba(var(--token-rgb-red), 0.15)
+ha-color-fill-danger-quiet-active: rgba(var(--token-rgb-red), 0.25)
+ha-color-on-danger-quiet: rgb(var(--token-rgb-grey-1))
+ha-color-fill-danger-loud-resting: rgb(var(--token-rgb-grey-3))
+ha-color-fill-danger-loud-hover: rgb(var(--token-rgb-grey-2))
+ha-color-fill-danger-loud-active: rgb(var(--token-rgb-grey-2))
+ha-color-on-danger-loud: rgb(var(--token-rgb-grey-1))
+# ------------------------------------------------
+# HA Success Semantic Overrides - E-ink Contrast
+# ------------------------------------------------
+ha-color-fill-success-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-fill-success-normal-hover: rgb(var(--token-rgb-grey-3))
+ha-color-fill-success-normal-active: rgb(var(--token-rgb-grey-3))
+ha-color-on-success-normal: rgb(var(--token-rgb-grey-1))
+ha-color-fill-success-quiet-resting: transparent
+ha-color-fill-success-quiet-hover: rgba(var(--token-rgb-green), 0.15)
+ha-color-fill-success-quiet-active: rgba(var(--token-rgb-green), 0.25)
+ha-color-on-success-quiet: rgb(var(--token-rgb-grey-1))
+ha-color-fill-success-loud-resting: rgb(var(--token-rgb-grey-3))
+ha-color-fill-success-loud-hover: rgb(var(--token-rgb-grey-2))
+ha-color-fill-success-loud-active: rgb(var(--token-rgb-grey-2))
+ha-color-on-success-loud: rgb(var(--token-rgb-grey-1))
+# ------------------------------------------------
+# HA Warning Semantic Overrides - E-ink Contrast
+# ------------------------------------------------
+ha-color-fill-warning-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-fill-warning-normal-hover: rgb(var(--token-rgb-grey-3))
+ha-color-fill-warning-normal-active: rgb(var(--token-rgb-grey-3))
+ha-color-on-warning-normal: rgb(var(--token-rgb-grey-1))
+ha-color-fill-warning-quiet-resting: transparent
+ha-color-fill-warning-quiet-hover: rgba(var(--token-rgb-orange), 0.15)
+ha-color-fill-warning-quiet-active: rgba(var(--token-rgb-orange), 0.25)
+ha-color-on-warning-quiet: rgb(var(--token-rgb-grey-1))
+ha-color-fill-warning-loud-resting: rgb(var(--token-rgb-grey-3))
+ha-color-fill-warning-loud-hover: rgb(var(--token-rgb-grey-2))
+ha-color-fill-warning-loud-active: rgb(var(--token-rgb-grey-2))
+ha-color-on-warning-loud: rgb(var(--token-rgb-grey-1))
+# ------------------------------------------------
+# HA Disabled State Overrides - E-ink Contrast
+# ------------------------------------------------
+# Disabled buttons use grey-3 text (dimmer than grey-1 to signal disabled)
+ha-color-fill-disabled-normal-resting: rgb(var(--token-rgb-grey-4))
+ha-color-on-disabled-normal: rgb(var(--token-rgb-grey-3))
+ha-color-fill-disabled-loud-resting: rgb(var(--token-rgb-grey-4))
+ha-color-on-disabled-loud: rgb(var(--token-rgb-grey-3))
+ha-color-on-disabled-quiet: rgb(var(--token-rgb-grey-3))
+# ------------------------------------------------
+# HA Orange Color Scale - E-ink Gray
+# ------------------------------------------------
+ha-color-orange-05: rgb(var(--token-rgb-grey-4))
+ha-color-orange-10: rgb(var(--token-rgb-grey-4))
+ha-color-orange-20: rgb(var(--token-rgb-grey-3))
+ha-color-orange-30: rgb(var(--token-rgb-grey-3))
+ha-color-orange-40: rgb(var(--token-rgb-orange))
+ha-color-orange-50: rgb(var(--token-rgb-grey-2))
+ha-color-orange-60: rgb(var(--token-rgb-grey-2))
+ha-color-orange-70: rgb(var(--token-rgb-grey-1))
+ha-color-orange-80: rgb(var(--token-rgb-grey-1))
+ha-color-orange-90: rgb(var(--token-rgb-primary))
+ha-color-orange-95: rgb(var(--token-rgb-primary))
+# ------------------------------------------------
+# HA Red Color Scale - E-ink Gray
+# ------------------------------------------------
+ha-color-red-05: rgb(var(--token-rgb-grey-4))
+ha-color-red-10: rgb(var(--token-rgb-grey-4))
+ha-color-red-20: rgb(var(--token-rgb-grey-3))
+ha-color-red-30: rgb(var(--token-rgb-grey-3))
+ha-color-red-40: rgb(var(--token-rgb-red))
+ha-color-red-50: rgb(var(--token-rgb-grey-2))
+ha-color-red-60: rgb(var(--token-rgb-grey-2))
+ha-color-red-70: rgb(var(--token-rgb-grey-1))
+ha-color-red-80: rgb(var(--token-rgb-grey-1))
+ha-color-red-90: rgb(var(--token-rgb-primary))
+ha-color-red-95: rgb(var(--token-rgb-primary))
+# ------------------------------------------------
+# HA Green Color Scale - E-ink Gray
+# ------------------------------------------------
+ha-color-green-05: rgb(var(--token-rgb-grey-4))
+ha-color-green-10: rgb(var(--token-rgb-grey-4))
+ha-color-green-20: rgb(var(--token-rgb-grey-3))
+ha-color-green-30: rgb(var(--token-rgb-grey-3))
+ha-color-green-40: rgb(var(--token-rgb-green))
+ha-color-green-50: rgb(var(--token-rgb-grey-2))
+ha-color-green-60: rgb(var(--token-rgb-grey-2))
+ha-color-green-70: rgb(var(--token-rgb-grey-1))
+ha-color-green-80: rgb(var(--token-rgb-grey-1))
+ha-color-green-90: rgb(var(--token-rgb-primary))
+ha-color-green-95: rgb(var(--token-rgb-primary))

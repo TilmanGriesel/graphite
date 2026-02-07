@@ -8,7 +8,7 @@ Graphite E-ink Dark:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 18:34:29
+  # This file was generated at 2026-02-07 20:03:04
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Dark
@@ -16,7 +16,7 @@ Graphite E-ink Dark:
   # ------------------------------------------------------------------------------
   # E-ink Dark theme color tokens - White text on black background
   # ------------------------------------------------------------------------------
-  token-rgb-primary: 150, 150, 150
+  token-rgb-primary: 220, 220, 220
   token-rgb-black: 0, 0, 0
   token-rgb-white: 220, 220, 220
   # Red family - brightest grays for warm colors
@@ -73,7 +73,7 @@ Graphite E-ink Dark:
   token-color-background-base: rgb(0, 0, 0)
   token-color-background-secondary: rgb(0, 0, 0)
   token-color-background-sidebar: var(--token-color-background-base)
-  token-color-background-input-base: rgb(0, 0, 0)
+  token-color-background-input-base: rgb(20, 20, 20)
   token-color-background-input-disabled: rgb(0, 0, 0)
   token-color-background-label-badge: rgb(0, 0, 0)
   token-color-background-card: rgb(0, 0, 0)
@@ -355,14 +355,14 @@ Graphite E-ink Dark:
   input-disabled-fill-color: var(--input-background-token-color-disabled)
   input-disabled-ink-color: var(--disabled-text-color)
   input-disabled-label-ink-color: var(--disabled-text-color)
-  input-idle-line-color: var(--background-color)
+  input-idle-line-color: rgb(var(--token-rgb-grey-2))
   input-dropdown-icon-color: var(--secondary-text-color)
   input-hover-line-color: var(--primary-color)
   input-disabled-line-color: var(--disabled-color)
   mdc-select-fill-color: var(--input-fill-color)
   mdc-select-ink-color: var(--input-ink-color)
   mdc-select-label-ink-color: var(--input-label-ink-color)
-  mdc-select-idle-line-color: var(--color-background-base)
+  mdc-select-idle-line-color: rgb(var(--token-rgb-grey-2))
   mdc-select-dropdown-icon-color: var(--input-dropdown-icon-color)
   mdc-select-hover-line-color: var(--input-hover-line-color)
   mdc-text-field-fill-color: var(--input-fill-color)
@@ -502,3 +502,167 @@ Graphite E-ink Dark:
   graph-color-12: rgb(var(--token-rgb-grey-3))
   graph-color-13: rgb(var(--token-rgb-grey-1))
   graph-color-14: rgb(var(--token-rgb-grey-2))
+  # ------------------------------------------------
+  # HA Primary Color Scale - E-ink Gray
+  # ------------------------------------------------
+  # Use explicit gray values instead of relative HSL calc which breaks
+  # with near-white/near-black primaries (lightness overshoots 100%)
+  ha-color-primary-05: rgb(var(--token-rgb-grey-4))
+  ha-color-primary-10: rgb(var(--token-rgb-grey-4))
+  ha-color-primary-20: rgb(var(--token-rgb-grey-3))
+  ha-color-primary-30: rgb(var(--token-rgb-grey-3))
+  ha-color-primary-40: rgb(var(--token-rgb-grey-2))
+  ha-color-primary-50: rgb(var(--token-rgb-grey-2))
+  ha-color-primary-60: rgb(var(--token-rgb-grey-1))
+  ha-color-primary-70: rgb(var(--token-rgb-grey-1))
+  ha-color-primary-80: rgb(var(--token-rgb-primary))
+  ha-color-primary-90: rgb(var(--token-rgb-primary))
+  ha-color-primary-95: rgb(var(--token-rgb-primary))
+  # ------------------------------------------------
+  # HA Primary Semantic Overrides - E-ink Contrast
+  # ------------------------------------------------
+  # HA uses on-normal for both filled AND plain button text,
+  # so text must be visible on page bg. Fills use dark grays for contrast.
+  # Normal variant (standard buttons)
+  ha-color-fill-primary-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-fill-primary-normal-hover: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-primary-normal-active: rgb(var(--token-rgb-grey-3))
+  ha-color-on-primary-normal: rgb(var(--token-rgb-grey-1))
+  # Quiet variant (text/outlined buttons)
+  ha-color-fill-primary-quiet-resting: transparent
+  ha-color-fill-primary-quiet-hover: rgba(var(--token-rgb-primary), 0.15)
+  ha-color-fill-primary-quiet-active: rgba(var(--token-rgb-primary), 0.25)
+  ha-color-on-primary-quiet: rgb(var(--token-rgb-grey-1))
+  # Loud variant (emphasized buttons)
+  ha-color-fill-primary-loud-resting: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-primary-loud-hover: rgb(var(--token-rgb-grey-2))
+  ha-color-fill-primary-loud-active: rgb(var(--token-rgb-grey-2))
+  ha-color-on-primary-loud: rgb(var(--token-rgb-grey-1))
+  # Border
+  ha-color-border-primary-normal: rgb(var(--token-rgb-grey-2))
+  # ------------------------------------------------
+  # HA Neutral Color Scale - E-ink Gray
+  # ------------------------------------------------
+  ha-color-neutral-05: rgb(var(--token-rgb-grey-4))
+  ha-color-neutral-10: rgb(var(--token-rgb-grey-4))
+  ha-color-neutral-20: rgb(var(--token-rgb-grey-3))
+  ha-color-neutral-30: rgb(var(--token-rgb-grey-3))
+  ha-color-neutral-40: rgb(var(--token-rgb-grey-2))
+  ha-color-neutral-50: rgb(var(--token-rgb-grey-2))
+  ha-color-neutral-60: rgb(var(--token-rgb-grey-1))
+  ha-color-neutral-70: rgb(var(--token-rgb-grey-1))
+  ha-color-neutral-80: rgb(var(--token-rgb-primary))
+  ha-color-neutral-90: rgb(var(--token-rgb-primary))
+  ha-color-neutral-95: rgb(var(--token-rgb-primary))
+  # ------------------------------------------------
+  # HA Neutral Semantic Overrides - E-ink Contrast
+  # ------------------------------------------------
+  ha-color-fill-neutral-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-fill-neutral-normal-hover: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-neutral-normal-active: rgb(var(--token-rgb-grey-3))
+  ha-color-on-neutral-normal: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-neutral-quiet-resting: transparent
+  ha-color-fill-neutral-quiet-hover: rgba(var(--token-rgb-grey-2), 0.15)
+  ha-color-fill-neutral-quiet-active: rgba(var(--token-rgb-grey-2), 0.25)
+  ha-color-on-neutral-quiet: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-neutral-loud-resting: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-neutral-loud-hover: rgb(var(--token-rgb-grey-2))
+  ha-color-fill-neutral-loud-active: rgb(var(--token-rgb-grey-2))
+  ha-color-on-neutral-loud: rgb(var(--token-rgb-grey-1))
+  ha-color-border-neutral-normal: rgb(var(--token-rgb-grey-3))
+  # ------------------------------------------------
+  # HA Danger Semantic Overrides - E-ink Contrast
+  # ------------------------------------------------
+  ha-color-fill-danger-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-fill-danger-normal-hover: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-danger-normal-active: rgb(var(--token-rgb-grey-3))
+  ha-color-on-danger-normal: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-danger-quiet-resting: transparent
+  ha-color-fill-danger-quiet-hover: rgba(var(--token-rgb-red), 0.15)
+  ha-color-fill-danger-quiet-active: rgba(var(--token-rgb-red), 0.25)
+  ha-color-on-danger-quiet: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-danger-loud-resting: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-danger-loud-hover: rgb(var(--token-rgb-grey-2))
+  ha-color-fill-danger-loud-active: rgb(var(--token-rgb-grey-2))
+  ha-color-on-danger-loud: rgb(var(--token-rgb-grey-1))
+  # ------------------------------------------------
+  # HA Success Semantic Overrides - E-ink Contrast
+  # ------------------------------------------------
+  ha-color-fill-success-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-fill-success-normal-hover: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-success-normal-active: rgb(var(--token-rgb-grey-3))
+  ha-color-on-success-normal: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-success-quiet-resting: transparent
+  ha-color-fill-success-quiet-hover: rgba(var(--token-rgb-green), 0.15)
+  ha-color-fill-success-quiet-active: rgba(var(--token-rgb-green), 0.25)
+  ha-color-on-success-quiet: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-success-loud-resting: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-success-loud-hover: rgb(var(--token-rgb-grey-2))
+  ha-color-fill-success-loud-active: rgb(var(--token-rgb-grey-2))
+  ha-color-on-success-loud: rgb(var(--token-rgb-grey-1))
+  # ------------------------------------------------
+  # HA Warning Semantic Overrides - E-ink Contrast
+  # ------------------------------------------------
+  ha-color-fill-warning-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-fill-warning-normal-hover: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-warning-normal-active: rgb(var(--token-rgb-grey-3))
+  ha-color-on-warning-normal: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-warning-quiet-resting: transparent
+  ha-color-fill-warning-quiet-hover: rgba(var(--token-rgb-orange), 0.15)
+  ha-color-fill-warning-quiet-active: rgba(var(--token-rgb-orange), 0.25)
+  ha-color-on-warning-quiet: rgb(var(--token-rgb-grey-1))
+  ha-color-fill-warning-loud-resting: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-warning-loud-hover: rgb(var(--token-rgb-grey-2))
+  ha-color-fill-warning-loud-active: rgb(var(--token-rgb-grey-2))
+  ha-color-on-warning-loud: rgb(var(--token-rgb-grey-1))
+  # ------------------------------------------------
+  # HA Disabled State Overrides - E-ink Contrast
+  # ------------------------------------------------
+  # Disabled buttons use grey-3 text (dimmer than grey-1 to signal disabled)
+  ha-color-fill-disabled-normal-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-on-disabled-normal: rgb(var(--token-rgb-grey-3))
+  ha-color-fill-disabled-loud-resting: rgb(var(--token-rgb-grey-4))
+  ha-color-on-disabled-loud: rgb(var(--token-rgb-grey-3))
+  ha-color-on-disabled-quiet: rgb(var(--token-rgb-grey-3))
+  # ------------------------------------------------
+  # HA Orange Color Scale - E-ink Gray
+  # ------------------------------------------------
+  ha-color-orange-05: rgb(var(--token-rgb-grey-4))
+  ha-color-orange-10: rgb(var(--token-rgb-grey-4))
+  ha-color-orange-20: rgb(var(--token-rgb-grey-3))
+  ha-color-orange-30: rgb(var(--token-rgb-grey-3))
+  ha-color-orange-40: rgb(var(--token-rgb-orange))
+  ha-color-orange-50: rgb(var(--token-rgb-grey-2))
+  ha-color-orange-60: rgb(var(--token-rgb-grey-2))
+  ha-color-orange-70: rgb(var(--token-rgb-grey-1))
+  ha-color-orange-80: rgb(var(--token-rgb-grey-1))
+  ha-color-orange-90: rgb(var(--token-rgb-primary))
+  ha-color-orange-95: rgb(var(--token-rgb-primary))
+  # ------------------------------------------------
+  # HA Red Color Scale - E-ink Gray
+  # ------------------------------------------------
+  ha-color-red-05: rgb(var(--token-rgb-grey-4))
+  ha-color-red-10: rgb(var(--token-rgb-grey-4))
+  ha-color-red-20: rgb(var(--token-rgb-grey-3))
+  ha-color-red-30: rgb(var(--token-rgb-grey-3))
+  ha-color-red-40: rgb(var(--token-rgb-red))
+  ha-color-red-50: rgb(var(--token-rgb-grey-2))
+  ha-color-red-60: rgb(var(--token-rgb-grey-2))
+  ha-color-red-70: rgb(var(--token-rgb-grey-1))
+  ha-color-red-80: rgb(var(--token-rgb-grey-1))
+  ha-color-red-90: rgb(var(--token-rgb-primary))
+  ha-color-red-95: rgb(var(--token-rgb-primary))
+  # ------------------------------------------------
+  # HA Green Color Scale - E-ink Gray
+  # ------------------------------------------------
+  ha-color-green-05: rgb(var(--token-rgb-grey-4))
+  ha-color-green-10: rgb(var(--token-rgb-grey-4))
+  ha-color-green-20: rgb(var(--token-rgb-grey-3))
+  ha-color-green-30: rgb(var(--token-rgb-grey-3))
+  ha-color-green-40: rgb(var(--token-rgb-green))
+  ha-color-green-50: rgb(var(--token-rgb-grey-2))
+  ha-color-green-60: rgb(var(--token-rgb-grey-2))
+  ha-color-green-70: rgb(var(--token-rgb-grey-1))
+  ha-color-green-80: rgb(var(--token-rgb-grey-1))
+  ha-color-green-90: rgb(var(--token-rgb-primary))
+  ha-color-green-95: rgb(var(--token-rgb-primary))
