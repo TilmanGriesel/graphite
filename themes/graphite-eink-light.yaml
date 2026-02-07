@@ -8,7 +8,7 @@ Graphite E-ink Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 17:59:35
+  # This file was generated at 2026-02-07 18:34:29
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Light
@@ -71,9 +71,9 @@ Graphite E-ink Light:
   token-color-text-label-badge: rgb(var(--token-rgb-grey-1))
   token-color-text-chip: var(--token-color-black)
   token-color-background-base: rgb(255, 255, 255)
-  token-color-background-secondary: rgb(240, 240, 240)
+  token-color-background-secondary: rgb(225, 225, 225)
   token-color-background-sidebar: var(--token-color-background-base)
-  token-color-background-input-base: rgb(250, 250, 250)
+  token-color-background-input-base: rgb(240, 240, 240)
   token-color-background-input-disabled: rgb(var(--token-rgb-grey-4))
   token-color-background-label-badge: rgb(var(--token-rgb-grey-4))
   token-color-background-card: rgb(255, 255, 255)
@@ -86,13 +86,26 @@ Graphite E-ink Light:
   token-color-background-label-badge-yellow: rgb(var(--token-rgb-grey-4))
   token-color-background-label-badge-grey: rgb(var(--token-rgb-grey-4))
   token-color-background-popup-scrim: rgba(0, 0, 0, 0.8)
-  token-color-border-card: rgba(0, 0, 0, 0)
-  token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-4))
-  token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
+  token-color-border-card: rgb(var(--token-rgb-grey-1))
+  token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-3))
+  token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-2))
   token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
   token-color-codemirror-keyword: rgb(var(--token-rgb-grey-1))
   token-color-codemirror-number: rgb(var(--token-rgb-grey-2))
   token-shadow-card-medium: none
+  # ..............................................................................
+  # RGB Tokens
+  rgb-primary-text-color: 40, 40, 40
+  rgb-primary-color: 100, 100, 100
+  rgb-accent-color: 100, 100, 100
+  rgb-card-background-color: 255, 255, 255
+  rgb-secondary-text-color: 80, 80, 80
+  rgb-disabled-text-color: 140, 140, 140
+  rgb-text-primary-color: 40, 40, 40
+  rgb-warning-color: 40, 40, 40
+  rgb-error-color: 40, 40, 40
+  rgb-success-color: 40, 40, 40
+  rgb-info-color: 40, 40, 40
   # ..............................................................................
   # Font Weight
   token-weight-font-body: 900
@@ -155,6 +168,13 @@ Graphite E-ink Light:
   header-height: var(--token-size-height-navbar)
   paper-slider-height: var(--token-size-height-slider)
   # ..............................................................................
+  # E-ink overrides
+  token-size-radius-small: 4px
+  token-size-radius-medium: 6px
+  token-size-radius-large: 8px
+  token-size-radius-card: 8px
+  token-opacity-ripple-hover: 0.25
+  # ..............................................................................
   # Typography
   ## Font Family Tokens
   primary-font-family: var(--token-font-family-primary)
@@ -200,19 +220,23 @@ Graphite E-ink Light:
   ha-heading-card-title-font-size: var(--token-size-font-title-card)
   ha-heading-card-title-font-weight: var(--token-weight-font-title-card)
   ## Font Smoothing
-  ha-font-smoothing: antialiased
+  ha-font-smoothing: auto
   # ..............................................................................
   # Text colors
   primary-text-color: var(--token-color-text-primary)
   secondary-text-color: var(--token-color-text-secondary)
   text-primary-color: var(--token-color-text-primary)
+  text-accent-color: var(--accent-color)
   disabled-text-color: var(--token-color-text-disabled)
+  link-text-color: var(--primary-color)
   app-header-edit-text-color: var(--token-color-text-primary)
   text-light-primary-color: rgb(28, 29, 33)
   # ..............................................................................
   # Icon colors
   paper-item-icon-color: var(--token-color-text-primary)
+  paper-item-icon-active-color: var(--accent-color)
   state-inactive-color: var(--token-color-text-secondary)
+  state-icon-unavailable-color: var(--disabled-color)
   # ..............................................................................
   # Main interface colors
   primary-color: var(--token-color-primary)
@@ -222,6 +246,8 @@ Graphite E-ink Light:
   divider-color: var(--token-color-background-divider)
   scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
   disabled-color: var(--token-color-disabled)
+  outline-color: var(--divider-color)
+  outline-hover-color: var(--primary-color)
   # ..............................................................................
   # Feedback colors
   info-color: var(--token-color-feedback-info)
@@ -234,6 +260,11 @@ Graphite E-ink Light:
   primary-background-color: var(--token-color-background-base)
   secondary-background-color: var(--token-color-background-secondary)
   clear-background-color: var(--token-color-background-input-base)
+  table-row-background-color: var(--primary-background-color)
+  table-row-alternative-background-color: var(--secondary-background-color)
+  material-background-color: var(--primary-background-color)
+  material-secondary-background-color: var(--secondary-background-color)
+  data-table-background-color: var(--card-background-color)
   # ..............................................................................
   # Navbar colors
   app-header-background-color: var(--primary-background-color)
@@ -246,17 +277,20 @@ Graphite E-ink Light:
   sidebar-background-color: var(--token-color-background-sidebar)
   sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
   sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+  sidebar-selected-background-color: rgba(var(--token-rgb-primary), 0.25)
   # ..............................................................................
   # Cards
-  border-radius: var(--token-size-radius-card)
+  border-radius: 8px
   card-background-color: var(--token-color-background-card)
   ha-card-background: var(--token-color-background-card)
-  ha-card-border-radius: var(--token-size-radius-card)
+  ha-card-border-radius: 8px
   ha-card-border-color: var(--token-color-border-card)
   ha-card-border-width: 2px
   ha-card-border-style: solid
   ha-card-border: 2px solid var(--token-color-border-card)
   ha-card-box-shadow: var(--token-shadow-card-medium)
+  paper-card-background-color: var(--ha-card-background)
+  ha-card-header-color: var(--primary-text-color)
   # ..............................................................................
   # Sections
   ha-view-sections-column-gap: var(--token-size-spacing-medium)
@@ -264,10 +298,12 @@ Graphite E-ink Light:
   # ..............................................................................
   # States
   state-icon-color: var(--token-color-icon-primary)
+  state-active-color: var(--accent-color)
   state-on-color: var(--token-color-feedback-success)
   state-off-color: var(--token-color-feedback-error)
   # ..............................................................................
   # Label-badge
+  label-badge-background-color: var(--token-color-background-label-badge)
   label-badge-text-color: var(--token-color-text-primary)
   label-badge-red: var(--token-color-background-label-badge-red)
   label-badge-blue: var(--token-color-background-label-badge-blue)
@@ -279,6 +315,10 @@ Graphite E-ink Light:
   ha-chip-text-color: var(--token-color-text-chip)
   # ..............................................................................
   # Dialog
+  paper-dialog-background-color: var(--card-background-color)
+  paper-listbox-background-color: var(--card-background-color)
+  ha-dialog-border-radius: 8px
+  more-info-header-background: var(--card-background-color)
   mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
   # ..............................................................................
   # Slider
@@ -287,6 +327,7 @@ Graphite E-ink Light:
   paper-slider-pin-color: var(--paper-slider-knob-color)
   paper-slider-active-color: var(--paper-slider-knob-color)
   paper-slider-secondary-color: var(--light-primary-color)
+  md-slider-inactive-track-color: rgba(var(--token-rgb-primary), 0.3)
   # ..............................................................................
   # Switch
   switch-checked-button-color: var(--primary-color)
@@ -317,8 +358,25 @@ Graphite E-ink Light:
   input-idle-line-color: var(--background-color)
   input-dropdown-icon-color: var(--secondary-text-color)
   input-hover-line-color: var(--primary-color)
+  input-disabled-line-color: var(--disabled-color)
+  mdc-select-fill-color: var(--input-fill-color)
+  mdc-select-ink-color: var(--input-ink-color)
+  mdc-select-label-ink-color: var(--input-label-ink-color)
   mdc-select-idle-line-color: var(--color-background-base)
+  mdc-select-dropdown-icon-color: var(--input-dropdown-icon-color)
+  mdc-select-hover-line-color: var(--input-hover-line-color)
+  mdc-text-field-fill-color: var(--input-fill-color)
+  mdc-text-field-ink-color: var(--input-ink-color)
+  mdc-text-field-label-ink-color: var(--input-label-ink-color)
   mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+  mdc-text-field-hover-line-color: var(--input-hover-line-color)
+  input-outlined-idle-border-color: var(--divider-color)
+  input-outlined-hover-border-color: var(--primary-color)
+  input-outlined-disabled-border-color: var(--disabled-color)
+  paper-input-container-focus-color: var(--primary-color)
+  # ..............................................................................
+  # Markdown
+  markdown-code-background-color: var(--code-editor-background-color)
   # ..............................................................................
   # Editor
   code-editor-background-color: var(--token-color-background-base)
@@ -328,6 +386,18 @@ Graphite E-ink Light:
   codemirror-string: var(--token-color-codemirror-string)
   codemirror-keyword: var(--token-color-codemirror-keyword)
   codemirror-number: var(--token-color-codemirror-number)
+  codemirror-comment: var(--token-color-text-secondary)
+  codemirror-operator: var(--token-color-text-primary)
+  codemirror-variable: var(--token-color-codemirror-keyword)
+  codemirror-variable-2: var(--accent-color)
+  codemirror-variable-3: var(--token-color-codemirror-number)
+  codemirror-builtin: var(--token-color-codemirror-keyword)
+  codemirror-def: var(--token-color-codemirror-string)
+  codemirror-string-2: var(--codemirror-string)
+  codemirror-tag: var(--token-color-codemirror-keyword)
+  codemirror-attribute: var(--accent-color)
+  codemirror-qualifier: var(--token-color-codemirror-string)
+  codemirror-type: var(--token-color-codemirror-number)
   # ------------------------------------------------------------------------------
   # Extentions
   # ------------------------------------------------------------------------------
@@ -412,3 +482,23 @@ Graphite E-ink Light:
   mdc-theme-on-primary: var(--token-color-background-base)
   mdc-theme-on-secondary: var(--token-color-background-base)
   mdc-theme-on-surface: rgb(var(--token-rgb-grey-1))
+  mdc-button-outline-color: var(--divider-color)
+  mdc-ripple-color: var(--primary-color)
+  mdc-linear-progress-buffer-color: var(--secondary-background-color)
+  # ------------------------------------------------
+  # Graph Colors - E-ink Gray Mapping
+  # ------------------------------------------------
+  graph-color-1: rgb(var(--token-rgb-grey-1))
+  graph-color-2: rgb(var(--token-rgb-grey-2))
+  graph-color-3: rgb(var(--token-rgb-grey-3))
+  graph-color-4: rgb(var(--token-rgb-grey-1))
+  graph-color-5: rgb(var(--token-rgb-grey-2))
+  graph-color-6: rgb(var(--token-rgb-grey-3))
+  graph-color-7: rgb(var(--token-rgb-grey-1))
+  graph-color-8: rgb(var(--token-rgb-grey-2))
+  graph-color-9: rgb(var(--token-rgb-grey-3))
+  graph-color-10: rgb(var(--token-rgb-grey-1))
+  graph-color-11: rgb(var(--token-rgb-grey-2))
+  graph-color-12: rgb(var(--token-rgb-grey-3))
+  graph-color-13: rgb(var(--token-rgb-grey-1))
+  graph-color-14: rgb(var(--token-rgb-grey-2))
