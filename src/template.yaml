@@ -3,6 +3,11 @@
 # ------------------------------------------------------------------------------
 # ..............................................................................
 # Sizes
+token-size-radius-small: 12px
+token-size-radius-medium: 16px
+token-size-radius-large: 20px
+token-size-radius-card: var(--token-size-radius-large)
+token-opacity-ripple-hover: 0.14
 header-height: var(--token-size-height-navbar)
 paper-slider-height: var(--token-size-height-slider)
 # ..............................................................................

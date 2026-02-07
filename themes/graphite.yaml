@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 20:03:04
+  # This file was generated at 2026-02-07 20:16:28
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -104,11 +104,6 @@ Graphite:
   # ------------------------------------------------------------------------------
   # Size tokens
   # ------------------------------------------------------------------------------
-  # Radius
-  token-size-radius-small: 12px
-  token-size-radius-medium: 16px
-  token-size-radius-large: 20px
-  token-size-radius-card: var(--token-size-radius-large)
   # ..............................................................................
   # Border
   token-size-width-border-card: 0
@@ -144,7 +139,6 @@ Graphite:
   # Other tokens
   # ------------------------------------------------------------------------------
   # Opacity
-  token-opacity-ripple-hover: 0.14
   # ..............................................................................
   # Font
   token-font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
@@ -154,6 +148,11 @@ Graphite:
   # ------------------------------------------------------------------------------
   # ..............................................................................
   # Sizes
+  token-size-radius-small: 12px
+  token-size-radius-medium: 16px
+  token-size-radius-large: 20px
+  token-size-radius-card: var(--token-size-radius-large)
+  token-opacity-ripple-hover: 0.14
   header-height: var(--token-size-height-navbar)
   paper-slider-height: var(--token-size-height-slider)
   # ..............................................................................
