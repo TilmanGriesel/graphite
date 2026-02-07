@@ -1,4 +1,4 @@
-.PHONY: all rebuild theme clean format format-python format-yaml lint-python docker-build docker-run docker-clean test-patcher validate-yaml dev-build dev-deploy dev-deploy-full
+.PHONY: all rebuild theme clean format format-python format-yaml lint-python docker-build docker-run docker-clean test-patcher validate-yaml dev-build dev-deploy dev-deploy-full ha-start ha-stop ha-restart ha-logs ha-clean
 
 all: format theme validate-yaml
 
@@ -74,6 +74,29 @@ docker-clean:
 	@echo "Removing Docker image..."
 	docker rmi theme-assembler 2>/dev/null || true
 
+ha-start: theme
+	@echo "Starting Home Assistant test environment..."
+	docker compose -f docker-compose.ha.yml up -d
+	@echo "Home Assistant is starting at http://localhost:8123"
+
+ha-stop:
+	@echo "Stopping Home Assistant test environment..."
+	docker compose -f docker-compose.ha.yml down
+	@echo "Home Assistant stopped."
+
+ha-restart: theme
+	@echo "Restarting Home Assistant test environment..."
+	docker compose -f docker-compose.ha.yml restart
+	@echo "Home Assistant restarted."
+
+ha-logs:
+	docker compose -f docker-compose.ha.yml logs -f
+
+ha-clean: ha-stop
+	@echo "Removing Home Assistant runtime data..."
+	find .ha/config -mindepth 1 ! -name 'configuration.yaml' -exec rm -rf {} + 2>/dev/null || true
+	@echo "Home Assistant runtime data cleaned."
+
 help:
 	@echo "Available targets:"
 	@echo "  all          - Run theme assembly (default)"
@@ -93,4 +116,9 @@ help:
 	@echo "  docker-build - Build the Docker image"
 	@echo "  docker-run   - Run the theme assembler in Docker"
 	@echo "  docker-clean - Remove the Docker image"
+	@echo "  ha-start     - Build themes and start HA test environment"
+	@echo "  ha-stop      - Stop HA test environment"
+	@echo "  ha-restart   - Rebuild themes and restart HA"
+	@echo "  ha-logs      - Tail HA container logs"
+	@echo "  ha-clean     - Stop HA and remove runtime data"
 	@echo "  help         - Show this help message"
