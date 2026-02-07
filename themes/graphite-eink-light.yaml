@@ -8,7 +8,7 @@ Graphite E-ink Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 17:53:11
+  # This file was generated at 2026-02-07 17:59:35
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Light
@@ -78,7 +78,7 @@ Graphite E-ink Light:
   token-color-background-label-badge: rgb(var(--token-rgb-grey-4))
   token-color-background-card: rgb(255, 255, 255)
   token-color-background-skrim: rgba(0, 0, 0, 0.8)
-  token-color-background-divider: rgb(var(--token-rgb-grey-4))
+  token-color-background-divider: var(--token-color-background-sidebar)
   token-color-background-scrollbar-thumb: rgb(var(--token-rgb-grey-3))
   token-color-background-label-badge-red: rgb(var(--token-rgb-grey-4))
   token-color-background-label-badge-green: rgb(var(--token-rgb-grey-4))
@@ -86,7 +86,7 @@ Graphite E-ink Light:
   token-color-background-label-badge-yellow: rgb(var(--token-rgb-grey-4))
   token-color-background-label-badge-grey: rgb(var(--token-rgb-grey-4))
   token-color-background-popup-scrim: rgba(0, 0, 0, 0.8)
-  token-color-border-card: rgb(0, 0, 0)
+  token-color-border-card: rgba(0, 0, 0, 0)
   token-color-switch-button-unchecked: rgb(var(--token-rgb-grey-4))
   token-color-switch-track-unchecked: rgb(var(--token-rgb-grey-3))
   token-color-codemirror-string: rgb(var(--token-rgb-grey-2))
