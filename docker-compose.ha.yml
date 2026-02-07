@@ -1,0 +1,10 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: graphite-ha-test
+    volumes:
+      - ./.ha/config:/config
+      - ./themes:/config/themes
+    ports:
+      - "8123:8123"
+    restart: "no"
