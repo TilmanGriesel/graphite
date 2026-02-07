@@ -3,3 +3,521 @@ default_config:
 
 frontend:
   themes: !include_dir_merge_named themes
+
+# ==============================================================================
+# Mock entities for debug dashboard
+# ==============================================================================
+# Skipped (not mockable or system-provided):
+#   - camera.* (10 entities) — need actual image feeds
+#   - media_player.kitchen — needs mushroom custom card
+#   - weather.* — needs forecast data for custom card
+#   - update.home_assistant_* — system-provided
+#   - sun.sun — default integration
+# ==============================================================================
+
+# --- Input Booleans -----------------------------------------------------------
+input_boolean:
+  # Dashboard-facing
+  auto_light_kitchen:
+    name: Auto Light Kitchen
+    icon: mdi:lightbulb-auto
+  manual_fire_place:
+    name: Manual Fire Place
+    icon: mdi:fireplace
+  # Backing state for switches
+  mock_sw_smart_plug_tv:
+    name: Mock TV
+  mock_sw_smart_plug_office_ac:
+    name: Mock Office AC
+  mock_sw_smart_plug_coffee_machine:
+    name: Mock Coffee Machine
+  mock_sw_smart_plug_lava_lamp:
+    name: Mock Lava Lamp
+  mock_sw_smart_plug_kitchen_heater:
+    name: Mock Kitchen Heater
+  mock_sw_smart_plug_office_heater:
+    name: Mock Office Heater
+  # Backing state for lights
+  mock_lt_led_strip:
+    name: Mock LED Strip
+  mock_lt_star_projector:
+    name: Mock Star Projector
+  # Backing state for fan
+  mock_fn_ceiling_fan:
+    name: Mock Ceiling Fan
+
+# --- Input Buttons ------------------------------------------------------------
+input_button:
+  wood_added:
+    name: Wood Added
+    icon: mdi:pine-tree
+
+# --- Input Numbers (backing for template number entities) ---------------------
+input_number:
+  mock_fan_speed:
+    name: Mock Fan Speed
+    min: 0
+    max: 100
+    step: 1
+    initial: 50
+  mock_target_humidity:
+    name: Mock Target Humidity
+    min: 30
+    max: 80
+    step: 1
+    initial: 55
+  mock_brightness_level:
+    name: Mock Brightness Level
+    min: 0
+    max: 100
+    step: 1
+    initial: 75
+  mock_volume_level:
+    name: Mock Volume Level
+    min: 0
+    max: 100
+    step: 1
+    initial: 40
+
+# --- Input Selects (backing for template select entities) ---------------------
+input_select:
+  mock_hvac_mode:
+    name: Mock HVAC Mode
+    options:
+      - Auto
+      - Cool
+      - Heat
+      - Fan Only
+      - "Off"
+    initial: Auto
+
+# --- Scripts ------------------------------------------------------------------
+script:
+  patch_legacy_graphite_color_mappings:
+    alias: Patch Legacy Graphite Color Mappings
+    sequence: []
+  set_primary_color:
+    alias: Set Primary Color
+    sequence: []
+  patch_graphite_theme_advanced:
+    alias: Patch Graphite Theme Advanced
+    sequence: []
+  update_patch_graphite_theme_dev:
+    alias: Update Patch Graphite Theme Dev
+    sequence: []
+  morning_routine:
+    alias: Morning Routine
+    sequence: []
+  goodnight_routine:
+    alias: Goodnight Routine
+    sequence: []
+
+# --- Template Entities --------------------------------------------------------
+template:
+  # Sensors and Binary Sensors
+  - sensor:
+      # -- Kitchen --
+      - name: "Kitchen Temperature"
+        unique_id: mock_kitchen_temperature
+        state: "21.5"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Kitchen Humidity"
+        unique_id: mock_kitchen_humidity
+        state: "48"
+        unit_of_measurement: "%"
+        device_class: humidity
+      - name: "Kitchen Air Quality PM25"
+        unique_id: mock_kitchen_pm25
+        state: "12"
+        unit_of_measurement: "µg/m³"
+        device_class: pm25
+      - name: "Kitchen Air Quality VOC Index"
+        unique_id: mock_kitchen_voc_index
+        state: "142"
+
+      # -- Room temperatures --
+      - name: "Fireplace Temperature"
+        unique_id: mock_fireplace_temperature
+        state: "24.8"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Bedroom Temperature"
+        unique_id: mock_bedroom_temperature
+        state: "19.3"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Bathroom Temperature"
+        unique_id: mock_bathroom_temperature
+        state: "22.1"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Storage Room Temperature"
+        unique_id: mock_storage_room_temperature
+        state: "8.6"
+        unit_of_measurement: "°C"
+        device_class: temperature
+
+      # -- Outdoor --
+      - name: "Outdoor Temperature"
+        unique_id: mock_outdoor_temperature_main
+        state: "5.2"
+        unit_of_measurement: "°C"
+        device_class: temperature
+
+      # -- Weather station --
+      - name: "Weather Station Carbon Dioxide"
+        unique_id: mock_weather_station_carbon_dioxide
+        state: "785"
+        unit_of_measurement: "ppm"
+        device_class: carbon_dioxide
+      - name: "Weather Station Carbon Dioxide 2"
+        unique_id: mock_weather_station_carbon_dioxide_2
+        state: "785"
+        unit_of_measurement: "ppm"
+        device_class: carbon_dioxide
+      - name: "Office Temperature"
+        unique_id: mock_office_temperature
+        state: "22.7"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Office Carbon Dioxide"
+        unique_id: mock_office_co2
+        state: "623"
+        unit_of_measurement: "ppm"
+        device_class: carbon_dioxide
+      - name: "Office Humidity"
+        unique_id: mock_office_humidity
+        state: "52"
+        unit_of_measurement: "%"
+        device_class: humidity
+      - name: "Office Temperature Trend"
+        unique_id: mock_office_temp_trend
+        state: "stable"
+      - name: "Living Room Temperature"
+        unique_id: mock_living_room_temperature
+        state: "21.2"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Outdoor Station Temperature"
+        unique_id: mock_outdoor_station_temperature
+        state: "4.8"
+        unit_of_measurement: "°C"
+        device_class: temperature
+      - name: "Outdoor Station Humidity"
+        unique_id: mock_outdoor_station_humidity
+        state: "78"
+        unit_of_measurement: "%"
+        device_class: humidity
+
+      # -- Battery --
+      - name: "E-Ink Display Battery Level"
+        unique_id: mock_e_ink_battery_level
+        state: "87"
+        unit_of_measurement: "%"
+        device_class: battery
+
+      # -- Power --
+      - name: "Office Workbench Power"
+        unique_id: mock_office_workbench_power
+        state: "145.3"
+        unit_of_measurement: "W"
+        device_class: power
+      - name: "Living Room Outlet Power"
+        unique_id: mock_living_room_outlet_power
+        state: "62.7"
+        unit_of_measurement: "W"
+        device_class: power
+
+      # -- Project: Graphite --
+      - name: "Graphite Stars"
+        unique_id: mock_graphite_stars
+        state: "1842"
+        icon: mdi:star
+      - name: "Graphite Issues"
+        unique_id: mock_graphite_issues
+        state: "7"
+        icon: mdi:alert-circle
+      - name: "Graphite Pull Requests"
+        unique_id: mock_graphite_prs
+        state: "2"
+        icon: mdi:source-pull
+      - name: "Graphite Latest Release"
+        unique_id: mock_graphite_latest_release
+        state: "2.7.3"
+        icon: mdi:tag
+      - name: "Graphite Discussions"
+        unique_id: mock_graphite_discussions
+        state: "15"
+        icon: mdi:forum
+      - name: "Graphite Latest Commit"
+        unique_id: mock_graphite_latest_commit
+        state: "fix(themes): badge text color"
+        icon: mdi:source-commit
+
+      # -- Misc --
+      - name: "Grid Frequency"
+        unique_id: mock_grid_frequency
+        state: "50.01"
+        unit_of_measurement: "Hz"
+        device_class: frequency
+      - name: "3D Printer State"
+        unique_id: mock_3d_printer_state
+        state: "idle"
+        icon: mdi:printer-3d
+
+      # -- Ceiling Fan --
+      - name: "Ceiling Fan RPM"
+        unique_id: mock_ceiling_fan_rpm
+        state: "1250"
+        unit_of_measurement: "RPM"
+
+    # -- Binary Sensors --
+    binary_sensor:
+      - name: "Night"
+        unique_id: mock_night
+        state: >
+          {{ now().hour < 6 or now().hour >= 22 }}
+      - name: "Fireplace Too Hot"
+        unique_id: mock_fireplace_too_hot
+        state: "{{ false }}"
+        device_class: heat
+      - name: "Router Connectivity"
+        unique_id: mock_router_connectivity
+        state: "{{ true }}"
+        device_class: connectivity
+      - name: "Office Weather Station Connectivity"
+        unique_id: mock_office_ws_connectivity
+        state: "{{ true }}"
+        device_class: connectivity
+      - name: "Office Window Contact"
+        unique_id: mock_office_window
+        state: "{{ false }}"
+        device_class: window
+      - name: "Kitchen Window Contact"
+        unique_id: mock_kitchen_window
+        state: "{{ false }}"
+        device_class: window
+      - name: "Bathroom Door Contact"
+        unique_id: mock_bathroom_door
+        state: "{{ false }}"
+        device_class: door
+      - name: "Internet Connectivity"
+        unique_id: mock_internet_connectivity
+        state: "{{ true }}"
+        device_class: connectivity
+
+  # Template number entities (backed by input_number)
+  - number:
+      - name: "Ceiling Fan Speed"
+        unique_id: mock_ceiling_fan_speed
+        state: "{{ states('input_number.mock_fan_speed') }}"
+        min: 0
+        max: 100
+        step: 1
+        set_value:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.mock_fan_speed
+            data:
+              value: "{{ value }}"
+      - name: "Target Humidity"
+        unique_id: mock_target_humidity
+        state: "{{ states('input_number.mock_target_humidity') }}"
+        min: 30
+        max: 80
+        step: 1
+        set_value:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.mock_target_humidity
+            data:
+              value: "{{ value }}"
+      - name: "Living Room Brightness"
+        unique_id: mock_living_room_brightness
+        state: "{{ states('input_number.mock_brightness_level') }}"
+        min: 0
+        max: 100
+        step: 1
+        set_value:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.mock_brightness_level
+            data:
+              value: "{{ value }}"
+      - name: "Speaker Volume"
+        unique_id: mock_speaker_volume
+        state: "{{ states('input_number.mock_volume_level') }}"
+        min: 0
+        max: 100
+        step: 1
+        set_value:
+          - service: input_number.set_value
+            target:
+              entity_id: input_number.mock_volume_level
+            data:
+              value: "{{ value }}"
+
+  # Template select entity (backed by input_select)
+  - select:
+      - name: "HVAC Mode"
+        unique_id: mock_hvac_mode
+        state: "{{ states('input_select.mock_hvac_mode') }}"
+        options: "{{ state_attr('input_select.mock_hvac_mode', 'options') }}"
+        select_option:
+          - service: input_select.select_option
+            target:
+              entity_id: input_select.mock_hvac_mode
+            data:
+              option: "{{ option }}"
+
+  # Template button entity
+  - button:
+      - name: "Restart Router"
+        unique_id: mock_restart_router
+        press:
+          - service: system_log.write
+            data:
+              message: "Mock router restart pressed"
+
+# --- Template Switches --------------------------------------------------------
+switch:
+  - platform: template
+    switches:
+      smart_plug_tv:
+        friendly_name: "Smart Plug TV"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_tv', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_tv
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_tv
+      smart_plug_office_ac:
+        friendly_name: "Smart Plug Office AC"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_office_ac', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_office_ac
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_office_ac
+      smart_plug_coffee_machine:
+        friendly_name: "Smart Plug Coffee Machine"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_coffee_machine', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_coffee_machine
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_coffee_machine
+      smart_plug_lava_lamp:
+        friendly_name: "Smart Plug Lava Lamp"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_lava_lamp', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_lava_lamp
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_lava_lamp
+      smart_plug_kitchen_heater:
+        friendly_name: "Smart Plug Kitchen Heater"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_kitchen_heater', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_kitchen_heater
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_kitchen_heater
+      smart_plug_office_heater:
+        friendly_name: "Smart Plug Office Heater"
+        value_template: "{{ is_state('input_boolean.mock_sw_smart_plug_office_heater', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_office_heater
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_sw_smart_plug_office_heater
+
+# --- Template Lights ----------------------------------------------------------
+light:
+  - platform: template
+    lights:
+      led_strip:
+        friendly_name: "LED Strip"
+        value_template: "{{ is_state('input_boolean.mock_lt_led_strip', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_lt_led_strip
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_lt_led_strip
+      star_projector:
+        friendly_name: "Star Projector"
+        value_template: "{{ is_state('input_boolean.mock_lt_star_projector', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_lt_star_projector
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_lt_star_projector
+
+# --- Template Fan -------------------------------------------------------------
+fan:
+  - platform: template
+    fans:
+      ceiling_fan:
+        friendly_name: "Ceiling Fan"
+        value_template: "{{ is_state('input_boolean.mock_fn_ceiling_fan', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_fn_ceiling_fan
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_fn_ceiling_fan
+        speed_count: 3
+
+# --- Climate (Generic Thermostat) ---------------------------------------------
+climate:
+  - platform: generic_thermostat
+    name: Kitchen Climate Control
+    unique_id: mock_kitchen_climate
+    heater: input_boolean.mock_sw_smart_plug_kitchen_heater
+    target_sensor: sensor.kitchen_temperature
+    min_temp: 15
+    max_temp: 30
+    target_temp: 21
+  - platform: generic_thermostat
+    name: Fireplace
+    unique_id: mock_fireplace
+    heater: input_boolean.manual_fire_place
+    target_sensor: sensor.fireplace_temperature
+    min_temp: 15
+    max_temp: 35
+    target_temp: 22
+  - platform: generic_thermostat
+    name: Office Climate Control
+    unique_id: mock_office_climate
+    heater: input_boolean.mock_sw_smart_plug_office_heater
+    target_sensor: sensor.office_temperature
+    min_temp: 15
+    max_temp: 30
+    target_temp: 22
