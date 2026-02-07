@@ -57,13 +57,17 @@ ha-font-smoothing: antialiased
 primary-text-color: var(--token-color-text-primary)
 secondary-text-color: var(--token-color-text-secondary)
 text-primary-color: var(--token-color-text-primary)
+text-accent-color: var(--accent-color)
 disabled-text-color: var(--token-color-text-disabled)
+link-text-color: var(--primary-color)
 app-header-edit-text-color: var(--token-color-text-primary)
 text-light-primary-color: rgb(28, 29, 33)
 # ..............................................................................
 # Icon colors
 paper-item-icon-color: var(--token-color-text-primary)
+paper-item-icon-active-color: var(--accent-color)
 state-inactive-color: var(--token-color-text-secondary)
+state-icon-unavailable-color: var(--disabled-color)
 # ..............................................................................
 # Main interface colors
 primary-color: var(--token-color-primary)
@@ -73,6 +77,8 @@ accent-color: var(--token-color-accent)
 divider-color: var(--token-color-background-divider)
 scrollbar-thumb-color: var(--token-color-background-scrollbar-thumb)
 disabled-color: var(--token-color-disabled)
+outline-color: var(--divider-color)
+outline-hover-color: var(--primary-color)
 # ..............................................................................
 # Feedback colors
 info-color: var(--token-color-feedback-info)
@@ -85,6 +91,11 @@ lovelace-background: var(--token-color-background-base)
 primary-background-color: var(--token-color-background-base)
 secondary-background-color: var(--token-color-background-secondary)
 clear-background-color: var(--token-color-background-input-base)
+table-row-background-color: var(--primary-background-color)
+table-row-alternative-background-color: var(--secondary-background-color)
+material-background-color: var(--primary-background-color)
+material-secondary-background-color: var(--secondary-background-color)
+data-table-background-color: var(--card-background-color)
 # ..............................................................................
 # Navbar colors
 app-header-background-color: var(--primary-background-color)
@@ -97,6 +108,7 @@ sidebar-text-color: var(--sidebar-icon-color)
 sidebar-background-color: var(--token-color-background-sidebar)
 sidebar-selected-icon-color: var(--token-color-icon-sidebar-selected)
 sidebar-selected-text-color: var(--token-color-text-sidebar-selected)
+sidebar-selected-background-color: rgba(var(--token-rgb-primary), 0.12)
 # ..............................................................................
 # Cards
 border-radius: var(--token-size-radius-card)
@@ -108,6 +120,8 @@ ha-card-border-width: var(--token-size-width-border-card)
 ha-card-border-style: none
 ha-card-border: none
 ha-card-box-shadow: var(--token-shadow-card-medium)
+paper-card-background-color: var(--ha-card-background)
+ha-card-header-color: var(--primary-text-color)
 # ..............................................................................
 # Sections
 ha-view-sections-column-gap: var(--token-size-spacing-medium)
@@ -115,10 +129,12 @@ ha-view-sections-column-min-width: var(--token-size-section-min-width)
 # ..............................................................................
 # States
 state-icon-color: var(--token-color-icon-primary)
+state-active-color: var(--accent-color)
 state-on-color: var(--token-color-feedback-success)
 state-off-color: var(--token-color-feedback-error)
 # ..............................................................................
 # Label-badge
+label-badge-background-color: var(--token-color-background-label-badge)
 label-badge-text-color: var(--token-color-text-primary)
 label-badge-red: var(--token-color-background-label-badge-red)
 label-badge-blue: var(--token-color-background-label-badge-blue)
@@ -130,6 +146,10 @@ label-badge-grey: var(--token-color-background-label-badge-grey)
 ha-chip-text-color: var(--token-color-text-chip)
 # ..............................................................................
 # Dialog
+paper-dialog-background-color: var(--card-background-color)
+paper-listbox-background-color: var(--card-background-color)
+ha-dialog-border-radius: var(--token-size-radius-large)
+more-info-header-background: var(--card-background-color)
 mdc-dialog-scrim-color: var(--token-color-background-popup-scrim)
 # ..............................................................................
 # Material Design Components
@@ -144,6 +164,9 @@ mdc-theme-text-primary-on-background: var(--token-color-text-primary)
 mdc-theme-text-secondary-on-background: var(--token-color-text-secondary)
 mdc-theme-text-disabled-on-light: var(--token-color-text-disabled)
 mdc-theme-error: var(--error-color)
+mdc-button-outline-color: var(--divider-color)
+mdc-ripple-color: var(--primary-color)
+mdc-linear-progress-buffer-color: var(--secondary-background-color)
 # ..............................................................................
 # Slider
 paper-slider-knob-color: var(--token-color-primary)
@@ -151,6 +174,7 @@ paper-slider-knob-start-color: var(--paper-slider-knob-color)
 paper-slider-pin-color: var(--paper-slider-knob-color)
 paper-slider-active-color: var(--paper-slider-knob-color)
 paper-slider-secondary-color: var(--light-primary-color)
+md-slider-inactive-track-color: rgba(var(--token-rgb-primary), 0.3)
 # ..............................................................................
 # Switch
 switch-checked-button-color: var(--primary-color)
@@ -181,8 +205,25 @@ input-disabled-label-ink-color: var(--disabled-text-color)
 input-idle-line-color: var(--background-color)
 input-dropdown-icon-color: var(--secondary-text-color)
 input-hover-line-color: var(--primary-color)
+input-disabled-line-color: var(--disabled-color)
+mdc-select-fill-color: var(--input-fill-color)
+mdc-select-ink-color: var(--input-ink-color)
+mdc-select-label-ink-color: var(--input-label-ink-color)
 mdc-select-idle-line-color: var(--token-color-background-base)
+mdc-select-dropdown-icon-color: var(--input-dropdown-icon-color)
+mdc-select-hover-line-color: var(--input-hover-line-color)
+mdc-text-field-fill-color: var(--input-fill-color)
+mdc-text-field-ink-color: var(--input-ink-color)
+mdc-text-field-label-ink-color: var(--input-label-ink-color)
 mdc-text-field-idle-line-color: var(--mdc-select-idle-line-color)
+mdc-text-field-hover-line-color: var(--input-hover-line-color)
+input-outlined-idle-border-color: var(--divider-color)
+input-outlined-hover-border-color: var(--primary-color)
+input-outlined-disabled-border-color: var(--disabled-color)
+paper-input-container-focus-color: var(--primary-color)
+# ..............................................................................
+# Markdown
+markdown-code-background-color: var(--code-editor-background-color)
 # ..............................................................................
 # Editor
 code-editor-background-color: var(--token-color-background-base)
@@ -192,6 +233,18 @@ codemirror-atom: var(--codemirror-property)
 codemirror-string: var(--token-color-codemirror-string)
 codemirror-keyword: var(--token-color-codemirror-keyword)
 codemirror-number: var(--token-color-codemirror-number)
+codemirror-comment: var(--token-color-text-secondary)
+codemirror-operator: var(--token-color-text-primary)
+codemirror-variable: var(--token-color-codemirror-keyword)
+codemirror-variable-2: var(--accent-color)
+codemirror-variable-3: var(--token-color-codemirror-number)
+codemirror-builtin: var(--token-color-codemirror-keyword)
+codemirror-def: var(--token-color-codemirror-string)
+codemirror-string-2: var(--codemirror-string)
+codemirror-tag: var(--token-color-codemirror-keyword)
+codemirror-attribute: var(--accent-color)
+codemirror-qualifier: var(--token-color-codemirror-string)
+codemirror-type: var(--token-color-codemirror-number)
 # ------------------------------------------------------------------------------
 # Extentions
 # ------------------------------------------------------------------------------
@@ -222,8 +275,115 @@ ha-color-primary-80: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.60))
 ha-color-primary-90: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.75))
 ha-color-primary-95: hsl(from rgb(var(--token-rgb-primary)) h s calc(l * 1.90))
 # ------------------------------------------------
+# HA Named Color Variables
+# ------------------------------------------------
+red-color: rgb(var(--token-rgb-red))
+pink-color: rgb(var(--token-rgb-pink))
+purple-color: rgb(var(--token-rgb-purple))
+deep-purple-color: rgb(var(--token-rgb-deep-purple))
+indigo-color: rgb(var(--token-rgb-indigo))
+blue-color: rgb(var(--token-rgb-blue))
+light-blue-color: rgb(var(--token-rgb-light-blue))
+cyan-color: rgb(var(--token-rgb-cyan))
+teal-color: rgb(var(--token-rgb-teal))
+green-color: rgb(var(--token-rgb-green))
+light-green-color: rgb(var(--token-rgb-light-green))
+lime-color: rgb(var(--token-rgb-lime))
+yellow-color: rgb(var(--token-rgb-yellow))
+amber-color: rgb(var(--token-rgb-amber))
+orange-color: rgb(var(--token-rgb-orange))
+deep-orange-color: rgb(var(--token-rgb-deep-orange))
+brown-color: rgb(var(--token-rgb-brown))
+light-grey-color: rgb(var(--token-rgb-grey))
+grey-color: rgb(var(--token-rgb-grey))
+blue-grey-color: rgb(var(--token-rgb-blue-grey))
+white-color: rgb(var(--token-rgb-white))
+black-color: rgb(var(--token-rgb-black))
+# ------------------------------------------------
+# HA Neutral Color Scale
+# ------------------------------------------------
+ha-color-neutral-05: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 0.15))
+ha-color-neutral-10: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 0.25))
+ha-color-neutral-20: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 0.40))
+ha-color-neutral-30: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 0.70))
+ha-color-neutral-40: rgb(var(--token-rgb-grey))
+ha-color-neutral-50: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.15))
+ha-color-neutral-60: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.30))
+ha-color-neutral-70: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.45))
+ha-color-neutral-80: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.60))
+ha-color-neutral-90: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.75))
+ha-color-neutral-95: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.90))
+# ------------------------------------------------
+# HA Orange Color Scale
+# ------------------------------------------------
+ha-color-orange-05: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 0.15))
+ha-color-orange-10: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 0.25))
+ha-color-orange-20: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 0.40))
+ha-color-orange-30: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 0.70))
+ha-color-orange-40: rgb(var(--token-rgb-orange))
+ha-color-orange-50: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.15))
+ha-color-orange-60: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.30))
+ha-color-orange-70: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.45))
+ha-color-orange-80: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.60))
+ha-color-orange-90: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.75))
+ha-color-orange-95: hsl(from rgb(var(--token-rgb-orange)) h s calc(l * 1.90))
+# ------------------------------------------------
+# HA Red Color Scale
+# ------------------------------------------------
+ha-color-red-05: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 0.15))
+ha-color-red-10: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 0.25))
+ha-color-red-20: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 0.40))
+ha-color-red-30: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 0.70))
+ha-color-red-40: rgb(var(--token-rgb-red))
+ha-color-red-50: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.15))
+ha-color-red-60: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.30))
+ha-color-red-70: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.45))
+ha-color-red-80: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.60))
+ha-color-red-90: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.75))
+ha-color-red-95: hsl(from rgb(var(--token-rgb-red)) h s calc(l * 1.90))
+# ------------------------------------------------
+# HA Green Color Scale
+# ------------------------------------------------
+ha-color-green-05: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 0.15))
+ha-color-green-10: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 0.25))
+ha-color-green-20: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 0.40))
+ha-color-green-30: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 0.70))
+ha-color-green-40: rgb(var(--token-rgb-green))
+ha-color-green-50: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.15))
+ha-color-green-60: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.30))
+ha-color-green-70: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.45))
+ha-color-green-80: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.60))
+ha-color-green-90: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.75))
+ha-color-green-95: hsl(from rgb(var(--token-rgb-green)) h s calc(l * 1.90))
+# ------------------------------------------------
+# Energy Dashboard Colors
+# ------------------------------------------------
+energy-grid-consumption-color: rgb(var(--token-rgb-blue))
+energy-grid-return-color: rgb(var(--token-rgb-deep-purple))
+energy-solar-color: rgb(var(--token-rgb-orange))
+energy-non-fossil-color: rgb(var(--token-rgb-green))
+energy-battery-out-color: rgb(var(--token-rgb-teal))
+energy-battery-in-color: rgb(var(--token-rgb-purple))
+energy-gas-color: rgb(var(--token-rgb-red))
+energy-water-color: rgb(var(--token-rgb-cyan))
+# ------------------------------------------------
+# Graph Colors
+# ------------------------------------------------
+graph-color-1: rgb(var(--token-rgb-primary))
+graph-color-2: rgb(var(--token-rgb-blue))
+graph-color-3: rgb(var(--token-rgb-green))
+graph-color-4: rgb(var(--token-rgb-purple))
+graph-color-5: rgb(var(--token-rgb-red))
+graph-color-6: rgb(var(--token-rgb-cyan))
+graph-color-7: rgb(var(--token-rgb-teal))
+graph-color-8: rgb(var(--token-rgb-pink))
+graph-color-9: rgb(var(--token-rgb-deep-orange))
+graph-color-10: rgb(var(--token-rgb-indigo))
+graph-color-11: rgb(var(--token-rgb-light-green))
+graph-color-12: rgb(var(--token-rgb-amber))
+graph-color-13: rgb(var(--token-rgb-deep-purple))
+graph-color-14: rgb(var(--token-rgb-brown))
+# ------------------------------------------------
 # RGB Indicator Color Definitions
 # ------------------------------------------------
-# Grey
-light-grey-color: rgb(var(--token-rgb-grey))
 mush-rgb-grey: var(--token-rgb-grey)

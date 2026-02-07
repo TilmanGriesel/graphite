@@ -75,6 +75,11 @@ rgb-accent-color: 224, 138, 0
 rgb-card-background-color: 35, 36, 43
 rgb-secondary-text-color: 138, 140, 153
 rgb-disabled-text-color: 189, 189, 189
+rgb-text-primary-color: 228, 228, 231
+rgb-warning-color: 255, 219, 117
+rgb-error-color: 234, 114, 135
+rgb-success-color: 118, 214, 152
+rgb-info-color: 39, 209, 246
 # ..............................................................................
 # Font Weight
 token-weight-font-body: 400
