@@ -8,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 20:16:28
+  # This file was generated at 2026-02-07 21:10:41
   #------------------------------------------------------
 
   card-mod-theme: Graphite Light
@@ -460,9 +460,9 @@ Graphite Light:
   ha-color-neutral-50: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.15))
   ha-color-neutral-60: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.30))
   ha-color-neutral-70: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.45))
-  ha-color-neutral-80: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.60))
-  ha-color-neutral-90: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.75))
-  ha-color-neutral-95: hsl(from rgb(var(--token-rgb-grey)) h s calc(l * 1.90))
+  ha-color-neutral-80: color-mix(in srgb, rgb(var(--token-rgb-grey)) 40%, white)
+  ha-color-neutral-90: color-mix(in srgb, rgb(var(--token-rgb-grey)) 25%, white)
+  ha-color-neutral-95: color-mix(in srgb, rgb(var(--token-rgb-grey)) 15%, white)
   # ------------------------------------------------
   # HA Orange Color Scale
   # ------------------------------------------------
@@ -533,6 +533,17 @@ Graphite Light:
   graph-color-12: rgb(var(--token-rgb-amber))
   graph-color-13: rgb(var(--token-rgb-deep-purple))
   graph-color-14: rgb(var(--token-rgb-brown))
+  # ------------------------------------------------
+  # HA Disabled State Overrides
+  # ------------------------------------------------
+  # Neutral scale high values overflow (>100% lightness) on dark themes
+  # with mid-lightness grey, producing white-on-white disabled buttons.
+  # Use token-aware RGBA to ensure contrast on both dark and light themes.
+  ha-color-fill-disabled-normal-resting: rgba(var(--token-rgb-grey), 0.08)
+  ha-color-on-disabled-normal: rgba(var(--token-rgb-grey), 0.5)
+  ha-color-fill-disabled-loud-resting: rgba(var(--token-rgb-grey), 0.22)
+  ha-color-on-disabled-loud: rgba(var(--token-rgb-grey), 0.55)
+  ha-color-on-disabled-quiet: rgba(var(--token-rgb-grey), 0.5)
   # ------------------------------------------------
   # RGB Indicator Color Definitions
   # ------------------------------------------------
