@@ -64,7 +64,7 @@ ha-font-smoothing: auto
 primary-text-color: var(--token-color-text-primary)
 secondary-text-color: var(--token-color-text-secondary)
 text-primary-color: var(--token-color-text-primary)
-text-accent-color: var(--accent-color)
+text-accent-color: "#fff"
 disabled-text-color: var(--token-color-text-disabled)
 link-text-color: var(--primary-color)
 app-header-edit-text-color: var(--token-color-text-primary)
