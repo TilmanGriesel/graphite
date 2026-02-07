@@ -8,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 21:10:41
+  # This file was generated at 2026-02-07 22:00:58
   #------------------------------------------------------
 
   card-mod-theme: Graphite Light
@@ -544,6 +544,16 @@ Graphite Light:
   ha-color-fill-disabled-loud-resting: rgba(var(--token-rgb-grey), 0.22)
   ha-color-on-disabled-loud: rgba(var(--token-rgb-grey), 0.55)
   ha-color-on-disabled-quiet: rgba(var(--token-rgb-grey), 0.5)
+  # ------------------------------------------------
+  # HA Primary Fill Overrides
+  # ------------------------------------------------
+  # HSL-computed primary fills produce opaque light-orange backgrounds that
+  # lack contrast with orange text on dark themes. Use semi-transparent RGBA
+  # so the card background shows through, improving text legibility.
+  ha-color-fill-primary-normal-resting: rgba(var(--token-rgb-primary), 0.15)
+  ha-color-fill-primary-normal-hover: rgba(var(--token-rgb-primary), 0.25)
+  ha-color-fill-primary-quiet-resting: rgba(var(--token-rgb-primary), 0.08)
+  ha-color-fill-primary-quiet-hover: rgba(var(--token-rgb-primary), 0.15)
   # ------------------------------------------------
   # RGB Indicator Color Definitions
   # ------------------------------------------------
