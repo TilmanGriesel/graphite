@@ -1,0 +1,5 @@
+# Minimal Home Assistant configuration for Graphite theme testing
+default_config:
+
+frontend:
+  themes: !include_dir_merge_named themes
