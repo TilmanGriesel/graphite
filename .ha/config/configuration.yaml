@@ -37,11 +37,44 @@ input_boolean:
     name: Mock Kitchen Heater
   mock_sw_smart_plug_office_heater:
     name: Mock Office Heater
+  # Backing state for unavailable entities
+  mock_unavail_light:
+    name: Mock Unavailable Light
+  mock_unavail_switch:
+    name: Mock Unavailable Switch
+  mock_unavail_fan:
+    name: Mock Unavailable Fan
   # Backing state for lights
   mock_lt_led_strip:
     name: Mock LED Strip
   mock_lt_star_projector:
     name: Mock Star Projector
+  # Backing state for cover
+  mock_cv_garage_door:
+    name: Mock Garage Door
+  mock_cv_living_room_blinds:
+    name: Mock Living Room Blinds
+  mock_cv_bedroom_curtains:
+    name: Mock Bedroom Curtains
+  # Backing state for lock
+  mock_lk_front_door:
+    name: Mock Front Door Lock
+  mock_lk_back_door:
+    name: Mock Back Door Lock
+  # Backing state for alarm
+  mock_alarm_home:
+    name: Mock Home Alarm
+  # Backing state for vacuum
+  mock_vac_roborock:
+    name: Mock Roborock
+  # Backing state for humidifier
+  mock_hm_bedroom:
+    name: Mock Bedroom Humidifier
+  # Backing state for media player
+  mock_mp_living_room:
+    name: Mock Living Room Speaker
+  mock_mp_kitchen:
+    name: Mock Kitchen Display
   # Backing state for fan
   mock_fn_ceiling_fan:
     name: Mock Ceiling Fan
@@ -78,6 +111,36 @@ input_number:
     max: 100
     step: 1
     initial: 40
+  mock_cover_garage_position:
+    name: Mock Garage Door Position
+    min: 0
+    max: 100
+    step: 1
+    initial: 0
+  mock_cover_blinds_position:
+    name: Mock Blinds Position
+    min: 0
+    max: 100
+    step: 1
+    initial: 75
+  mock_cover_curtains_position:
+    name: Mock Curtains Position
+    min: 0
+    max: 100
+    step: 1
+    initial: 100
+  mock_humidifier_humidity:
+    name: Mock Humidifier Target Humidity
+    min: 30
+    max: 80
+    step: 5
+    initial: 50
+  mock_mp_volume:
+    name: Mock Media Player Volume
+    min: 0
+    max: 100
+    step: 1
+    initial: 35
 
 # --- Input Selects (backing for template select entities) ---------------------
 input_select:
@@ -90,6 +153,23 @@ input_select:
       - Fan Only
       - "Off"
     initial: Auto
+  mock_mp_source:
+    name: Mock Media Source
+    options:
+      - Spotify
+      - Radio
+      - Bluetooth
+      - AirPlay
+    initial: Spotify
+  mock_alarm_state:
+    name: Mock Alarm State
+    options:
+      - disarmed
+      - armed_home
+      - armed_away
+      - armed_night
+      - triggered
+    initial: disarmed
 
 # --- Scripts ------------------------------------------------------------------
 script:
@@ -266,6 +346,14 @@ template:
         state: "idle"
         icon: mdi:printer-3d
 
+      # -- Unavailable entities --
+      - name: "Unavailable Sensor"
+        unique_id: mock_unavail_sensor
+        state: "42"
+        unit_of_measurement: "°C"
+        device_class: temperature
+        availability: "{{ false }}"
+
       # -- Ceiling Fan --
       - name: "Ceiling Fan RPM"
         unique_id: mock_ceiling_fan_rpm
@@ -306,6 +394,11 @@ template:
         unique_id: mock_internet_connectivity
         state: "{{ true }}"
         device_class: connectivity
+      - name: "Unavailable Contact"
+        unique_id: mock_unavail_contact
+        state: "{{ false }}"
+        device_class: window
+        availability: "{{ false }}"
 
   # Template number entities (backed by input_number)
   - number:
@@ -450,6 +543,18 @@ switch:
           service: input_boolean.turn_off
           target:
             entity_id: input_boolean.mock_sw_smart_plug_office_heater
+      unavailable_switch:
+        friendly_name: "Unavailable Switch"
+        value_template: "{{ is_state('input_boolean.mock_unavail_switch', 'on') }}"
+        availability_template: "{{ false }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_unavail_switch
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_unavail_switch
 
 # --- Template Lights ----------------------------------------------------------
 light:
@@ -477,6 +582,18 @@ light:
           service: input_boolean.turn_off
           target:
             entity_id: input_boolean.mock_lt_star_projector
+      unavailable_light:
+        friendly_name: "Unavailable Light"
+        value_template: "{{ is_state('input_boolean.mock_unavail_light', 'on') }}"
+        availability_template: "{{ false }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_unavail_light
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_unavail_light
 
 # --- Template Fan -------------------------------------------------------------
 fan:
@@ -493,6 +610,19 @@ fan:
           service: input_boolean.turn_off
           target:
             entity_id: input_boolean.mock_fn_ceiling_fan
+        speed_count: 3
+      unavailable_fan:
+        friendly_name: "Unavailable Fan"
+        value_template: "{{ is_state('input_boolean.mock_unavail_fan', 'on') }}"
+        availability_template: "{{ false }}"
+        turn_on:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_unavail_fan
+        turn_off:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_unavail_fan
         speed_count: 3
 
 # --- Climate (Generic Thermostat) ---------------------------------------------
@@ -521,3 +651,195 @@ climate:
     min_temp: 15
     max_temp: 30
     target_temp: 22
+
+# ==============================================================================
+# Kitchen Sink: Additional entity types for comprehensive theme testing
+# ==============================================================================
+
+# --- Cover (Blinds, Curtains, Garage Door) -----------------------------------
+cover:
+  - platform: template
+    covers:
+      garage_door:
+        device_class: garage
+        friendly_name: "Garage Door"
+        value_template: "{{ is_state('input_boolean.mock_cv_garage_door', 'on') }}"
+        position_template: "{{ states('input_number.mock_cover_garage_position') | int }}"
+        open_cover:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_cv_garage_door
+        close_cover:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_cv_garage_door
+        set_cover_position:
+          service: input_number.set_value
+          target:
+            entity_id: input_number.mock_cover_garage_position
+          data:
+            value: "{{ position }}"
+      living_room_blinds:
+        device_class: blind
+        friendly_name: "Living Room Blinds"
+        value_template: "{{ is_state('input_boolean.mock_cv_living_room_blinds', 'on') }}"
+        position_template: "{{ states('input_number.mock_cover_blinds_position') | int }}"
+        open_cover:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_cv_living_room_blinds
+        close_cover:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_cv_living_room_blinds
+        set_cover_position:
+          service: input_number.set_value
+          target:
+            entity_id: input_number.mock_cover_blinds_position
+          data:
+            value: "{{ position }}"
+      bedroom_curtains:
+        device_class: curtain
+        friendly_name: "Bedroom Curtains"
+        value_template: "{{ is_state('input_boolean.mock_cv_bedroom_curtains', 'on') }}"
+        position_template: "{{ states('input_number.mock_cover_curtains_position') | int }}"
+        open_cover:
+          service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.mock_cv_bedroom_curtains
+        close_cover:
+          service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.mock_cv_bedroom_curtains
+        set_cover_position:
+          service: input_number.set_value
+          target:
+            entity_id: input_number.mock_cover_curtains_position
+          data:
+            value: "{{ position }}"
+
+# --- Lock ---------------------------------------------------------------------
+lock:
+  - platform: template
+    name: "Front Door Lock"
+    unique_id: mock_front_door_lock
+    value_template: "{{ is_state('input_boolean.mock_lk_front_door', 'on') }}"
+    lock:
+      service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.mock_lk_front_door
+    unlock:
+      service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.mock_lk_front_door
+  - platform: template
+    name: "Back Door Lock"
+    unique_id: mock_back_door_lock
+    value_template: "{{ is_state('input_boolean.mock_lk_back_door', 'on') }}"
+    lock:
+      service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.mock_lk_back_door
+    unlock:
+      service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.mock_lk_back_door
+
+# --- Alarm Control Panel -----------------------------------------------------
+alarm_control_panel:
+  - platform: template
+    panels:
+      home_alarm:
+        name: "Home Alarm"
+        unique_id: mock_home_alarm
+        value_template: "{{ states('input_select.mock_alarm_state') }}"
+        arm_away:
+          service: input_select.select_option
+          target:
+            entity_id: input_select.mock_alarm_state
+          data:
+            option: armed_away
+        arm_home:
+          service: input_select.select_option
+          target:
+            entity_id: input_select.mock_alarm_state
+          data:
+            option: armed_home
+        arm_night:
+          service: input_select.select_option
+          target:
+            entity_id: input_select.mock_alarm_state
+          data:
+            option: armed_night
+        disarm:
+          service: input_select.select_option
+          target:
+            entity_id: input_select.mock_alarm_state
+          data:
+            option: disarmed
+
+# --- Counter ------------------------------------------------------------------
+counter:
+  daily_visitors:
+    name: "Daily Visitors"
+    initial: 12
+    step: 1
+    icon: mdi:account-group
+  package_deliveries:
+    name: "Package Deliveries"
+    initial: 3
+    step: 1
+    icon: mdi:package-variant-closed
+
+# --- Timer --------------------------------------------------------------------
+timer:
+  laundry:
+    name: "Laundry Timer"
+    duration: "01:30:00"
+    icon: mdi:washing-machine
+  oven:
+    name: "Oven Timer"
+    duration: "00:45:00"
+    icon: mdi:stove
+
+# --- Input Datetime -----------------------------------------------------------
+input_datetime:
+  morning_alarm:
+    name: "Morning Alarm"
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
+  vacation_start:
+    name: "Vacation Start"
+    has_date: true
+    has_time: false
+    icon: mdi:calendar
+
+# --- Scene --------------------------------------------------------------------
+scene:
+  - name: "Movie Night"
+    icon: mdi:movie-open
+    entities:
+      input_boolean.mock_sw_smart_plug_tv:
+        state: "on"
+      input_boolean.mock_lt_led_strip:
+        state: "on"
+  - name: "Good Morning"
+    icon: mdi:weather-sunny
+    entities:
+      input_boolean.mock_cv_living_room_blinds:
+        state: "on"
+      input_boolean.mock_sw_smart_plug_coffee_machine:
+        state: "on"
+  - name: "Away"
+    icon: mdi:home-export-outline
+    entities:
+      input_boolean.mock_sw_smart_plug_tv:
+        state: "off"
+      input_boolean.mock_lt_led_strip:
+        state: "off"
+  - name: "Bedtime"
+    icon: mdi:bed
+    entities:
+      input_boolean.mock_sw_smart_plug_tv:
+        state: "off"
