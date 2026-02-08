@@ -8,7 +8,7 @@ Graphite E-ink Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-08 14:13:55
+  # This file was generated at 2026-02-08 14:22:36
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Light
@@ -475,7 +475,12 @@ Graphite E-ink Light:
   mdc-theme-surface: var(--token-color-background-card)
   mdc-theme-on-primary: var(--token-color-background-base)
   mdc-theme-on-secondary: var(--token-color-background-base)
+  mdc-theme-background: var(--token-color-background-base)
   mdc-theme-on-surface: rgb(var(--token-rgb-grey-1))
+  mdc-theme-text-primary-on-background: var(--token-color-text-primary)
+  mdc-theme-text-secondary-on-background: var(--token-color-text-secondary)
+  mdc-theme-text-disabled-on-light: var(--token-color-text-disabled)
+  mdc-theme-error: var(--error-color)
   mdc-button-outline-color: var(--divider-color)
   mdc-ripple-color: var(--primary-color)
   mdc-linear-progress-buffer-color: var(--secondary-background-color)
