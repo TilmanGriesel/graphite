@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-07 22:28:27
+  # This file was generated at 2026-02-08 14:13:55
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -43,7 +43,7 @@ Graphite:
   token-color-primary: rgb(var(--token-rgb-primary))
   token-color-primary-light: rgb(105 124 144)
   token-color-accent: var(--token-color-primary)
-  token-color-disabled: rgb(0, 0, 0)
+  token-color-disabled: rgb(var(--token-rgb-disabled))
   token-color-feedback-info: rgb(39, 209, 246)
   token-color-feedback-warning: rgb(255, 219, 117)
   token-color-feedback-error: rgb(234, 114, 135)
