@@ -8,7 +8,7 @@ Graphite E-ink Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-08 14:22:36
+  # This file was generated at 2026-02-08 15:08:56
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Light
@@ -69,6 +69,7 @@ Graphite E-ink Light:
   token-color-text-sidebar-selected: rgb(var(--token-rgb-grey-1))
   token-color-text-sidebar: var(--token-color-text-secondary)
   token-color-text-label-badge: rgb(var(--token-rgb-grey-1))
+  token-color-text-on-accent: rgb(255, 255, 255)
   token-color-text-chip: var(--token-color-black)
   token-color-background-base: rgb(255, 255, 255)
   token-color-background-secondary: rgb(225, 225, 225)
@@ -78,7 +79,7 @@ Graphite E-ink Light:
   token-color-background-label-badge: rgb(var(--token-rgb-grey-4))
   token-color-background-card: rgb(255, 255, 255)
   token-color-background-skrim: rgba(0, 0, 0, 0.8)
-  token-color-background-divider: var(--token-color-background-sidebar)
+  token-color-background-divider: rgb(var(--token-rgb-grey-4))
   token-color-background-scrollbar-thumb: rgb(var(--token-rgb-grey-3))
   token-color-background-label-badge-red: rgb(var(--token-rgb-grey-4))
   token-color-background-label-badge-green: rgb(var(--token-rgb-grey-4))
@@ -220,7 +221,7 @@ Graphite E-ink Light:
   primary-text-color: var(--token-color-text-primary)
   secondary-text-color: var(--token-color-text-secondary)
   text-primary-color: var(--token-color-text-primary)
-  text-accent-color: "#fff"
+  text-accent-color: var(--token-color-text-on-accent)
   disabled-text-color: var(--token-color-text-disabled)
   link-text-color: var(--primary-color)
   app-header-edit-text-color: var(--token-color-text-primary)
