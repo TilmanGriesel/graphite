@@ -8,7 +8,7 @@ Graphite E-ink Dark:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-02-08 15:08:56
+  # This file was generated at 2026-04-16 11:41:39
   #------------------------------------------------------
 
   card-mod-theme: Graphite E-ink Dark
@@ -343,7 +343,7 @@ Graphite E-ink Dark:
   # ..............................................................................
   # Text Fields an Dropdown
   input-background-color: var(--token-color-background-input-base)
-  input-background-token-color-disabled: rgba(var(--input-background-color), 0.5)
+  input-background-token-color-disabled: color-mix(in srgb, var(--input-background-color) 50%, transparent)
   input-fill-color: var(--input-background-color)
   input-ink-color: var(--token-color-text-primary)
   input-label-ink-color: var(--token-color-text-primary)
@@ -369,6 +369,11 @@ Graphite E-ink Dark:
   input-outlined-hover-border-color: var(--primary-color)
   input-outlined-disabled-border-color: var(--disabled-color)
   paper-input-container-focus-color: var(--primary-color)
+  # HA 2026.3+ Web Awesome / semantic color variables
+  ha-color-form-background: var(--token-color-background-input-base)
+  ha-color-form-background-hover: var(--token-color-background-input-base)
+  ha-color-form-background-disabled: var(--token-color-background-input-disabled)
+  wa-color-surface-raised: var(--token-color-background-card)
   # ..............................................................................
   # Markdown
   markdown-code-background-color: var(--code-editor-background-color)
