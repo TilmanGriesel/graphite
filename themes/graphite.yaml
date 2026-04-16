@@ -8,7 +8,7 @@ Graphite:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-04-16 11:41:39
+  # This file was generated at 2026-04-16 11:54:13
   #------------------------------------------------------
 
   card-mod-theme: Graphite
@@ -376,6 +376,13 @@ Graphite:
   ha-color-form-background-hover: var(--token-color-background-input-base)
   ha-color-form-background-disabled: var(--token-color-background-input-disabled)
   wa-color-surface-raised: var(--token-color-background-card)
+  # Dropdown/menu item hover fills (light defaults are near-white; override for dark themes)
+  ha-color-fill-neutral-quiet-resting: var(--token-color-background-card)
+  ha-color-fill-neutral-quiet-hover: var(--token-color-background-input-base)
+  ha-color-fill-neutral-quiet-active: var(--token-color-background-card)
+  ha-color-fill-neutral-normal-resting: var(--token-color-background-secondary)
+  ha-color-fill-neutral-normal-hover: var(--token-color-background-card)
+  ha-color-fill-neutral-normal-active: var(--token-color-background-secondary)
   # ..............................................................................
   # Markdown
   markdown-code-background-color: var(--code-editor-background-color)
