@@ -11,7 +11,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2026-04-16 11:54:13
+      # This file was generated at 2026-05-05 21:35:46
       #------------------------------------------------------
 
 
@@ -582,7 +582,7 @@ Graphite Auto:
       # https://github.com/TilmanGriesel/graphite
 
       #------------------------------------------------------
-      # This file was generated at 2026-04-16 11:54:13
+      # This file was generated at 2026-05-05 21:35:46
       #------------------------------------------------------
 
 
@@ -601,8 +601,8 @@ Graphite Auto:
       token-rgb-light-blue: 3, 169, 244
       token-rgb-cyan: 0, 188, 212
       token-rgb-teal: 107, 255, 237
-      token-rgb-green: 141, 253, 166
-      token-rgb-light-green: 156, 255, 166
+      token-rgb-green: 32, 126, 71
+      token-rgb-light-green: 42, 126, 77
       token-rgb-lime: 205, 220, 57
       token-rgb-yellow: 255, 235, 59
       token-rgb-amber: 255, 211, 99
@@ -620,7 +620,7 @@ Graphite Auto:
       token-color-feedback-info: rgb(39, 209, 246)
       token-color-feedback-warning: rgb(255, 219, 117)
       token-color-feedback-error: rgb(234, 114, 135)
-      token-color-feedback-success: rgb(118, 214, 152)
+      token-color-feedback-success: rgb(32, 126, 71)
       token-color-icon-primary: rgb(228, 228, 231)
       token-color-icon-secondary: rgb(138, 140, 153)
       token-color-icon-sidebar: rgb(147, 149, 159)
@@ -642,10 +642,10 @@ Graphite Auto:
       token-color-background-skrim: rgba(0, 0, 3, 0.9)
       token-color-background-divider: var(--token-color-background-sidebar)
       token-color-background-scrollbar-thumb: rgb(46, 48, 56)
-      token-color-background-label-badge-red: var(--token-color-feedback-error)
-      token-color-background-label-badge-green: rgb(78, 183, 128)
-      token-color-background-label-badge-blue: var(--token-color-feedback-info)
-      token-color-background-label-badge-yellow: var(--token-color-feedback-warning)
+      token-color-background-label-badge-red: rgb(174, 19, 50)
+      token-color-background-label-badge-green: rgb(32, 126, 71)
+      token-color-background-label-badge-blue: rgb(10, 104, 127)
+      token-color-background-label-badge-yellow: rgb(121, 98, 6)
       token-color-background-label-badge-grey: rgb(83, 90, 103)
       token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
       token-color-border-card: rgba(0, 0, 0, 0)
@@ -666,7 +666,7 @@ Graphite Auto:
       rgb-text-primary-color: 228, 228, 231
       rgb-warning-color: 255, 219, 117
       rgb-error-color: 234, 114, 135
-      rgb-success-color: 118, 214, 152
+      rgb-success-color: 32, 126, 71
       rgb-info-color: 39, 209, 246
       # ..............................................................................
       # Font Weight
