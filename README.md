@@ -13,7 +13,7 @@ Graphite is a modern theme that offers a soothing dark mode alongside a bright, 
 
 ## Installation
 
-Follow the [Quickstart Guide](https://graphite.tilmangriesel.com/guides/getting-started.html#installation-via-hacs)
+Follow the [Quickstart Guide](https://graphite.rocketengine.io/guides/getting-started.html#installation-via-hacs)
 
 [![Open Graphite in your Home Assistant instance](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=TilmanGriesel&repository=graphite)
 
@@ -70,13 +70,13 @@ For manual installation, you can follow these steps:
 
 ### Personalize Graphite
 
-Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://graphite.tilmangriesel.com/features/graphite-theme-patcher.html). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's documentation.
+Customize the Graphite theme's primary color and more without needing to fork the project by using the [Graphite Theme Patcher](https://graphite.rocketengine.io/features/graphite-theme-patcher.html). This tool is designed for advanced users with technical expertise and experience in script and config modification. For detailed setup instructions, refer to the patcher's documentation.
 
 ---
 
 ### Theme Development Kit
 
-I've created a token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://graphite.tilmangriesel.com/features/graphite-theme-development-kit.html)
+I've created a token abstraction and a script to help maintain Graphite's consistency across theme variants and simplify updates. This setup can also serve as a great starting point for building your own themes in no time. [Theme Development Kit](https://graphite.rocketengine.io/features/graphite-theme-development-kit.html)
 
 ---
 
@@ -90,7 +90,7 @@ These themes mark the beginning of the Graphite E-Ink family. While they may sti
 
 ### Examples
 
-If you're curious about the cards from my screenshot, you can [check out my examples](https://graphite.tilmangriesel.com/guides/card-examples.html).
+If you're curious about the cards from my screenshot, you can [check out my examples](https://graphite.rocketengine.io/guides/card-examples.html).
 
 ---
 
