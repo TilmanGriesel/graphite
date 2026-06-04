@@ -8,7 +8,7 @@ Graphite Light:
   # https://github.com/TilmanGriesel/graphite
 
   #------------------------------------------------------
-  # This file was generated at 2026-05-08 07:16:04
+  # This file was generated at 2026-06-04 16:49:14
   #------------------------------------------------------
 
   card-mod-theme: Graphite Light
@@ -387,6 +387,17 @@ Graphite Light:
   ha-color-fill-neutral-normal-resting: var(--token-color-background-secondary)
   ha-color-fill-neutral-normal-hover: var(--token-color-background-card)
   ha-color-fill-neutral-normal-active: var(--token-color-background-secondary)
+  # Danger/Warning tag fills — HA's defaults produce out-of-gamut near-white fills
+  # with near-white (grey) text, making both variants nearly invisible. Override to
+  # a 15% tint of the semantic color with the vivid semantic color as foreground.
+  ha-color-fill-danger-normal-resting: rgba(var(--token-rgb-red), 0.15)
+  ha-color-fill-danger-normal-hover: rgba(var(--token-rgb-red), 0.22)
+  ha-color-fill-danger-normal-active: rgba(var(--token-rgb-red), 0.28)
+  ha-color-on-danger-normal: rgb(var(--token-rgb-red))
+  ha-color-fill-warning-normal-resting: rgba(var(--token-rgb-orange), 0.15)
+  ha-color-fill-warning-normal-hover: rgba(var(--token-rgb-orange), 0.22)
+  ha-color-fill-warning-normal-active: rgba(var(--token-rgb-orange), 0.28)
+  ha-color-on-warning-normal: rgb(var(--token-rgb-orange))
   # ..............................................................................
   # Markdown
   markdown-code-background-color: var(--code-editor-background-color)
