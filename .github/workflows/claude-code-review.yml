@@ -1,4 +1,4 @@
-name: Claude Code Review
+name: Claude Code Review (disabled)
 # AI PR review layer (ADVISORY — judgment, not a gate). The deterministic gate is
 # Theme Verification; this adds a human-style review reading CLAUDE.md for project standards.
 #
@@ -12,9 +12,13 @@ name: Claude Code Review
 #
 # Do NOT make this a required status check — AI review is probabilistic. Keep merges gated on
 # Theme Verification (drift/tokens/contrast/yaml), which is deterministic.
+# DISABLED for now: manual-trigger only, so it never runs on PRs/pushes.
+# To re-enable, replace the `on:` block below with:
+#   on:
+#     pull_request:
+#       types: [opened, synchronize]
 on:
-  pull_request:
-    types: [opened, synchronize]
+  workflow_dispatch:
 permissions:
   contents: read
   pull-requests: write
