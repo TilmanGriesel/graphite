@@ -1,56 +1,89 @@
 name: Theme Verification
+# IMPORTANT: do NOT add a workflow-level `paths:` filter here. When a required workflow is
+# skipped by path filtering its checks stay "Pending" forever and block the merge. Gate at the
+# JOB level with `if:` conditionals instead (a skipped JOB reports Success). This workflow runs
+# on every PR/push and calls the SAME scripts that the local hooks and `make verify` run, so the
+# agent's local verdict and the merge gate are the same artifact.
 on:
   pull_request:
   push:
+    branches: [main, develop]
+permissions:
+  contents: read
+  pull-requests: write
 jobs:
-  verify-theme:
+  drift:
+    name: Source ↔ generated drift
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Install dependencies
+      - run: pip install -r requirements.txt
+      - name: check_drift
         run: |
-          python -m pip install --upgrade pip
-          pip install PyYAML
-      - name: Create temporary directory for generated theme
-        run: mkdir -p temp_themes
-      - name: Backup existing themes
+          set -o pipefail
+          scripts/check_drift.sh | tee -a "$GITHUB_STEP_SUMMARY"
+  tokens:
+    name: Token quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install -r requirements.txt
+      - name: validate_tokens
         run: |
-          if [ -d "themes" ]; then
-            cp -r themes themes_original
-          fi
-      - name: Clean and generate new themes
+          set -o pipefail
+          python3 tools/validate_tokens.py | tee -a "$GITHUB_STEP_SUMMARY"
+  contrast:
+    name: WCAG contrast
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install -r requirements.txt
+      - name: check_contrast
         run: |
-          make clean
-          make theme
-      - name: Compare themes
-        run: |
-          if [ ! -d "themes_original" ]; then
-            echo "Error: No original themes directory found to compare against"
-            exit 1
-          fi
+          set -o pipefail
+          python3 tools/check_contrast.py --all | tee -a "$GITHUB_STEP_SUMMARY"
+  yaml:
+    name: YAML lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install -r requirements.txt
+      - name: validate-yaml
+        run: make validate-yaml
+  report:
+    name: Quality-gate summary
+    needs: [drift, tokens, contrast, yaml]
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      # One updatable sticky comment summarising the gate (refreshes in place each push).
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: graphite-quality-gate
+          message: |
+            ### Graphite quality gate
 
-          # Create temporary copies without generator timestamps
-          rm -rf temp_clean_original temp_clean_generated
-          mkdir -p temp_clean_original temp_clean_generated
-          cp -r themes_original/* temp_clean_original/
-          cp -r themes/* temp_clean_generated/
+            | gate | result |
+            |---|---|
+            | source↔generated drift | `${{ needs.drift.result }}` |
+            | token quality | `${{ needs.tokens.result }}` |
+            | WCAG contrast | `${{ needs.contrast.result }}` |
+            | YAML lint | `${{ needs.yaml.result }}` |
 
-          # Remove generator timestamps from all files
-          find temp_clean_original temp_clean_generated -type f -exec sed -i '/This file was generated at/d' {} +
-
-          # Using diff to compare directories
-          if diff -r temp_clean_original temp_clean_generated; then
-            echo "✅ Generated themes match the committed version (ignoring timestamps)"
-          else
-            echo "❌ Generated themes differ from the committed version"
-            echo "Please run 'make theme' locally and commit the changes"
-            exit 1
-          fi
-      - name: Cleanup temporary directories
-        if: always()
-        run: |-
-          rm -rf temp_clean_original temp_clean_generated temp_themes themes_original
+            Details are in each job's summary. Reminder: `themes/` is **generated** — edit
+            `src/` and run `python3 tools/theme_assembler.py`. Justified token duplication is
+            allowed via `# token-lint: allow-duplicate(reason="…")` or `tools/token_exceptions.yaml`.
