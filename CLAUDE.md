@@ -22,9 +22,14 @@ Keep this file short; depth lives in `.claude/DESIGN-GUIDELINE.md`.
 - `python3 tools/validate_tokens.py` — orphans, duplicate literals, template literals
 - `python3 tools/check_contrast.py --all` — WCAG AA per build
 
-**Justified duplication is allowed** — the gate blocks only NEW, *unjustified* spread:
-- inline `key: value  # token-lint: allow-duplicate(reason="...")`, or
-- an entry in `tools/token_exceptions.yaml` (reviewed in the PR),
+**Justified duplication is allowed** — the gate blocks only NEW, *unjustified* spread (a new
+color literal outside `token-rgb-*`, a new orphan, etc.):
+- inline `key: value  # token-lint: allow-<rule>(reason="...")` (e.g. `allow-duplicate`,
+  `allow-literal-outside-primitive`), or
+- an entry in `tools/token_exceptions.yaml` (curated, reviewed in the PR),
+- pre-existing semantic-layer literals are grandfathered in `tools/token_baseline.yaml`
+  (auto-generated; regenerate with `python3 tools/validate_tokens.py --update-baseline` — pay
+  them down by converting to `rgb(var(--token-rgb-*))`),
 - pre-existing contrast failures are baselined in `tools/contrast_pairs.yaml`.
 
 ## Common jobs (skills in `.claude/commands/`)

@@ -7,12 +7,15 @@ Enforces the design principles in .claude/DESIGN-GUIDELINE.md against the hand-e
 Checks
 ------
 BLOCKING (fail the gate unless grandfathered/annotated):
-  * orphan            — a `token-*` defined but reachable from no consumer (dead token)
-  * duplicate-literal — two `token-rgb-*` primitives in one file share the same color literal
-  * template-literal  — a raw color literal in template*.yaml (templates must reference tokens)
+  * orphan                    — a `token-*` defined but reachable from no consumer (dead token)
+  * duplicate-literal         — two `token-rgb-*` primitives in one file share a color literal
+  * template-literal          — a raw color literal in template*.yaml (templates reference tokens)
+  * literal-outside-primitive — a color literal in a non-`token-rgb-*` definition (value spread);
+                                pre-existing ones are grandfathered in tools/token_baseline.yaml
+                                so only NEW spread fails. Regenerate the baseline with
+                                `--update-baseline`.
 
 ADVISORY (reported, never fail the gate — `--strict-advisory` to promote):
-  * literal-outside-primitive — a color literal in a non-`token-rgb-*` definition
   * layer-equivalence         — modern token vs legacy `rgb-*-color` value drift
 
 Escape hatches (so justified duplication never breaks the build)
@@ -41,18 +44,27 @@ except ImportError:  # pragma: no cover
 REPO_ROOT = cu.REPO_ROOT
 SRC = cu.SRC
 EXCEPTIONS_FILE = REPO_ROOT / "tools" / "token_exceptions.yaml"
+BASELINE_FILE = REPO_ROOT / "tools" / "token_baseline.yaml"
 
 VAR_RE = cu._VAR_RE
 PRIMITIVE_PREFIX = "token-rgb-"
 
 
-def load_exceptions(path: Path) -> dict:
-    if not path.exists():
-        return {}
-    if yaml is None:
+def _load_one(path: Path) -> dict:
+    if not path.exists() or yaml is None:
         return {}
     data = yaml.safe_load(path.read_text()) or {}
     return data if isinstance(data, dict) else {}
+
+
+def load_exceptions(*paths: Path) -> dict:
+    """Merge dict-of-lists exception files (curated token_exceptions + generated baseline)."""
+    merged: dict = {}
+    for p in paths:
+        for key, items in _load_one(p).items():
+            if isinstance(items, list):
+                merged.setdefault(key, []).extend(items)
+    return merged
 
 
 def is_color_literal(value: str) -> bool:
@@ -211,7 +223,26 @@ def excepted(violation, exceptions, defs_by_keyfile) -> bool:
 
 # --------------------------------------------------------------------------- main
 
-BLOCKING = {"orphan", "duplicate-literal", "template-literal"}
+BLOCKING = {"orphan", "duplicate-literal", "template-literal", "literal-outside-primitive"}
+
+
+def write_baseline(token_defs) -> int:
+    """Regenerate tools/token_baseline.yaml from current literal-outside-primitive findings."""
+    entries = [
+        {"token": v["token"], "file": v["file"],
+         "reason": "baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time"}
+        for v in check_literal_outside_primitive(token_defs)
+    ]
+    header = (
+        "# AUTO-GENERATED grandfather list for the no-value-spread rule (literal-outside-primitive).\n"
+        "# Regenerate with: python3 tools/validate_tokens.py --update-baseline\n"
+        "# These pre-existing semantic-layer literals are tolerated so the gate blocks only NEW\n"
+        "# spread. Pay them down by converting to rgb(var(--token-rgb-*)) and pruning entries here.\n"
+    )
+    BASELINE_FILE.write_text(header + yaml.safe_dump(
+        {"literal_outside_primitive": entries}, sort_keys=False, width=200))
+    print(f"Wrote {len(entries)} baseline entries to {BASELINE_FILE.name}")
+    return 0
 
 
 def run():
@@ -220,6 +251,8 @@ def run():
     parser.add_argument("--allowlist", default=str(EXCEPTIONS_FILE))
     parser.add_argument("--strict-advisory", action="store_true",
                         help="treat advisory findings as blocking too")
+    parser.add_argument("--update-baseline", action="store_true",
+                        help="regenerate tools/token_baseline.yaml from current findings")
     args = parser.parse_args()
 
     token_defs = []
@@ -229,7 +262,10 @@ def run():
     for fname in cu.TEMPLATE_FILES:
         template_defs += cu.parse_fragment(SRC / fname)
 
-    exceptions = load_exceptions(Path(args.allowlist))
+    if args.update_baseline:
+        return write_baseline(token_defs)
+
+    exceptions = load_exceptions(Path(args.allowlist), BASELINE_FILE)
     defs_by_keyfile = {(d.key, d.file): d for d in token_defs + template_defs}
 
     findings = (
