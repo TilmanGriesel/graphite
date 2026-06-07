@@ -1,0 +1,251 @@
+# AUTO-GENERATED grandfather list for the no-value-spread rule (literal-outside-primitive).
+# Regenerate with: python3 tools/validate_tokens.py --update-baseline
+# These pre-existing semantic-layer literals are tolerated so the gate blocks only NEW
+# spread. Pay them down by converting to rgb(var(--token-rgb-*)) and pruning entries here.
+literal_outside_primitive:
+- token: token-color-transparent
+  file: tokens_common.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-black
+  file: tokens_common.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-white
+  file: tokens_common.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-info
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-warning
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-error
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-success
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-primary
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-secondary
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-sidebar
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-sidebar-selected
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-primary
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-secondary
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-disabled
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-sidebar-selected
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-label-badge
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-base
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-secondary
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-base
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-disabled
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-card
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-skrim
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-scrollbar-thumb
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-green
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-grey
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-popup-scrim
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-border-card
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-switch-button-unchecked
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-switch-track-unchecked
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-string
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-keyword
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-number
+  file: tokens_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-info
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-warning
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-error
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-feedback-success
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-primary
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-secondary
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-icon-sidebar
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-primary
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-secondary
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-disabled
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-label-badge
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-base
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-secondary
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-base
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-disabled
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-card
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-skrim
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-scrollbar-thumb
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-green
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-grey
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-popup-scrim
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-border-card
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-switch-button-unchecked
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-switch-track-unchecked
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-string
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-keyword
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-codemirror-number
+  file: tokens_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-on-accent
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-base
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-secondary
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-base
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-disabled
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-card
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-skrim
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-red
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-green
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-blue
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-yellow
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-label-badge-grey
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-popup-scrim
+  file: tokens_eink_dark.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-text-on-accent
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-base
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-secondary
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-input-base
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-card
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-skrim
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'
+- token: token-color-background-popup-scrim
+  file: tokens_eink_light.yaml
+  reason: 'baseline: pre-existing semantic-layer literal; convert to rgb(var(--token-rgb-*)) over time'

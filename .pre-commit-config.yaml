@@ -27,7 +27,7 @@ repos:
         entry: python3 tools/validate_tokens.py
         language: system
         pass_filenames: false
-        files: ^(src/.*\.ya?ml|tools/(validate_tokens|color_utils)\.py|tools/token_exceptions\.yaml)$
+        files: ^(src/.*\.ya?ml|tools/(validate_tokens|color_utils)\.py|tools/token_(exceptions|baseline)\.yaml)$
       - id: graphite-contrast
         name: WCAG AA contrast per build
         entry: python3 tools/check_contrast.py --all

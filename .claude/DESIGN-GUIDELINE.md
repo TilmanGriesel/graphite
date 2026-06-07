@@ -72,12 +72,20 @@ one; an e-ink value is intentionally decoupled). Two mechanisms:
   ```
   The gate accepts the duplication **only when a reason is given**. The reason is reviewed in
   the diff like any other code.
-- **`tools/token_exceptions.yaml`** — an allowlist for structural exceptions (e.g. the e-ink
-  accent split, the legacy `rgb-*-color` mirror). Grandfathers the current state; new,
-  unjustified spread still fails.
+- **`tools/token_exceptions.yaml`** — a curated, hand-reviewed allowlist for structural
+  exceptions (e.g. the e-ink monochrome collapse, intentional shared values).
+- **`tools/token_baseline.yaml`** — the auto-generated grandfather list of *pre-existing*
+  semantic-layer literals, so promoting the no-spread rule to blocking didn't red-line `main`.
+  Regenerate with `python3 tools/validate_tokens.py --update-baseline`; pay it down by
+  converting entries to `rgb(var(--token-rgb-*))`.
 
-The gate enforces "**no new, unjustified spread**" — never "no duplication ever." When you
-must duplicate, make it an explicit, reasoned, reviewable one-liner.
+The gate enforces "**no new, unjustified spread**" — never "no duplication ever." A *new*
+color literal outside the `token-rgb-*` layer fails unless you justify it; existing ones are
+grandfathered. When you must duplicate, make it an explicit, reasoned, reviewable one-liner.
+
+> Honest limit: the baseline grandfathers by token name, so editing the *value* of an
+> already-listed semantic literal stays allowed. The real win comes from paying the baseline
+> down over time — convert literals to primitive references and prune the list.
 
 ## Workflow checklist for any token/color change
 

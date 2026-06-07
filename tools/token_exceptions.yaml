@@ -12,6 +12,10 @@
 #
 # Each entry MUST carry a non-empty `reason`. Match by `token`/`key` (+ optional `file`);
 # omit `file` to apply across all theme files; omit `token`/`key` to apply file-wide.
+#
+# This file is the CURATED exception list (hand-reviewed, intentional). The separate
+# tools/token_baseline.yaml is the AUTO-GENERATED grandfather list of pre-existing
+# literal-outside-primitive findings; both are merged at lint time.
 
 orphan:
   - token: token-color-text-label-badge
