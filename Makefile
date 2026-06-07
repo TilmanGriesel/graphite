@@ -1,4 +1,4 @@
-.PHONY: all rebuild theme clean format format-python format-yaml lint-python docker-build docker-run docker-clean test-patcher validate-yaml dev-build dev-deploy dev-deploy-full ha-start ha-stop ha-restart ha-logs ha-clean
+.PHONY: all rebuild theme clean format format-python format-yaml lint-python docker-build docker-run docker-clean test-patcher validate-yaml check-drift lint-tokens check-contrast verify dev-build dev-deploy dev-deploy-full ha-start ha-stop ha-restart ha-logs ha-clean
 
 all: format theme validate-yaml
 
@@ -6,9 +6,9 @@ theme: clean
 	python3 tools/theme_assembler.py
 
 clean:
-	@echo "Cleaning theme directory..."
-	rm -rf theme/*
-	@echo "Theme directory cleaned."
+	@echo "Cleaning generated themes directory..."
+	rm -rf themes/*
+	@echo "Themes directory cleaned."
 
 dev:
 	chmod +x scripts/ha-rebuild-local.sh
@@ -56,6 +56,22 @@ validate-yaml:
 	@echo "Validating generated YAML files..."
 	@yamllint -d '{extends: relaxed, rules: {line-length: {max: 200}, trailing-spaces: disable, indentation: disable, empty-lines: {max-end: 2}}}' themes/*.yaml
 	@echo "✓ All YAML files are valid."
+
+# ------------------------------------------------------------------------------
+# Quality gates (the SAME scripts hooks and CI invoke — single source of truth)
+# ------------------------------------------------------------------------------
+check-drift:
+	@scripts/check_drift.sh
+
+lint-tokens:
+	@python3 tools/validate_tokens.py
+
+check-contrast:
+	@python3 tools/check_contrast.py --all
+
+# Read-only aggregate gate: verifies the COMMITTED state (does not regenerate themes/).
+verify: check-drift lint-tokens check-contrast validate-yaml
+	@echo "✓ verify: drift, tokens, contrast, and YAML gates all pass."
 
 docs-dev:
 	@echo "Starting vitepress..."

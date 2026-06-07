@@ -1,0 +1,46 @@
+# Documented, reviewed exceptions to the token-quality rules (validate_tokens.py).
+#
+# Philosophy (see .claude/DESIGN-GUIDELINE.md): the gate enforces "no NEW, unjustified
+# spread of values" — never "no duplication ever". Every entry here is a deliberate,
+# reviewed decision. New violations that are NOT listed here (and carry no inline
+# `# token-lint: allow-...(reason="...")` annotation) fail the gate.
+#
+# This file grandfathers the state of `main` at the time the gate was introduced, so the
+# gate goes green without rewriting the theme. Entries marked "removal candidate" are
+# pre-existing issues we chose to surface-and-track rather than fix in the tooling change;
+# they can be cleaned up in dedicated follow-up PRs.
+#
+# Each entry MUST carry a non-empty `reason`. Match by `token`/`key` (+ optional `file`);
+# omit `file` to apply across all theme files; omit `token`/`key` to apply file-wide.
+
+orphan:
+  - token: token-color-text-label-badge
+    reason: "Dead token — defined in all theme files, mapped nowhere in template.yaml. Removal candidate."
+  - token: token-color-background-skrim
+    reason: "Dead token — superseded by token-color-background-popup-scrim. Removal candidate."
+  - token: token-color-text-sidebar
+    reason: "Dead token — sidebar-text-color aliases sidebar-icon-color directly. Removal candidate."
+  - token: token-color-transparent
+    reason: "Defined for completeness / possible external card-mod use; not consumed internally."
+  - token: token-rgb-state-inactive
+    reason: "Defined for completeness / possible external use; state-inactive-color uses text-secondary. Removal candidate."
+
+duplicate_literal:
+  - token: token-rgb-orange
+    file: tokens_dark.yaml
+    reason: "Brand primary IS the orange hue; token-rgb-primary and token-rgb-orange intentionally share the value."
+  - file: tokens_eink_dark.yaml
+    reason: "E-ink is intentionally monochrome: many named hues collapse to shared greyscale values by design."
+  - file: tokens_eink_light.yaml
+    reason: "E-ink is intentionally monochrome: many named hues collapse to shared greyscale values by design."
+
+template_literal:
+  - key: text-accent-color
+    file: template.yaml
+    reason: "Pure white text on the accent surface; intentional fixed literal (not a themeable token)."
+  - key: text-light-primary-color
+    file: template.yaml
+    reason: "Fixed dark value used by HA light-on-light legacy contexts; intentional."
+  - key: text-light-primary-color
+    file: template_eink.yaml
+    reason: "Fixed dark value used by HA light-on-light legacy contexts; intentional (e-ink)."

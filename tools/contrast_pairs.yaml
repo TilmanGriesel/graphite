@@ -1,0 +1,81 @@
+# Foreground/background pairs for the WCAG contrast gate (check_contrast.py).
+#
+# Pairs are expressed as the REAL HA consumer variables (the ones HA paints), resolved
+# through the theme's var() chain per build — NOT by token-name similarity. Add a row
+# whenever a template introduces a new text-on-surface or on-/fill- pairing.
+#
+# size: normal (AA 4.5:1, default) | large (AA 3.0:1)
+# builds: which builds to check this pair in (default: all)
+# over: opaque surface a translucent bg composites over (default token-color-background-base)
+#
+# baseline_failures grandfathers pre-existing failures so the gate is green today while
+# blocking NEW regressions. Each MUST carry a reason; remove the entry when the underlying
+# theme issue is fixed.
+
+pairs:
+  # ---- primary/secondary text on surfaces (sanity floor) ----
+  - name: primary text on base
+    fg: var(--primary-text-color)
+    bg: var(--primary-background-color)
+    builds: [dark, light, eink-dark, eink-light]
+  - name: primary text on card
+    fg: var(--primary-text-color)
+    bg: var(--card-background-color)
+    builds: [dark, light, eink-dark, eink-light]
+  - name: primary text on secondary bg
+    fg: var(--primary-text-color)
+    bg: var(--secondary-background-color)
+    builds: [dark, light, eink-dark, eink-light]
+  - name: secondary text on card
+    fg: var(--secondary-text-color)
+    bg: var(--card-background-color)
+    builds: [dark, light]
+
+  # ---- label badges: text over each colored badge background ----
+  - name: label-badge text on default
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-background-color)
+    builds: [dark, light]
+  - name: label-badge text on red
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-red)
+    builds: [dark, light]
+  - name: label-badge text on green
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-green)
+    builds: [dark, light]
+  - name: label-badge text on blue
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-blue)
+    builds: [dark, light]
+  - name: label-badge text on yellow
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-yellow)
+    builds: [dark, light]
+  - name: label-badge text on grey
+    fg: var(--label-badge-text-color)
+    bg: var(--label-badge-grey)
+    builds: [dark, light]
+
+  # ---- wa-tag semantic fills (HA 2026.3+; unresolvable until those tokens exist) ----
+  - name: wa-tag danger text on fill
+    fg: var(--ha-color-on-danger-normal)
+    bg: var(--ha-color-fill-danger-normal-resting)
+    over: var(--card-background-color)
+    builds: [dark, light]
+  - name: wa-tag warning text on fill
+    fg: var(--ha-color-on-warning-normal)
+    bg: var(--ha-color-fill-warning-normal-resting)
+    over: var(--card-background-color)
+    builds: [dark, light]
+
+baseline_failures:
+  # Pre-existing dark label-badge failures (near-white text on bright badge fills).
+  # Addressed by PR #130, which decouples badge backgrounds to dedicated darker values.
+  # Remove these entries once that fix is merged so the gate enforces AA on badges.
+  - {name: label-badge text on red, build: dark, reason: "Pre-existing; fixed by PR #130."}
+  - {name: label-badge text on green, build: dark, reason: "Pre-existing; fixed by PR #130."}
+  - {name: label-badge text on blue, build: dark, reason: "Pre-existing; fixed by PR #130."}
+  - {name: label-badge text on yellow, build: dark, reason: "Pre-existing; fixed by PR #130."}
+  # Light-theme grey badge — pre-existing, not covered by PR #130. Tracked for follow-up.
+  - {name: label-badge text on grey, build: light, reason: "Pre-existing light grey badge; follow-up cleanup."}
