@@ -20,9 +20,7 @@ RUN pip install --no-cache-dir pre-commit
 
 COPY . .
 
-RUN mkdir -p theme
-
-RUN chmod +x tools/*.sh 2>/dev/null || echo "No shell scripts to make executable"
+RUN chmod +x tools/*.sh scripts/*.sh 2>/dev/null || echo "No shell scripts to make executable"
 
 ENTRYPOINT ["make"]
 

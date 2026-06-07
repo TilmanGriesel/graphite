@@ -12,3 +12,25 @@ repos:
     hooks:
       - id: yamlfmt
         files: ^(src|.github)/.*\.ya?ml$
+  # Local quality gates — the real client-side enforcement boundary (settings.json hooks only
+  # cover Claude Code sessions). These call the SAME scripts as CI, so local == CI.
+  - repo: local
+    hooks:
+      - id: graphite-drift
+        name: themes/ matches a fresh assembly from src/
+        entry: scripts/check_drift.sh
+        language: system
+        pass_filenames: false
+        files: ^(src/.*\.ya?ml|themes/.*\.yaml|tools/theme_assembler\.py)$
+      - id: graphite-tokens
+        name: token quality (orphans, duplicate literals, template literals)
+        entry: python3 tools/validate_tokens.py
+        language: system
+        pass_filenames: false
+        files: ^(src/.*\.ya?ml|tools/(validate_tokens|color_utils)\.py|tools/token_exceptions\.yaml)$
+      - id: graphite-contrast
+        name: WCAG AA contrast per build
+        entry: python3 tools/check_contrast.py --all
+        language: system
+        pass_filenames: false
+        files: ^(src/.*\.ya?ml|tools/(check_contrast|color_utils)\.py|tools/contrast_pairs\.yaml)$
