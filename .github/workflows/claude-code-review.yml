@@ -1,0 +1,44 @@
+name: Claude Code Review
+# AI PR review layer (ADVISORY — judgment, not a gate). The deterministic gate is
+# Theme Verification; this adds a human-style review reading CLAUDE.md for project standards.
+#
+# SETUP REQUIRED before this runs:
+#   1. Add repository secret ANTHROPIC_API_KEY (Settings → Secrets → Actions), or switch to the
+#      OAuth token input per the docs.
+#   2. Confirm the action inputs against the current docs — the schema evolves:
+#      https://code.claude.com/docs/en/github-actions
+#   For guaranteed reviews on EVERY PR (incl. clean passes), consider the managed product:
+#      https://code.claude.com/docs/en/code-review
+#
+# Do NOT make this a required status check — AI review is probabilistic. Keep merges gated on
+# Theme Verification (drift/tokens/contrast/yaml), which is deterministic.
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Review this pull request for the Graphite Home Assistant theme.
+            Read CLAUDE.md and .claude/DESIGN-GUIDELINE.md for the project's standards.
+            Focus on, in priority order:
+              1. Visual quality and readability of the change.
+              2. The token foundation: color literals must live ONLY in token-rgb-* primitives;
+                 flag any new value spread/duplication that is NOT justified with a
+                 `# token-lint: allow-duplicate(reason="…")` annotation or a token_exceptions.yaml
+                 entry. Justified, documented duplication is fine — do not nag about it.
+              3. Generated/source coherence: changes belong in src/, never hand-edited themes/.
+              4. Accessibility: text/background pairings should meet WCAG AA.
+            Be concise and specific. The deterministic gates already cover drift/tokens/contrast
+            mechanically — your job is the judgment calls those can't make. Do not block; advise.
