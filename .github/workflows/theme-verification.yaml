@@ -4,13 +4,16 @@ name: Theme Verification
 # JOB level with `if:` conditionals instead (a skipped JOB reports Success). This workflow runs
 # on every PR/push and calls the SAME scripts that the local hooks and `make verify` run, so the
 # agent's local verdict and the merge gate are the same artifact.
+#
+# Each gate is its own job (its own status check). Make these the required checks in branch
+# protection. There is intentionally NO aggregate sticky-comment job: it cannot post on fork
+# PRs (read-only GITHUB_TOKEN), and each job already writes a GITHUB_STEP_SUMMARY.
 on:
   pull_request:
   push:
     branches: [main, develop]
 permissions:
   contents: read
-  pull-requests: write
 jobs:
   drift:
     name: Source ↔ generated drift
@@ -62,28 +65,3 @@ jobs:
       - run: pip install -r requirements.txt
       - name: validate-yaml
         run: make validate-yaml
-  report:
-    name: Quality-gate summary
-    needs: [drift, tokens, contrast, yaml]
-    if: always() && github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      # One updatable sticky comment summarising the gate (refreshes in place each push).
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: graphite-quality-gate
-          message: |
-            ### Graphite quality gate
-
-            | gate | result |
-            |---|---|
-            | source↔generated drift | `${{ needs.drift.result }}` |
-            | token quality | `${{ needs.tokens.result }}` |
-            | WCAG contrast | `${{ needs.contrast.result }}` |
-            | YAML lint | `${{ needs.yaml.result }}` |
-
-            Details are in each job's summary. Reminder: `themes/` is **generated** — edit
-            `src/` and run `python3 tools/theme_assembler.py`. Justified token duplication is
-            allowed via `# token-lint: allow-duplicate(reason="…")` or `tools/token_exceptions.yaml`.
