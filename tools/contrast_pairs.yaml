@@ -69,6 +69,4 @@ pairs:
     over: var(--card-background-color)
     builds: [dark, light]
 
-baseline_failures:
-  # Light-theme grey badge — pre-existing, not covered by PR #130. Tracked for follow-up.
-  - {name: label-badge text on grey, build: light, reason: "Pre-existing light grey badge; follow-up cleanup."}
+baseline_failures: []

@@ -29,6 +29,7 @@ token-rgb-badge-red: 174, 19, 50
 token-rgb-badge-green: 26, 112, 62
 token-rgb-badge-blue: 10, 104, 127
 token-rgb-badge-yellow: 121, 98, 6
+token-rgb-badge-grey: 83, 90, 103
 token-color-primary: rgb(var(--token-rgb-primary))
 token-color-primary-light: rgb(105 124 144)
 token-color-accent: var(--token-color-primary)
@@ -62,7 +63,7 @@ token-color-background-label-badge-red: rgb(var(--token-rgb-badge-red))
 token-color-background-label-badge-green: rgb(var(--token-rgb-badge-green))
 token-color-background-label-badge-blue: rgb(var(--token-rgb-badge-blue))
 token-color-background-label-badge-yellow: rgb(var(--token-rgb-badge-yellow))
-token-color-background-label-badge-grey: rgb(83, 90, 103)
+token-color-background-label-badge-grey: rgb(var(--token-rgb-badge-grey))
 token-color-background-popup-scrim: rgba(4, 5, 7, 0.9)
 token-color-on-danger-normal: var(--token-color-text-primary)
 token-color-on-warning-normal: var(--token-color-text-primary)
