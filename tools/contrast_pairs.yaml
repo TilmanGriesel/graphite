@@ -70,12 +70,5 @@ pairs:
     builds: [dark, light]
 
 baseline_failures:
-  # Pre-existing dark label-badge failures (near-white text on bright badge fills).
-  # Addressed by PR #130, which decouples badge backgrounds to dedicated darker values.
-  # Remove these entries once that fix is merged so the gate enforces AA on badges.
-  - {name: label-badge text on red, build: dark, reason: "Pre-existing; fixed by PR #130."}
-  - {name: label-badge text on green, build: dark, reason: "Pre-existing; fixed by PR #130."}
-  - {name: label-badge text on blue, build: dark, reason: "Pre-existing; fixed by PR #130."}
-  - {name: label-badge text on yellow, build: dark, reason: "Pre-existing; fixed by PR #130."}
   # Light-theme grey badge — pre-existing, not covered by PR #130. Tracked for follow-up.
   - {name: label-badge text on grey, build: light, reason: "Pre-existing light grey badge; follow-up cleanup."}
